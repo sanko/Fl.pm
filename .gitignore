@@ -1,71 +1,32 @@
-/blib/
+
 /.build/
-_build/
-cover_db/
-inc/
-Build
-!Build/
-Build.bat
-.last_cover_stats
+/_build/
+/Build
+/Build.bat
+/blib/
 /Makefile
-/Makefile.old
-/MANIFEST.bak
-/META.yml
-/META.json
-/MYMETA.*
-nytprof.out
 /pm_to_blib
+
+/carton.lock
+/.carton/
+/local/
+
+nytprof.out
+nytprof/
+
+cover_db/
+
+*.bak
+*.old
+*~
+*.swp
 *.o
-*.bs
-/_eumm/
+*.obj
 
-# =========================
-# Operating System Files
-# =========================
+!LICENSE
 
-# OSX
-# =========================
+/_build_params
 
-.DS_Store
-.AppleDouble
-.LSOverride
+MYMETA.*
 
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-# =========================
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
+/Fltk-*
