@@ -54,6 +54,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/sanko/Fltk.pm/issues"
+      },
+      "homepage" : "https://github.com/sanko/Fltk.pm",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/sanko/Fltk.pm.git",
+         "web" : "https://github.com/sanko/Fltk.pm"
+      }
+   },
    "version" : "0.99.00",
    "x_serialization_backend" : "JSON::PP version 2.27300"
 }

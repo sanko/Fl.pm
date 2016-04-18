@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/sanko/Fltk.pm.svg?branch=master)](https://travis-ci.org/sanko/Fltk.pm)
 # NAME
 
 Fltk - Blah, blah, blah...
