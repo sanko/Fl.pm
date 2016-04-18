@@ -6,7 +6,7 @@
 
 #define NO_INIT '\0'
 
-
+using namespace Fltk;
 
 #define __INLINE_CPP_STANDARD_HEADERS 1
 #define __INLINE_CPP_NAMESPACE_STD 1
@@ -290,7 +290,7 @@ Box::cheat()
         return; /* assume stack size is correct */
 
 
-MODULE = Fltk        PACKAGE = Fltk  
+MODULE = Fltk        PACKAGE = Fltk
 
 PROTOTYPES: DISABLE
 
