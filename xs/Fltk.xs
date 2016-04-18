@@ -6,8 +6,6 @@
 
 #define NO_INIT '\0'
 
-using namespace Fltk;
-
 #define __INLINE_CPP_STANDARD_HEADERS 1
 #define __INLINE_CPP_NAMESPACE_STD 1
 
@@ -59,13 +57,13 @@ protected:
 
 #include <FL/Fl_Window.H>
 
-class Window : public Widget {
+class fltk_Window : public Widget {
 private:
     Fl_Window * _window;
     // CPP2XS
     int items;
 public:
-    Window( int x, int y, int w, int h, char * title = NO_INIT ) {
+    fltk_Window( int x, int y, int w, int h, char * title = NO_INIT ) {
         if ( title[0] == NO_INIT ) {
         _window = new Fl_Window( x, y, w, h );
     }
@@ -73,7 +71,7 @@ public:
             _window = new Fl_Window( x, y, w, h, title );
         }
     }
-    ~Window() {
+    ~fltk_Window() {
         delete _window;
     }
 protected:
@@ -157,12 +155,12 @@ void
 Widget::DESTROY()
 
 
-MODULE = Fltk        PACKAGE = Fltk::Window
+MODULE = Fltk        PACKAGE = Fltk::Window         PREFIX = fltk_
 
 PROTOTYPES: DISABLE
 
-Window *
-Window::new(x, y, w, h, ...)
+fltk_Window *
+fltk_Window::new(x, y, w, h, ...)
 	int	x
 	int	y
 	int	w
@@ -173,19 +171,19 @@ Window::new(x, y, w, h, ...)
 switch(items-1) {
 case 5:
 	title = (char *)SvPV_nolen(ST(5));
-	RETVAL = new Window(x,y,w,h,title);
+	RETVAL = new fltk_Window(x,y,w,h,title);
 	break; /* case 5 */
 default:
-	RETVAL = new Window(x,y,w,h);
+	RETVAL = new fltk_Window(x,y,w,h);
 } /* switch(items) */
     OUTPUT:
 RETVAL
 
 void
-Window::DESTROY()
+fltk_Window::DESTROY()
 
 void
-Window::end()
+fltk_Window::end()
     PREINIT:
 	I32 *	__temp_markstack_ptr;
     PPCODE:
@@ -200,7 +198,7 @@ Window::end()
         return; /* assume stack size is correct */
 
 void
-Window::show()
+fltk_Window::show()
     PREINIT:
 	I32 *	__temp_markstack_ptr;
     PPCODE:
