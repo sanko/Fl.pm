@@ -12,15 +12,9 @@ use ExtUtils::InstallPaths 0.002;
 use File::Basename qw/basename dirname/;
 use File::Find ();
 use File::Path qw/mkpath/;
-use File::Spec::Functions qw/catfile catdir rel2abs abs2rel splitdir/;
-use Getopt::Long qw/GetOptions/;
+use File::Spec::Functions qw/catfile catdir rel2abs abs2rel splitdir curdir/;
+use Getopt::Long qw/GetOptionsFromArray/;
 use JSON::PP 2 qw/encode_json decode_json/;
-use HTTP::Tiny;
-use Archive::Extract;
-use File::pushd;
-use File::Copy;
-use File::Copy::Recursive qw[dircopy];
-use Devel::CheckBin qw[can_run];
 
 sub write_file {
     my ($filename, $mode, $content) = @_;
@@ -57,42 +51,53 @@ sub process_xs {
     my ($source, $options) = @_;
     die "Can't build xs files under --pureperl-only\n"
         if $options->{'pureperl-only'};
-    my (undef, @dirnames) = splitdir(dirname($source));
-    my $file_base = basename($source, '.xs');
-    my $archdir = catdir(qw/blib arch auto/, @dirnames, $file_base);
-    my $c_file = catfile('lib', @dirnames, "$file_base.cxx");
+    my (undef, @parts) = splitdir(dirname($source));
+    push @parts, my $file_base = basename($source, '.xs');
+    my $archdir = catdir(qw/blib arch auto/, @parts);
+    my $tempdir = 'temp';
+    my $c_file  = catfile($tempdir, "$file_base.cxx");
     require ExtUtils::ParseXS;
-    ExtUtils::ParseXS::process_file(filename   => $source,
-                                    prototypes => 0,
+    mkpath($tempdir, $options->{verbose}, oct '755');
+    local @ExtUtils::ParseXS::BootCode = ();
+    ExtUtils::ParseXS->process_file(filename   => $source,
                                     output     => $c_file,
-                                    'C++' => 1
+                                    'C++'      => 1,
+                                    hiertype => 1,
+                                    #typemap => 'type.map',
+                                    prototypes =>1,
+                                    linenumbers =>1
     );
     my $version = $options->{meta}->version;
     require ExtUtils::CBuilder;
-    my $config = $options->{config}->values_set;
-    #$config->{ld} = 'gcc';
     my $builder
-        = ExtUtils::CBuilder->new(config => $config);
+        = ExtUtils::CBuilder->new(config => $options->{config}->values_set);
     require Alien::FLTK;
-    my $AF  = Alien::FLTK->new();
+    my $AF = Alien::FLTK->new();
     my $ob_file = $builder->compile(
-          source  => $c_file,
-          defines => {VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/},
-          'C++'                => 1,
-          include_dirs         => [$AF->include_dirs()],
-          extra_compiler_flags => $AF->cxxflags()
+         source  => $c_file,
+         defines => {VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/},
+         'C++'   => 1,
+         include_dirs => [curdir, dirname($source), $AF->include_dirs()],
+         extra_compiler_flags => $AF->cxxflags()
     );
     mkpath($archdir, $options->{verbose}, oct '755') unless -d $archdir;
+    require DynaLoader;
+    my $mod2fname
+        = defined &DynaLoader::mod2fname ?
+        \&DynaLoader::mod2fname
+        : sub { return $_[0][-1] };
+    mkpath($archdir, $options->{verbose}, oct '755') unless -d $archdir;
+    my $lib_file = catfile($archdir,
+              $mod2fname->(\@parts) . '.' . $options->{config}->get('dlext'));
     return
-        $builder->link(
-        objects => $ob_file,
-        extra_linker_flags => '-L' . $AF->library_path . ' ' . $AF->ldflags(qw[gl images]) . ' -lstdc++',
-        lib_file =>
-            catfile($archdir, "$file_base." . $options->{config}->get('dlext')
-            ),
-        module_name => join '::',
-        @dirnames,
-        $file_base
+        $builder->link(objects            => $ob_file,
+                       lib_file           => $lib_file,
+                       extra_linker_flags => '-L'
+                           . $AF->library_path . ' '
+                           . $AF->ldflags(qw[gl images])
+                           . ' -lstdc++',
+                       module_name => join '::',
+                       @parts
         );
 }
 

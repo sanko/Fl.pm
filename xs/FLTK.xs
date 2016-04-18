@@ -9,19 +9,11 @@
 #define __INLINE_CPP_STANDARD_HEADERS 1
 #define __INLINE_CPP_NAMESPACE_STD 1
 
-#define __INLINE_CPP 1
-#ifndef bool
-#include <iostream>
-#endif
 extern "C" {
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
 }
-#ifdef bool
-#undef bool
-#include <iostream>
-#endif
 
 #include <FL/Fl.H>
 
