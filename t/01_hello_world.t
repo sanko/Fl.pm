@@ -5,12 +5,12 @@ use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
 $|++;
 use_ok $_ for qw(
-    Fltk
+    FLTK
 );
-use Data::Dump qw[pp];
-diag pp \%Fltk::;
-my $window = new_ok 'Fltk::Window' => [100, 200, 340, 180], 'window';
-my $box = new_ok 'Fltk::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
+#use Data::Dump qw[pp];
+#diag pp \%Fltk::;
+my $window = new_ok 'FLTK::Window' => [100, 200, 340, 180], 'window';
+my $box = new_ok 'FLTK::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
 $box->cheat();
 
 #box->box(FL_UP_BOX);
@@ -26,7 +26,7 @@ undef $box;
 warn $box;
 $window->end();
 $window->show();
-diag pp $window;
+#diag pp $window;
 
 #isa_ok FLTK::Airplane->new(), 'FLTK::Airplane';
 done_testing;

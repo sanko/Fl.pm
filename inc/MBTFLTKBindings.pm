@@ -69,8 +69,10 @@ sub process_xs {
     );
     my $version = $options->{meta}->version;
     require ExtUtils::CBuilder;
+    my $config = $options->{config}->values_set;
+    #$config->{ld} = 'gcc';
     my $builder
-        = ExtUtils::CBuilder->new(config => $options->{config}->values_set);
+        = ExtUtils::CBuilder->new(config => $config);
     require Alien::FLTK;
     my $AF  = Alien::FLTK->new();
     my $ob_file = $builder->compile(
@@ -84,7 +86,7 @@ sub process_xs {
     return
         $builder->link(
         objects => $ob_file,
-        extra_linker_flags => '-L' . $AF->library_path . ' ' . $AF->ldflags(qw[gl images]),
+        extra_linker_flags => '-L' . $AF->library_path . ' ' . $AF->ldflags(qw[gl images]) . ' -lstdc++',
         lib_file =>
             catfile($archdir, "$file_base." . $options->{config}->get('dlext')
             ),
@@ -92,94 +94,6 @@ sub process_xs {
         @dirnames,
         $file_base
         );
-}
-
-sub get_lib {
-    my ($meta) = @_;
-    my $location;
-    my $index = 'http://fltk.org/pub/fltk/snapshots/';
-    my $snaps = qr[fltk-1.3.x-r([\d\.]+)\.tar\.gz];
-    {
-        print "Finding most recent version...";
-        my $response = HTTP::Tiny->new->get($index);
-        if (0 && $response->{success}) {
-
-            # Snapshots don't contain fltk-config script
-            my ($version)
-                = sort { $b <=> $a } ($response->{content} =~ /$snaps/g);
-            $location = $index . 'fltk-1.3.x-r' . $version . '.tar.gz';
-            print " r$version\n";
-        }
-        else {
-            print " Hrm. Grabbing latest stable release\n";
-            $location
-                = 'http://fltk.org/pub/fltk/1.3.3/fltk-1.3.3-source.tar.gz';
-        }
-    }
-    my $file = basename($location);
-    {
-        print "Downloading $file...";
-        my $response = HTTP::Tiny->new->mirror($location, $file);
-        if ($response->{success}) {
-            print " Done\n";
-            return $file;
-        }
-    }
-    exit !!print " Fail!";
-}
-
-sub build_lib {
-    my ($options) = @_;
-    my (%libinfo, $dir);
-    my $meta = $options->{meta};
-    my $cwd  = rel2abs './';       # XXX - use Cwd;
-
-    # This is an ugly cludge. A working, ugly cludge though. :\
-    if (!-d 'share') {
-        mkpath('share', $options->{verbose}, oct '755') unless -d 'share';
-        $dir = tempd();
-        $libinfo{archive} = get_lib($meta->custom('x_alien'));
-        print "Extracting...";
-        my $ae = Archive::Extract->new(archive => $libinfo{archive});
-        exit print " Fail! " . $ae->error if !$ae->extract();
-        print " Done\nConfigure...\n";
-        chdir($ae->extract_path);
-        system q[sh ./configure];
-        $libinfo{cflags}     = `sh ./fltk-config --cflags --optim`;
-        $libinfo{cxxflags}   = `sh ./fltk-config --cxxflags --optim`;
-        $libinfo{ldflags}    = `sh ./fltk-config --ldflags`;
-        $libinfo{ldflags_gl} = `sh ./fltk-config --ldflags --use-gl`;
-        $libinfo{ldflags_gl_images}
-            = `sh ./fltk-config --ldflags --use-gl --use-images`;
-        $libinfo{ldflags_images} = `sh ./fltk-config --ldflags --use-images`;
-
-        # XXX - The following block is a mess!!!
-        chdir 'src';
-        my $gmake = can_run('gmake');
-        my $make  = can_run('make');
-        printf "Checking for gmake... %s\n", ($gmake ? 'yes' : 'no');
-        printf "Checking for make... %s\n",  ($make  ? 'yes' : 'no');
-        #system(($gmake ? 'g' : '') . q[make -ns > build.sh]);
-        #system q[sh build.sh];
-        system(($gmake ? 'g' : '') . q[make -j 10]);
-        chdir '..';
-        my $archdir = catdir($cwd, qw[share]);
-        mkpath($archdir, $options->{verbose}, oct '755') unless -d $archdir;
-
-        # XXX - Copy FL  => shared dir
-        dircopy rel2abs('FL'), catdir($archdir, 'include', 'FL')
-            or die $!;
-        copy
-            rel2abs(catdir('config.h')),
-            catdir($archdir, 'include', 'config.h')
-            or die $!;
-        dircopy rel2abs('lib'), catdir($archdir, 'lib')
-            or die $!;
-        #
-
-        write_file(catfile($archdir, qw[config.json]),
-                   'utf8', encode_json(\%libinfo));
-    }
 }
 
 sub find {
@@ -197,7 +111,6 @@ my %actions = (
         my %modules
             = map { $_ => catfile('blib', $_) } find(qr/\.p(?:m|od)$/, 'lib');
         my %scripts = map { $_ => catfile('blib', $_) } find(qr//, 'script');
-        #build_lib(\%opt);
         my %shared = map {
             $_ => catfile(qw/blib lib auto share dist/,
                           $opt{meta}->name, abs2rel($_, 'share'))

@@ -1,4 +1,4 @@
-package Fltk;
+package FLTK;
 use 5.008001;
 use strict;
 use warnings;
@@ -18,23 +18,23 @@ __END__
 
 =head1 NAME
 
-Fltk - Blah, blah, blah...
+FLTK - Blah, blah, blah...
 
 =head1 SYNOPSIS
 
-    use Fltk qw[:label];
-    my $window = Fltk::Window->new(100, 100, 300, 180);
-    my $box = Fltk::Box->new(20, 40, 260, 100, 'Hello, World');
+    use FLTK qw[:label];
+    my $window = FLTK::Window->new(100, 100, 300, 180);
+    my $box = FLTK::Box->new(20, 40, 260, 100, 'Hello, World');
     #$box->labelfont(BOLD + ITALIC); # TODO
     $box->labelsize(36);
     #$box->labelfont(SHADOW_LABEL); # TODO
     $window->end();
     $window->show();
-    exit Fltk::run();
+    exit FLTK::run();
 
 =head1 DESCRIPTION
 
-Fltk is ...
+FLTK is ...
 
 =head1 LICENSE
 

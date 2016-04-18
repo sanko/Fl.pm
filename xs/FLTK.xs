@@ -133,7 +133,7 @@ public:
     }
 };
 
-MODULE = Fltk        PACKAGE = Fltk::Object
+MODULE = FLTK        PACKAGE = FLTK::Object
 
 PROTOTYPES: DISABLE
 
@@ -144,7 +144,7 @@ void
 Object::DESTROY()
 
 
-MODULE = Fltk        PACKAGE = Fltk::Widget
+MODULE = FLTK        PACKAGE = FLTK::Widget
 
 PROTOTYPES: DISABLE
 
@@ -155,7 +155,7 @@ void
 Widget::DESTROY()
 
 
-MODULE = Fltk        PACKAGE = Fltk::Window         PREFIX = fltk_
+MODULE = FLTK        PACKAGE = FLTK::Window         PREFIX = fltk_
 
 PROTOTYPES: DISABLE
 
@@ -213,7 +213,7 @@ fltk_Window::show()
         return; /* assume stack size is correct */
 
 
-MODULE = Fltk        PACKAGE = Fltk::Box
+MODULE = FLTK        PACKAGE = FLTK::Box
 
 PROTOTYPES: DISABLE
 
@@ -288,7 +288,7 @@ Box::cheat()
         return; /* assume stack size is correct */
 
 
-MODULE = Fltk        PACKAGE = Fltk
+MODULE = FLTK        PACKAGE = FLTK
 
 PROTOTYPES: DISABLE
 
@@ -321,26 +321,26 @@ ready()
 BOOT:
 {
 #ifndef get_av
-    AV *isa = perl_get_av("Fltk::Widget::ISA", 1);
+    AV *isa = perl_get_av("FLTK::Widget::ISA", 1);
 #else
-    AV *isa = get_av("Fltk::Widget::ISA", 1);
+    AV *isa = get_av("FLTK::Widget::ISA", 1);
 #endif
-    av_push(isa, newSVpv("Fltk::Object", 0));
+    av_push(isa, newSVpv("FLTK::Object", 0));
 }
 {
 #ifndef get_av
-    AV *isa = perl_get_av("Fltk::Window::ISA", 1);
+    AV *isa = perl_get_av("FLTK::Window::ISA", 1);
 #else
-    AV *isa = get_av("Fltk::Window::ISA", 1);
+    AV *isa = get_av("FLTK::Window::ISA", 1);
 #endif
-    av_push(isa, newSVpv("Fltk::Widget", 0));
+    av_push(isa, newSVpv("FLTK::Widget", 0));
 }
 {
 #ifndef get_av
-    AV *isa = perl_get_av("Fltk::Box::ISA", 1);
+    AV *isa = perl_get_av("FLTK::Box::ISA", 1);
 #else
-    AV *isa = get_av("Fltk::Box::ISA", 1);
+    AV *isa = get_av("FLTK::Box::ISA", 1);
 #endif
-    av_push(isa, newSVpv("Fltk::Widget", 0));
+    av_push(isa, newSVpv("FLTK::Widget", 0));
 }
 

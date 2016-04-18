@@ -1,4 +1,4 @@
-name = "Fltk"
+name = "FLTK"
 badges = ["travis"]
 module_maker="ModuleBuildTiny"
 license="artistic_2"
