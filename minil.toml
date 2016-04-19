@@ -6,3 +6,4 @@ requires_external_bin=["sh');\nuse lib 'inc';\nno Module::Build::Tiny;\nuse MBTF
 
 [release]
 pause_config = "C:/Strawberry/pause.upload"
+
