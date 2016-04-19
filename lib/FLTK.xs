@@ -6,14 +6,17 @@
 
 #define NO_INIT '\0'
 
-#define __INLINE_CPP_STANDARD_HEADERS 1
-#define __INLINE_CPP_NAMESPACE_STD 1
-
+#ifdef __cplusplus
 extern "C" {
-#include "EXTERN.h"
-#include "perl.h"
-#include "XSUB.h"
-}
+#endif
+
+#include <EXTERN.h>
+#include <perl.h>
+#include <XSUB.h>
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #include <FL/Fl.H>
 

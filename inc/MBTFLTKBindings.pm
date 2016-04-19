@@ -52,7 +52,7 @@ sub process_xs {
 	my $archdir = catdir(qw/blib arch auto/, @parts);
 	my $tempdir = 'temp';
 
-	my $c_file = catfile($tempdir, "$file_base.c");
+	my $c_file = catfile($tempdir, "$file_base.cxx");
 	require ExtUtils::ParseXS;
 	mkpath($tempdir, $options->{verbose}, oct '755');
 	ExtUtils::ParseXS::process_file(filename => $source, prototypes => 0, output => $c_file);
@@ -62,14 +62,14 @@ sub process_xs {
 	my $builder = ExtUtils::CBuilder->new(config => $options->{config}->values_set);
 	require Alien::FLTK;
     my $alien = Alien::FLTK->new();
-    my $ob_file = $builder->compile(source => $c_file, defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ }, include_dirs => [ curdir, dirname($source), $alien->include_dirs() ], extra_compiler_flags => $alien->cxxflags());
+    my $ob_file = $builder->compile(source => $c_file, defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ }, include_dirs => [ curdir, dirname($source), $alien->include_dirs() ], extra_compiler_flags => $alien->cxxflags(), 'C++' => 1);
 
 	require DynaLoader;
 	my $mod2fname = defined &DynaLoader::mod2fname ? \&DynaLoader::mod2fname : sub { return $_[0][-1] };
 
 	mkpath($archdir, $options->{verbose}, oct '755') unless -d $archdir;
 	my $lib_file = catfile($archdir, $mod2fname->(\@parts) . '.' . $options->{config}->get('dlext'));
-	return $builder->link(objects => $ob_file, lib_file => $lib_file, extra_linker_flags => '-L' . $AF->library_path . ' ' . $AF->ldflags(), module_name => join '::', @parts);
+	return $builder->link(objects => $ob_file, lib_file => $lib_file, extra_linker_flags => '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++', module_name => join '::', @parts);
 }
 
 sub find {
@@ -143,7 +143,7 @@ sub Build {
 sub Build_PL {
 	my $meta = get_meta();
 	printf "Creating new 'Build' script for '%s' version '%s'\n", $meta->name, $meta->version;
-	my $dir = $meta->name eq 'MBTFLTKBindings' ? "use lib 'lib';" : "use lib 'inc'";
+	my $dir = $meta->name eq 'MBTFLTKBindings' ? "use lib 'lib';" : "use lib 'inc';";
 	write_file('Build', "#!perl\n$dir\nno Module::Build::Tiny;use " . __PACKAGE__. ";\nBuild();\n");
 	make_executable('Build');
 	my @env = defined $ENV{PERL_MB_OPT} ? split_like_shell($ENV{PERL_MB_OPT}) : ();
