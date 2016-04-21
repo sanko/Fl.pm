@@ -75,7 +75,7 @@ sub process_xs {
 
 	mkpath($archdir, $options->{verbose}, oct '755') unless -d $archdir;
 	my $lib_file = catfile($archdir, $mod2fname->(\@parts) . '.' . $options->{config}->get('dlext'));
-	return $builder->link(objects => $ob_file, lib_file => $lib_file, extra_linker_flags => '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++', module_name => join '::', @parts);
+	return $builder->link(objects => $ob_file, lib_file => $lib_file, extra_linker_flags => ' -Wl,--kill-at ' . '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++', module_name => join '::', @parts);
 	#return $builder->link(objects => $ob_file, lib_file => $lib_file, module_name => join '::', @parts);
 }
 
