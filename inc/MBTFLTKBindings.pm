@@ -53,7 +53,7 @@ sub process_xs {
 	my $archdir = catdir(qw/blib arch auto/, @parts);
 	my $tempdir = 'temp';
 
-	my $c_file = catfile($tempdir, "$file_base.c");
+	my $c_file = catfile($tempdir, "$file_base.cxx");
 	require ExtUtils::ParseXS;
 	mkpath($tempdir, $options->{verbose}, oct '755');
 	ExtUtils::ParseXS::process_file(filename => $source, prototypes => 0, output => $c_file, 'C++' => 1);
