@@ -7,6 +7,12 @@
 
 #define NO_INIT '\0'
 
+
+#ifndef __cplusplus
+#define __cplusplus
+#endif
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,8 +24,6 @@ extern "C" {
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
-
-#include "ppport.h"
 
 HV * FLTK_stash,  // For inserting stuff directly into FLTK's namespace
    * FLTK_export; // For inserting stuff directly into FLTK's exports
