@@ -5,9 +5,3 @@ on 'test' => sub {
 };
 
 requires 'Alien::FLTK';
-
-requires 'ExtUtils::ParseXS', '3.30';
-requires 'ExtUtils::CBuilder', '0.280224';
-
-
-requires 'XSLoader', '0.17';

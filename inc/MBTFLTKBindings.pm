@@ -60,7 +60,9 @@ sub process_xs {
 
 	my $version = $options->{meta}->version;
 	require ExtUtils::CBuilder;
-	my $builder = ExtUtils::CBuilder->new(config => $options->{config}->values_set);
+	my $config = $options->{config}->values_set;
+	$config->{cc} = $config->{ld} = 'g++';
+	my $builder = ExtUtils::CBuilder->new(config => $config);
 	require Alien::FLTK;
     my $alien = Alien::FLTK->new();
     my $ob_file = $builder->compile(source => $c_file, defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ }, include_dirs => [ curdir, dirname($source), $alien->include_dirs() ], extra_compiler_flags => $alien->cxxflags(),
