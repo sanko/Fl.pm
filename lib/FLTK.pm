@@ -2,15 +2,26 @@ package FLTK;
 use 5.008001;
 use strict;
 use warnings;
+our $VERSION = '0.99.00';
 use XSLoader;
-use Exporter 5.57 'import';
-our $VERSION     = '0.99.00';
-our %EXPORT_TAGS = ('all' => []);
-our @EXPORT_OK   = (@{$EXPORT_TAGS{'all'}});
-XSLoader::load();
+use vars qw[@EXPORT_OK @EXPORT %EXPORT_TAGS];
+use Exporter qw[import];
+#
+our $NOXS ||= $0 eq __FILE__;    # for testing
+XSLoader::load 'FLTK', $VERSION
+    if !$FLTK::NOXS;             # Fills %EXPORT_TAGS on BOOT
+#
+@EXPORT_OK = sort map { @$_ = sort @$_; @$_ } values %EXPORT_TAGS;
+$EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
+@{$EXPORT_TAGS{'style'}}              # Merge these under a single tag
+    = sort map { defined $EXPORT_TAGS{$_} ? @{$EXPORT_TAGS{$_}} : () }
+    qw[box font label]
+    if 1 < scalar keys %EXPORT_TAGS;
+@EXPORT    # Export these tags (if prepended w/ ':') or functions by default
+    = sort map { m[^:(.+)] ? @{$EXPORT_TAGS{$1}} : $_ } qw[:style :default]
+    if 0 && keys %EXPORT_TAGS > 1;
 
 #sub dl_load_flags {0} # Prevent DynaLoader from complaining and croaking
-
 1;
 __END__
 

@@ -21,6 +21,11 @@ extern "C" {
 
 #include "ppport.h"
 
+HV * FLTK_stash,  // For inserting stuff directly into FLTK's namespace
+   * FLTK_export; // For inserting stuff directly into FLTK's exports
+
+SV * cvrv;
+
 #include <FL/Fl.H>
 
 // Execution
@@ -130,6 +135,35 @@ public:
         _box->labeltype( FL_SHADOW_LABEL );
     }
 };
+
+
+MODULE = FLTK               PACKAGE = FLTK
+
+BOOT:
+{
+#ifndef get_av
+    AV *isa = perl_get_av("FLTK::Widget::ISA", 1);
+#else
+    AV *isa = get_av("FLTK::Widget::ISA", 1);
+#endif
+    av_push(isa, newSVpv("FLTK::Object", 0));
+}
+{
+#ifndef get_av
+    AV *isa = perl_get_av("FLTK::Window::ISA", 1);
+#else
+    AV *isa = get_av("FLTK::Window::ISA", 1);
+#endif
+    av_push(isa, newSVpv("FLTK::Widget", 0));
+}
+{
+#ifndef get_av
+    AV *isa = perl_get_av("FLTK::Box::ISA", 1);
+#else
+    AV *isa = get_av("FLTK::Box::ISA", 1);
+#endif
+    av_push(isa, newSVpv("FLTK::Widget", 0));
+}
 
 MODULE = FLTK        PACKAGE = FLTK::Object
 
@@ -316,29 +350,25 @@ check()
 int
 ready()
 
-BOOT:
-{
-#ifndef get_av
-    AV *isa = perl_get_av("FLTK::Widget::ISA", 1);
-#else
-    AV *isa = get_av("FLTK::Widget::ISA", 1);
-#endif
-    av_push(isa, newSVpv("FLTK::Object", 0));
-}
-{
-#ifndef get_av
-    AV *isa = perl_get_av("FLTK::Window::ISA", 1);
-#else
-    AV *isa = get_av("FLTK::Window::ISA", 1);
-#endif
-    av_push(isa, newSVpv("FLTK::Widget", 0));
-}
-{
-#ifndef get_av
-    AV *isa = perl_get_av("FLTK::Box::ISA", 1);
-#else
-    AV *isa = get_av("FLTK::Box::ISA", 1);
-#endif
-    av_push(isa, newSVpv("FLTK::Widget", 0));
-}
+/* Alright, let's get things started, shall we? */
 
+MODULE = FLTK               PACKAGE = FLTK
+
+BOOT:
+    FLTK_stash  = gv_stashpv( "FLTK", TRUE );
+    FLTK_export = get_hv( "FLTK::EXPORT_TAGS", TRUE );
+    cvrv = eval_pv(
+        "sub {"
+        "    require DynaLoader;"
+        "    my $package = shift;"
+        "    my $symbol  = $package;"
+        "    $symbol =~ s[\\W][_]g;"
+        "    DynaLoader::dl_install_xsub($package . '::bootstrap',"
+        "                                DynaLoader::dl_find_symbol_anywhere("
+        "                                                             'boot_' . $symbol"
+        "                                )"
+        "    );"
+        "    $package->bootstrap();"
+        "    $package->import();"
+        "}", TRUE );
+    //reboot();
