@@ -54,15 +54,15 @@ package inc::MBFLTKExt;
     {
 
         sub ACTION_code {
-            require Alien::FLTK;             # Should be installed by now
+            require Alien::FLTK;              # Should be installed by now
             my ($self, $args) = @_;
             my $AF = Alien::FLTK->new();
             my $CC = My::ExtUtils::CBuilder->new();
             my (@xs, @rc, @pl, @obj);
             find(sub { push @xs, $File::Find::name if m[.+\.xs$]; }, 'xs');
             find(sub { push @pl, $File::Find::name if m[.+\.pl$]i; },
-                 'xs/rc');
-            if ($self->is_windowsish) {
+                 'xs/rc') if -d '/xs/rc';
+            if ($self->is_windowsish && -d '/xs/rc') {
                 $self->do_system($^X, $_) for @pl;
                 find(sub { push @rc, $File::Find::name if m[.+\.rc$]; },
                      'xs/rc');
@@ -103,9 +103,7 @@ package inc::MBFLTKExt;
                     for my $package (@packages) { $dl_funcs{$package} = []; }
                 }
             }
-
             my $boot_h = rel2abs('xs/include/FLTK_pm_boot.h');
-
             if (!$self->up_to_date(\@xs, $boot_h)) {
 
                 # Generate xs/includes/boot.h
@@ -132,43 +130,47 @@ package inc::MBFLTKExt;
                 }
                 local $CC->{'quiet'} = $self->quiet();
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
-                my $obj = $CC->compile(source => $cpp,
-                    #defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
-                    include_dirs => [ curdir, dirname($cpp), $AF->include_dirs() ],
+                my $obj = $CC->compile(
+                    source => $cpp,
+
+      #defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
+                    include_dirs =>
+                        [curdir, dirname($cpp), $AF->include_dirs()],
                     extra_compiler_flags => $AF->cxxflags(),
-                    'C++' => 1
+                    'C++'                => 1
                 );
-    #            my $obj = $CC->compile(
-    #                                 'C++'        => 1,
-    #                                 source       => $cpp,
-    #                                 include_dirs => [curdir, dirname($cpp), $AF->include_dirs()],
-    #                                 extra_compiler_flags => [$AF->cxxflags()]
-    #            );
-                printf "%s\n", ($obj && -f $obj) ? 'okay' : 'failed';    # XXX - exit?
+
+#            my $obj = $CC->compile(
+#                                 'C++'        => 1,
+#                                 source       => $cpp,
+#                                 include_dirs => [curdir, dirname($cpp), $AF->include_dirs()],
+#                                 extra_compiler_flags => [$AF->cxxflags()]
+#            );
+                printf "%s\n",
+                    ($obj && -f $obj) ? 'okay' : 'failed';    # XXX - exit?
                 push @obj, $obj;
             }
             make_path(catdir(qw[blib arch auto FLTK]),
                       {verbose => !$self->quiet(), mode => 0777});
             @obj = map { canonpath abs2rel($_) } @obj;
-            if (!$self->up_to_date([@obj],
-                                   catdir(qw[blib arch auto FLTK],
-                                          'FLTK.' . $Config{'so'}
-                                   )
-                )
-                )
-            {   my ($dll, @cleanup)
-                    = $CC->link(
-                              objects => \@obj,
-                              lib_file =>
-                                  catdir(qw[blib arch auto FLTK],
-                                         'FLTK.' . $Config{'so'}
-                                  ),
-                              module_name => 'FLTK',
-                              extra_linker_flags =># ' -Wl ' . '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++'
-                                  ['-L' . $AF->library_path(), $AF->ldflags(qw[images gl]), ' -lstdc++'
-                                  .  "-Wl,--gc-sections -fPIC -shared"
-                                  ],
-                    );
+            my $lib
+                = catdir(qw[blib arch auto FLTK], 'FLTK.' . $Config{'so'});
+            if (!$self->up_to_date([@obj], $lib)) {
+                printf q[Building '%s'... ], $lib;
+                my ($dll, @cleanup) = $CC->link(
+                    objects     => \@obj,
+                    lib_file    => $lib,
+                    module_name => 'FLTK',
+                    extra_linker_flags => # ' -Wl ' . '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++'
+                        ['-L' . $AF->library_path(),
+                         $AF->ldflags(qw[images gl]),
+                         ' -lstdc++' . " -Wl,--gc-sections -fPIC"
+                        ],
+                );
+                printf "%s\n",
+                    ($lib && -f $lib) ?
+                    'okay (' . (-s $lib) . ' bytes)'
+                    : 'failed';           # XXX - exit?
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
                 $self->add_to_cleanup(@obj);
@@ -180,7 +182,7 @@ package inc::MBFLTKExt;
             my ($self, $xs) = @_;
             $xs = rel2abs($xs);
             my ($cpp, $typemap) = ($xs, $xs);
-            $cpp     =~ s[\.xs$][\.cxx];
+            $cpp =~ s[\.xs$][\.cxx];
             $typemap =~ s[\.xs$][\.tm];
             $typemap = 'type.map' if !-e $typemap;
             my @xsi;
