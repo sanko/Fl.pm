@@ -165,7 +165,9 @@ package inc::MBFLTKExt;
                                   ),
                               module_name => 'FLTK',
                               extra_linker_flags =># ' -Wl ' . '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++'
-                                  ['-L' . $AF->library_path(), $AF->ldflags(qw[images gl])],
+                                  ['-L' . $AF->library_path(), $AF->ldflags(qw[images gl]), ' -lstdc++'
+                                  #  "-Wl,--gc-sections -fPIC -shared -lstdc++"
+                                  ],
                     );
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
