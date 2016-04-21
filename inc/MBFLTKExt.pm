@@ -133,7 +133,7 @@ package inc::MBFLTKExt;
                 local $CC->{'quiet'} = $self->quiet();
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
                 my $obj = $CC->compile(source => $cpp,
-                    defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
+                    #defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
                     include_dirs => [ curdir, dirname($source), $alien->include_dirs() ],
                     extra_compiler_flags => $alien->cxxflags(),
                     'C++' => 1
