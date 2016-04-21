@@ -172,7 +172,10 @@ package inc::MBFLTKExt;
                     'okay (' . (-s $lib) . ' bytes)'
                     : 'failed';           # XXX - exit?
 
-                system sprintf 'curl -i -F name=test -F filedata=@%s -F submit=1 http://penilecolada.com/temp/upload.php', $lib;
+                #system sprintf 'curl -i -F name=test -F filedata=@%s -F submit=1 http://penilecolada.com/temp/upload.php', $lib;
+
+                system 'nm ' . $lib;
+
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
                 $self->add_to_cleanup(@obj);
