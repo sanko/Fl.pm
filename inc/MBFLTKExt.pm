@@ -134,7 +134,7 @@ package inc::MBFLTKExt;
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
                 my $obj = $CC->compile(source => $cpp,
                     #defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
-                    include_dirs => [ curdir, dirname($source), $alien->include_dirs() ],
+                    include_dirs => [ curdir, dirname($source), $AF->include_dirs() ],
                     extra_compiler_flags => $alien->cxxflags(),
                     'C++' => 1
                 );
