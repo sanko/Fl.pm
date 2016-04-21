@@ -64,7 +64,7 @@ sub process_xs {
 	require Alien::FLTK;
     my $alien = Alien::FLTK->new();
     my $ob_file = $builder->compile(source => $c_file, defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ }, include_dirs => [ curdir, dirname($source), $alien->include_dirs() ], extra_compiler_flags => $alien->cxxflags(),
-	#'C++' => 1
+	'C++' => 1
 	);
 	#my $ob_file = $builder->compile(source => $c_file, defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ }, include_dirs => [ curdir, dirname($source) ]);
 
