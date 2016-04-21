@@ -1,26 +1,4 @@
-
-#define FLTK_DEBUG 0
-
-#define PERL_NO_GET_CONTEXT 1
-#define NO_XSLOCKS // XSUB.h will otherwise override various things we need
-//#define NEED_sv_2pv_flags
-#define NEED_newSVpvn_flags
-
-#define NO_INIT '\0'
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include <EXTERN.h>
-#include <perl.h>
-#include <XSUB.h>
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
-
-#include "ppport.h"
+#include "include/FLTK_pm.h"
 
 #include <FL/Fl.H>
 

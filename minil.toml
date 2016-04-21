@@ -1,8 +1,15 @@
 name = "FLTK"
 badges = ["travis"]
-module_maker="ModuleBuildTiny"
+module_maker="ModuleBuild"
 license="artistic_2"
-requires_external_bin=["g++');\nuse lib 'inc';\nno Module::Build::Tiny;\nuse MBTFLTKBindings;\n('1"]
+c_source = ['xs']
+
+[build]
+build_class="inc::MBFLTKExt"
+
+[XSUtil]
+needs_compiler_cpp = 1
+generate_ppport_h = "xs/ppport.h"
 
 [release]
 pause_config = "C:/Strawberry/pause.upload"

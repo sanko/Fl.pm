@@ -4,17 +4,55 @@
 # =========================================================================
 
 use 5.008_001;
+
 use strict;
+use warnings;
+use utf8;
 
-use Module::Build::Tiny 0.035;
+use inc::MBFLTKExt;
+use File::Basename;
+use File::Spec;
 
-use Devel::CheckBin;
+my %args = (
+    license              => 'artistic_2',
+    dynamic_config       => 0,
 
-check_bin('g++');
-use lib 'inc';
-no Module::Build::Tiny;
-use MBTFLTKBindings;
-('1');
+    configure_requires => {
+        'Module::Build' => '0.4005',
+    },
 
-Build_PL();
+    name            => 'FLTK',
+    module_name     => 'FLTK',
+    allow_pureperl => 0,
+
+    script_files => [glob('script/*'), glob('bin/*')],
+    c_source     => [qw(xs)],
+    PL_files => {},
+
+    test_files           => ((-d '.git' || $ENV{RELEASE_TESTING}) && -d 'xt') ? 't/ xt/' : 't/',
+    recursive_test_files => 1,
+
+
+    needs_compiler_c99 => 0,
+    needs_compiler_cpp => 1,
+    generate_ppport_h => 'xs/ppport.h',
+    generate_xshelper_h => '0',
+    cc_warnings => 0,
+);
+if (-d 'share') {
+    $args{share_dir} = 'share';
+}
+
+my $builder = inc::MBFLTKExt->subclass(
+    class => 'MyBuilder',
+    code => q{
+        sub ACTION_distmeta {
+            die "Do not run distmeta. Install Minilla and `minil install` instead.\n";
+        }
+        sub ACTION_installdeps {
+            die "Do not run installdeps. Run `cpanm --installdeps .` instead.\n";
+        }
+    }
+)->new(%args);
+$builder->create_build_script();
 

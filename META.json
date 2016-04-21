@@ -28,8 +28,8 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Devel::CheckBin" : "0",
-            "Module::Build::Tiny" : "0.035"
+            "Module::Build" : "0.4005",
+            "Module::Build::XSUtil" : "0.03"
          }
       },
       "develop" : {
