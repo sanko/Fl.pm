@@ -131,14 +131,14 @@ package inc::MBFLTKExt;
                     next CPP;
                 }
                 local $CC->{'quiet'} = 1;
-                printf q[Building '%s'... ], $cpp;
+                printf q[Building '%s' (%d bytes)... ], rel2abs($cpp), -s rel2abs($cpp);
                 my $obj = $CC->compile(
                                      'C++'        => 1,
-                                     source       => $cpp,
+                                     source       => rel2abs($cpp),
                                      include_dirs => [curdir, dirname($cpp), $AF->include_dirs()],
                                      extra_compiler_flags => [$AF->cxxflags()]
                 );
-                printf "%s\n", $obj ? 'okay' : 'failed';    # XXX - exit?
+                printf "%s\n", ($obj && -f $obj) ? 'okay' : 'failed';    # XXX - exit?
                 push @obj, $obj;
             }
             make_path(catdir(qw[blib arch auto FLTK]),
