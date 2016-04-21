@@ -164,7 +164,8 @@ package inc::MBFLTKExt;
                     extra_linker_flags => # ' -Wl ' . '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++'
                         ['-L' . $AF->library_path(),
                          $AF->ldflags(qw[images gl]),
-                         ' -lstdc++' . " -Wl,--gc-sections -fPIC"
+                         ' -lstdc++' . " -Wl,--gc-sections -fPIC",
+                         ' -Wl,--whole-archive '
                         ],
                 );
                 printf "%s\n",
