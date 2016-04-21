@@ -7,7 +7,7 @@ use Exporter 5.57 'import';
 our $VERSION     = '0.99.00';
 our %EXPORT_TAGS = ('all' => []);
 our @EXPORT_OK   = (@{$EXPORT_TAGS{'all'}});
-XSLoader::load(__PACKAGE__, $VERSION);
+XSLoader::load();
 
 #sub dl_load_flags {0} # Prevent DynaLoader from complaining and croaking
 
