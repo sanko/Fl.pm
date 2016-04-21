@@ -130,7 +130,7 @@ package inc::MBFLTKExt;
                     push @obj, $CC->object_file($cpp);
                     next CPP;
                 }
-                local $CC->{'quiet'} = 1;
+                local $CC->{'quiet'} = $self->quiet();
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
                 my $obj = $CC->compile(
                                      'C++'        => 1,
