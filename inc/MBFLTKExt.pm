@@ -131,7 +131,7 @@ package inc::MBFLTKExt;
                     next CPP;
                 }
                 local $CC->{'quiet'} = 1;
-                printf q[Building '%s' (%d bytes)... ], rel2abs($cpp), -s rel2abs($cpp);
+                printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
                 my $obj = $CC->compile(
                                      'C++'        => 1,
                                      source       => rel2abs($cpp),
@@ -170,6 +170,7 @@ package inc::MBFLTKExt;
 
         sub _xs_to_cpp {
             my ($self, $xs) = @_;
+            $xs = rel2abs($xs);
             my ($cpp, $typemap) = ($xs, $xs);
             $cpp     =~ s[\.xs$][\.cxx];
             $typemap =~ s[\.xs$][\.tm];
