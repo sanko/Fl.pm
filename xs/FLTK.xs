@@ -1,6 +1,6 @@
 
 
-XS_EXTERNAL
+#XS_EXTERNAL
 void non_mangled_function()
 {
 	// I do nothing
