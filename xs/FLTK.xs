@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 #define NEED_newSVpvn_flags
-#include "ppport.h"
+#include "include/ppport.h"
 
 MODULE = MyApp    PACKAGE = MyApp
 
