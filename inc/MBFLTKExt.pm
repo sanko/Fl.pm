@@ -24,9 +24,6 @@ package inc::MBFLTKExt;
             my $cmd = join ' ', @cmd;
             `$cmd`;
             return 1;
-
-            #(my( $program), @cmd) = @cmd;
-            #return !system ($program, @cmd);
         }
 
         sub prelink {
@@ -59,9 +56,9 @@ package inc::MBFLTKExt;
             my $AF = Alien::FLTK->new();
             my $CC = My::ExtUtils::CBuilder->new();
             my (@xs, @rc, @pl, @obj);
-            find(sub { push @xs, $File::Find::name if m[.+\.xs$]; }, 'xs');
-            find(sub { push @pl, $File::Find::name if m[.+\.pl$]i; },
-                 'xs/rc') if -d '/xs/rc';
+            find(sub { push @xs, $File::Find::name if m[.+\.xs$]; },  'xs');
+            find(sub { push @pl, $File::Find::name if m[.+\.pl$]i; }, 'xs/rc')
+                if -d '/xs/rc';
             if ($self->is_windowsish && -d 'xs/rc') {
                 $self->do_system($^X, $_) for @pl;
                 find(sub { push @rc, $File::Find::name if m[.+\.rc$]; },
@@ -105,8 +102,6 @@ package inc::MBFLTKExt;
             }
             my $boot_h = rel2abs('xs/include/FLTK_pm_boot.h');
             if (!$self->up_to_date(\@xs, $boot_h)) {
-
-                # Generate xs/includes/boot.h
                 print qq[Generating "$boot_h"... ];
                 make_path(dirname($boot_h));
                 open(my ($BOOT_H), '>', $boot_h)
@@ -131,21 +126,11 @@ package inc::MBFLTKExt;
                 local $CC->{'quiet'} = $self->quiet();
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
                 my $obj = $CC->compile(
-                    source => $cpp,
-
-      #defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
-                    include_dirs =>
-                        [curdir, dirname($cpp), $AF->include_dirs()],
-                    #extra_compiler_flags => $AF->cxxflags(),
-                    'C++'                => 1
+                             source => $cpp,
+                             include_dirs =>
+                                 [curdir, dirname($cpp), $AF->include_dirs()],
+                             'C++' => 1
                 );
-
-#            my $obj = $CC->compile(
-#                                 'C++'        => 1,
-#                                 source       => $cpp,
-#                                 include_dirs => [curdir, dirname($cpp), $AF->include_dirs()],
-#                                 extra_compiler_flags => [$AF->cxxflags()]
-#            );
                 printf "%s\n",
                     ($obj && -f $obj) ? 'okay' : 'failed';    # XXX - exit?
                 push @obj, $obj;
@@ -157,25 +142,19 @@ package inc::MBFLTKExt;
                 = catdir(qw[blib arch auto FLTK], 'FLTK.' . $Config{'so'});
             if (!$self->up_to_date([@obj], $lib)) {
                 printf q[Building '%s'... ], $lib;
-                my ($dll, @cleanup) = $CC->link(
-                    objects     => \@obj,
-                    lib_file    => $lib,
-                    module_name => 'FLTK',
-                    extra_linker_flags =>  '-L' . $AF->library_path . ' ' . $AF->ldflags(qw[images gl]) . ' -lstdc++'
-                                                    #['-L' . $AF->library_path(), $AF->ldflags(qw[static images gl]),
-                         #' -lstdc++' #. " -Wl,--gc-sections -fPIC -shared"
-                        #],
-                );
+                my ($dll, @cleanup)
+                    = $CC->link(objects            => \@obj,
+                                lib_file           => $lib,
+                                module_name        => 'FLTK',
+                                extra_linker_flags => '-L'
+                                    . $AF->library_path . ' '
+                                    . $AF->ldflags(qw[images gl])
+                                    . ' -lstdc++'
+                    );
                 printf "%s\n",
                     ($lib && -f $lib) ?
                     'okay (' . (-s $lib) . ' bytes)'
-                    : 'failed';           # XXX - exit?
-
-                #system sprintf 'curl -i -F name=test -F filedata=@%s -F submit=1 http://penilecolada.com/temp/upload.php', $lib;
-
-                system 'nm ' . $lib;
-#                system 'readelf -s ' . $lib;
-
+                    : 'failed';    # XXX - exit?
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
                 $self->add_to_cleanup(@obj);
@@ -209,7 +188,7 @@ package inc::MBFLTKExt;
                                    'C++'    => 1,
                                    hiertype => 1,
                                    typemap => rel2abs(catdir('xs', $typemap)),
-                                   #prototypes  => 1,
+                                   prototypes  => 1,
                                    linenumbers => 1
                 )
                 )
@@ -222,37 +201,3 @@ package inc::MBFLTKExt;
     }
     1;
 }
-
-=pod
-
-=for $Rev$
-
-=for $Revision$
-
-=for $Date$ | Last $Modified$
-
-=for $URL$
-
-=for $ID$
-
-=for author Sanko Robinson <sanko@cpan.org> - http://sankorobinson.com/
-
-=cut
-
-sub LICENSE {
-    <<'ARTISTIC_TWO' }
-Copyright (C) 2008-2010 by Sanko Robinson <sanko@cpan.org>
-
-This program is free software; you can redistribute it and/or modify it under
-the terms of
-L<The Artistic License 2.0|http://www.perlfoundation.org/artistic_license_2_0>.
-See the F<LICENSE> file included with this distribution or
-L<notes on the Artistic License 2.0|http://www.perlfoundation.org/artistic_2_0_notes>
-for clarification.
-
-When separated from the distribution, all original POD documentation is
-covered by the
-L<Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/us/legalcode>.
-See the
-L<clarification of the CCA-SA3.0|http://creativecommons.org/licenses/by-sa/3.0/us/>.
-ARTISTIC_TWO
