@@ -19,7 +19,7 @@ extern "C" {
 #define NEED_newSVpvn_flags
 #include "include/ppport.h"
 
-MODULE = MyApp    PACKAGE = MyApp
+MODULE = FLTK    PACKAGE = FLTK
 
 PROTOTYPES: DISABLE
 
