@@ -1,8 +1,6 @@
 
 
-#ifdef __cplusplus
-extern "C"
-#endif
+XS_EXTERNAL
 void non_mangled_function()
 {
 	// I do nothing
