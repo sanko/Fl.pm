@@ -19,6 +19,8 @@ extern "C" {
 #define NEED_newSVpvn_flags
 #include "include/ppport.h"
 
+#include "include/FLTK_pm_boot.h"
+
 MODULE = FLTK    PACKAGE = FLTK
 
 PROTOTYPES: DISABLE
@@ -29,3 +31,7 @@ CODE:
 {
     ST(0) = newSVpvs_flags("Hello, world!", SVs_TEMP);
 }
+
+
+BOOT:
+    reboot();
