@@ -1,5 +1,3 @@
-#include "include/FLTK_pm.h"
-
 #include <FL/Fl.H>
 
 // Execution
@@ -13,42 +11,6 @@ int check() {
 int ready() {
     return Fl::ready();
 }
-
-#include <FL/Fl_Window.H>
-
-MODULE = FLTK        PACKAGE = FLTK::Window         PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-Fl_Window *
-Fl_Window::new(int x, int y, int w, int h, char *title = "")
-
-void
-Fl_Window::DESTROY()
-
-void
-Fl_Window::end()
-
-void
-Fl_Window::show()
-
-MODULE = FLTK        PACKAGE = FLTK::Box            PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-#include <FL/Fl_Box.H>
-
-Fl_Box *
-Fl_Box::new(int x, int y, int w, int h, char * label = "" )
-
-void
-Fl_Box::DESTROY()
-
-void
-Fl_Box::labelfont(int font)
-
-void
-Fl_Box::labelsize(int size)
 
 MODULE = FLTK        PACKAGE = FLTK                 PREFIX = Fl::
 
