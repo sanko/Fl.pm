@@ -14,16 +14,6 @@ extern "C" {
 #include <perl.h>
 #include <XSUB.h>
 
-
-#ifdef __cplusplus
-extern "C"
-#endif
-void non_mangled_function()
-{
-	// I do nothing
-}
-
-
     void find_me() {
         int i = 3;
         i--;

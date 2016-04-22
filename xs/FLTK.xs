@@ -1,3 +1,15 @@
+
+
+#ifdef __cplusplus
+extern "C"
+#endif
+void non_mangled_function()
+{
+	// I do nothing
+}
+
+
+
 #include "include/FLTK_pm.h"
 
 #include <FL/Fl.H>
