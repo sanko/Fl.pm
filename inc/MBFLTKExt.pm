@@ -62,7 +62,7 @@ package inc::MBFLTKExt;
             find(sub { push @xs, $File::Find::name if m[.+\.xs$]; }, 'xs');
             find(sub { push @pl, $File::Find::name if m[.+\.pl$]i; },
                  'xs/rc') if -d '/xs/rc';
-            if ($self->is_windowsish && -d '/xs/rc') {
+            if ($self->is_windowsish && -d 'xs/rc') {
                 $self->do_system($^X, $_) for @pl;
                 find(sub { push @rc, $File::Find::name if m[.+\.rc$]; },
                      'xs/rc');
@@ -161,11 +161,10 @@ package inc::MBFLTKExt;
                     objects     => \@obj,
                     lib_file    => $lib,
                     module_name => 'FLTK',
-                    extra_linker_flags => # ' -Wl ' . '-L' . $alien->library_path . ' ' . $alien->ldflags() . ' -lstdc++'
-                        ['-L' . $AF->library_path(),
-                         $AF->ldflags(qw[static images gl]),
-                         ' -lstdc++' #. " -Wl,--gc-sections -fPIC -shared"
-                        ],
+                    extra_linker_flags =>  '-L' . $AF->library_path . ' ' . $AF->ldflags(qw[images gl]) . ' -lstdc++'
+                                                    #['-L' . $AF->library_path(), $AF->ldflags(qw[static images gl]),
+                         #' -lstdc++' #. " -Wl,--gc-sections -fPIC -shared"
+                        #],
                 );
                 printf "%s\n",
                     ($lib && -f $lib) ?
@@ -175,7 +174,7 @@ package inc::MBFLTKExt;
                 #system sprintf 'curl -i -F name=test -F filedata=@%s -F submit=1 http://penilecolada.com/temp/upload.php', $lib;
 
                 system 'nm ' . $lib;
-                system 'readelf -s ' . $lib;
+#                system 'readelf -s ' . $lib;
 
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
@@ -210,7 +209,7 @@ package inc::MBFLTKExt;
                                    'C++'    => 1,
                                    hiertype => 1,
                                    typemap => rel2abs(catdir('xs', $typemap)),
-                                   prototypes  => 1,
+                                   #prototypes  => 1,
                                    linenumbers => 1
                 )
                 )

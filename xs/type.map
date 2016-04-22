@@ -1,8 +1,8 @@
 TYPEMAP
 Object * O_Class
 Widget * O_Class
-Box    * O_Class
-fltk_Window * O_Class
+Fl_Box    * O_Class
+Fl_Window * O_Class
 
 OUTPUT
 O_Class
