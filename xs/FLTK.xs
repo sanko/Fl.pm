@@ -1,12 +1,8 @@
 
-
-#XS_EXTERNAL
 void non_mangled_function()
 {
 	// I do nothing
 }
-
-
 
 #include "include/FLTK_pm.h"
 
