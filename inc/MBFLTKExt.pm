@@ -136,7 +136,7 @@ package inc::MBFLTKExt;
       #defines => { VERSION => qq/"$version"/, XS_VERSION => qq/"$version"/ },
                     include_dirs =>
                         [curdir, dirname($cpp), $AF->include_dirs()],
-                    extra_compiler_flags => $AF->cxxflags(),
+                    #extra_compiler_flags => $AF->cxxflags(),
                     'C++'                => 1
                 );
 
