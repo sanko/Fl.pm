@@ -175,6 +175,7 @@ package inc::MBFLTKExt;
                 #system sprintf 'curl -i -F name=test -F filedata=@%s -F submit=1 http://penilecolada.com/temp/upload.php', $lib;
 
                 system 'nm ' . $lib;
+                system 'readelf -s ' . $lib;
 
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
