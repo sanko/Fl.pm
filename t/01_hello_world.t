@@ -20,12 +20,10 @@ $box->labelsize(36);
 
 #box->labeltype(FL_SHADOW_LABEL);
 #$box->DESTROY();
-
 #$box = '';
 #warn $box;
 #$window->end();
 #$window->show();
-
 #diag pp $window;
 #FLTK::run();
 done_testing;

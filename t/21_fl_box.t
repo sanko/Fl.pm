@@ -7,8 +7,8 @@ use_ok $_ for qw(
     FLTK
 );
 
-my $box = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
-my $box2 = new_ok 'Fl::Box' => [20, 40, 300, 100], 'box2';
+my $box = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box w/ label';
+my $box2 = new_ok 'Fl::Box' => [20, 40, 300, 100], 'box2 w/o label';
 
 can_ok $box, 'labelsize';
 #$box->cheat();

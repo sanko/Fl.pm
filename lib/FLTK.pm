@@ -9,8 +9,9 @@ use Exporter qw[import];
 #
 our $NOXS ||= $0 eq __FILE__;    # for testing
 XSLoader::load 'FLTK', $VERSION
+
     #if !$FLTK::NOXS
-    ;             # Fills %EXPORT_TAGS on BOOT
+    ;                            # Fills %EXPORT_TAGS on BOOT
 #
 @EXPORT_OK = sort map { @$_ = sort @$_; @$_ } values %EXPORT_TAGS;
 $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
