@@ -7,8 +7,10 @@ use_ok $_ for qw(
     FLTK
 );
 
-my $box = new_ok 'FLTK::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
+my $box = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
+my $box2 = new_ok 'Fl::Box' => [20, 40, 300, 100], 'box2';
 
+can_ok $box, 'labelsize';
 #$box->cheat();
 #box->box(FL_UP_BOX);
 #box->labelfont(FL_BOLD+FL_ITALIC);
@@ -16,5 +18,5 @@ my $box = new_ok 'FLTK::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
 #box->labeltype(FL_SHADOW_LABEL);
 undef $box;
 
-is $box, undef;
+is $box, undef, 'box is now undef';
 done_testing;

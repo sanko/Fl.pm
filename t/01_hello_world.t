@@ -9,8 +9,8 @@ use_ok $_ for qw(
 
 #use Data::Dump qw[pp];
 #diag pp \%FLTK::;
-my $window = new_ok 'FLTK::Window' => [100, 200, 340, 180], 'window';
-my $box = new_ok 'FLTK::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
+my $window = new_ok 'Fl::Window' => [100, 200, 340, 180], 'window';
+my $box = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
 
 #$box->cheat();
 #box->box(FL_UP_BOX);
@@ -20,7 +20,6 @@ $box->labelsize(36);
 
 #box->labeltype(FL_SHADOW_LABEL);
 #$box->DESTROY();
-#undef $box;
 
 #$box = '';
 #warn $box;
