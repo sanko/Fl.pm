@@ -16,7 +16,7 @@ __END__
 
 =head1 NAME
 
-FLTK - Blah, blah, blah...
+FLTK - Historical Package Name Alias
 
 =head1 SYNOPSIS
 
@@ -32,7 +32,11 @@ FLTK - Blah, blah, blah...
 
 =head1 DESCRIPTION
 
-FLTK is ...
+The FLTK package is a namespace alias for the Fl package. It's only use is to
+allow (most) code written for the old FLTK distribution to use the new Fl
+package with a little less work. Please note that the toolkit itself is not
+100% compatible so expect complex code written for FLTK to just plain kill
+kill over on Fl even with this alias.
 
 =head1 LICENSE
 

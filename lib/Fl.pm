@@ -22,7 +22,6 @@ $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
     = sort map { m[^:(.+)] ? @{$EXPORT_TAGS{$1}} : $_ } qw[:style :default]
     if 0 && keys %EXPORT_TAGS > 1;
 
-#sub dl_load_flags {0} # Prevent DynaLoader from complaining and croaking
 1;
 __END__
 
@@ -30,23 +29,26 @@ __END__
 
 =head1 NAME
 
-FLTK - Blah, blah, blah...
+Fl - Bindings for the Stable 1.3.x Branch of the Fast Light Toolkit
 
 =head1 SYNOPSIS
 
-    use FLTK qw[:label];
-    my $window = FLTK::Window->new(100, 100, 300, 180);
-    my $box = FLTK::Box->new(20, 40, 260, 100, 'Hello, World');
+    use Fl qw[:label];
+    my $window = Fl::Window->new(100, 100, 300, 180);
+    my $box = Fl::Box->new(20, 40, 260, 100, 'Hello, World');
     #$box->labelfont(BOLD + ITALIC); # TODO
     $box->labelsize(36);
     #$box->labelfont(SHADOW_LABEL); # TODO
     $window->end();
     $window->show();
-    exit FLTK::run();
+    exit Fl::run();
 
 =head1 DESCRIPTION
 
-FLTK is ...
+The Fl distribution includes bindings to the stable 1.3.x branch of the Fast
+Light Toolkit or FLTK. FLTK is a cross-platform GUI toolkit compatible with
+Microsoft Windows, MacOS X, and Linux/Unix platforms with X11. FLTK was
+designed to be small and comes with a very simple API.
 
 =head1 LICENSE
 
