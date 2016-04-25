@@ -31,6 +31,17 @@ int call ( SV * code, const char * args ) {
     return retval;
 }
 
+void set_isa(char * klass, char * parent) {
+    dTHX;
+#ifndef get_av
+    AV *isa = perl_get_av(klass, 1);
+#else
+    AV *isa = get_av(klass, 1);
+#endif
+    dSP;
+    av_push(isa, newSVpv(parent, 0));
+}
+
 #include <FL/Fl.H>
 
 // Execution
@@ -50,6 +61,21 @@ execute()
     INTERFACE:
         Fl::run    Fl::check
         Fl::ready
+
+#include <FL/Fl_Widget.H>
+
+MODULE = Fl::Widget        PACKAGE = Fl::Widget         PREFIX = Fl_
+
+PROTOTYPES: DISABLE
+
+void
+Fl_Widget::activate()
+
+unsigned int
+Fl_Widget::active()
+
+int
+Fl_Widget::active_r()
 
 #include <FL/Fl_Window.H>
 
@@ -91,28 +117,4 @@ Fl_Box::labelsize(int size)
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
-    /*{
-#ifndef get_av
-    AV *isa = perl_get_av("Fl::Widget::ISA", 1);
-#else
-    AV *isa = get_av("Fl::Widget::ISA", 1);
-#endif
-    av_push(isa, newSVpv("Fl::Object", 0));
-}
-{
-#ifndef get_av
-    AV *isa = perl_get_av("Fl::Window::ISA", 1);
-#else
-    AV *isa = get_av("Fl::Window::ISA", 1);
-#endif
-    av_push(isa, newSVpv("Fl::Widget", 0));
-}
-{
-#ifndef get_av
-    AV *isa = perl_get_av("Fl::Box::ISA", 1);
-#else
-    AV *isa = get_av("Fl::Box::ISA", 1);
-#endif
-    av_push(isa, newSVpv("Fl::Widget", 0));
-}
-*/
+    set_isa("Fl::Box", "Fl::Widget");
