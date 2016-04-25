@@ -4,11 +4,11 @@ use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
 $|++;
 use_ok $_ for qw(
-    FLTK
+    Fl
 );
 
 #use Data::Dump qw[pp];
-#diag pp \%FLTK::;
+#diag pp \%Fl::;
 my $window = new_ok 'Fl::Window' => [100, 200, 340, 180], 'window';
 my $box = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
 
@@ -25,5 +25,5 @@ $box->labelsize(36);
 #$window->end();
 #$window->show();
 #diag pp $window;
-#FLTK::run();
+#Fl::run();
 done_testing;

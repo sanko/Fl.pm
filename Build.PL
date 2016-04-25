@@ -9,7 +9,7 @@ use strict;
 use warnings;
 use utf8;
 
-use inc::MBFLTKExt;
+use inc::MBFlExt;
 use File::Basename;
 use File::Spec;
 
@@ -21,8 +21,8 @@ my %args = (
         'Module::Build' => '0.4005',
     },
 
-    name            => 'FLTK',
-    module_name     => 'FLTK',
+    name            => 'Fl',
+    module_name     => 'Fl',
     allow_pureperl => 0,
 
     script_files => [glob('script/*'), glob('bin/*')],
@@ -35,7 +35,7 @@ my %args = (
 
     needs_compiler_c99 => 0,
     needs_compiler_cpp => 1,
-    generate_ppport_h => 'xs/ppport.h',
+    generate_ppport_h => 'xs/include/ppport.h',
     generate_xshelper_h => '0',
     cc_warnings => 0,
 );
@@ -43,7 +43,7 @@ if (-d 'share') {
     $args{share_dir} = 'share';
 }
 
-my $builder = inc::MBFLTKExt->subclass(
+my $builder = inc::MBFlExt->subclass(
     class => 'MyBuilder',
     code => q{
         sub ACTION_distmeta {

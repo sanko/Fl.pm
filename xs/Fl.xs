@@ -1,4 +1,4 @@
-#include "include/FLTK_pm.h"
+#include "include/Fl_pm.h"
 
 SV * cvrv;
 
@@ -31,8 +31,6 @@ int call ( SV * code, const char * args ) {
     return retval;
 }
 
-#include "include/FLTK_pm_boot.h"
-
 #include <FL/Fl.H>
 
 // Execution
@@ -60,7 +58,7 @@ MODULE = Fl::Window        PACKAGE = Fl::Window         PREFIX = Fl_
 PROTOTYPES: DISABLE
 
 Fl_Window *
-Fl_Window::new(int x, int y, int w, int h, char *title = "")
+Fl_Window::new(int x, int y, int w, int h, const char * title = "")
 
 void
 Fl_Window::DESTROY()
@@ -73,12 +71,12 @@ Fl_Window::end()
 
 #include <FL/Fl_Box.H>
 
-MODULE = l::Box        PACKAGE = Fl::Box            PREFIX = Fl_
+MODULE = Fl::Box        PACKAGE = Fl::Box            PREFIX = Fl_
 
 PROTOTYPES: DISABLE
 
 Fl_Box *
-Fl_Box::new(int x, int y, int w, int h, char * label = "" )
+Fl_Box::new(int x, int y, int w, int h, const char * label = "" )
 
 void
 Fl_Box::DESTROY()
@@ -90,33 +88,31 @@ void
 Fl_Box::labelsize(int size)
 
 
-MODULE = FLTK        PACKAGE = FLTK
+MODULE = Fl        PACKAGE = Fl
 
 BOOT:
-    //boot_FLTK__Box(aTHX_ ax);
-    //reboot();
     /*{
 #ifndef get_av
-    AV *isa = perl_get_av("FLTK::Widget::ISA", 1);
+    AV *isa = perl_get_av("Fl::Widget::ISA", 1);
 #else
-    AV *isa = get_av("FLTK::Widget::ISA", 1);
+    AV *isa = get_av("Fl::Widget::ISA", 1);
 #endif
-    av_push(isa, newSVpv("FLTK::Object", 0));
+    av_push(isa, newSVpv("Fl::Object", 0));
 }
 {
 #ifndef get_av
-    AV *isa = perl_get_av("FLTK::Window::ISA", 1);
+    AV *isa = perl_get_av("Fl::Window::ISA", 1);
 #else
-    AV *isa = get_av("FLTK::Window::ISA", 1);
+    AV *isa = get_av("Fl::Window::ISA", 1);
 #endif
-    av_push(isa, newSVpv("FLTK::Widget", 0));
+    av_push(isa, newSVpv("Fl::Widget", 0));
 }
 {
 #ifndef get_av
-    AV *isa = perl_get_av("FLTK::Box::ISA", 1);
+    AV *isa = perl_get_av("Fl::Box::ISA", 1);
 #else
-    AV *isa = get_av("FLTK::Box::ISA", 1);
+    AV *isa = get_av("Fl::Box::ISA", 1);
 #endif
-    av_push(isa, newSVpv("FLTK::Widget", 0));
+    av_push(isa, newSVpv("Fl::Widget", 0));
 }
 */

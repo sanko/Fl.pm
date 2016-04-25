@@ -1,15 +1,15 @@
-name = "FLTK"
+name = "Fl"
 badges = ["travis"]
 module_maker="ModuleBuild"
 license="artistic_2"
 c_source = ['xs']
 
 [build]
-build_class="inc::MBFLTKExt"
+build_class="inc::MBFlExt"
 
 [XSUtil]
 needs_compiler_cpp = 1
-generate_ppport_h = "xs/ppport.h"
+generate_ppport_h = "xs/include/ppport.h"
 
 [release]
 pause_config = "C:/Strawberry/pause.upload"

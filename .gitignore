@@ -29,7 +29,7 @@ cover_db/
 
 MYMETA.*
 
-/Fltk-*
+/Fl-*
 eg/output/*
 eg/raw.cxx.orig
 eg/cxx2xs.pl

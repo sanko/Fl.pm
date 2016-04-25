@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "FLTK",
+   "name" : "Fl",
    "no_index" : {
       "directory" : [
          "t",
