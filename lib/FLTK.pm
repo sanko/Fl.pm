@@ -1,13 +1,5 @@
 package FLTK;
-use 5.008001;
-use strict;
-use warnings;
-our $VERSION = '0.99.00';
-use XSLoader;
-use vars qw[@EXPORT_OK @EXPORT %EXPORT_TAGS];
-use Exporter qw[import];
 use Fl qw[:all];
-#
 BEGIN {*FLTK:: = *Fl::}
 1;
 __END__
