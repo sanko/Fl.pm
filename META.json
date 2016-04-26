@@ -56,13 +56,13 @@
    "release_status" : "unstable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/sanko/Fltk.pm/issues"
+         "web" : "https://github.com/sanko/Fl.pm/issues"
       },
-      "homepage" : "https://github.com/sanko/Fltk.pm",
+      "homepage" : "https://github.com/sanko/Fl.pm",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/sanko/Fltk.pm.git",
-         "web" : "https://github.com/sanko/Fltk.pm"
+         "url" : "git://github.com/sanko/Fl.pm.git",
+         "web" : "https://github.com/sanko/Fl.pm"
       }
    },
    "version" : "0.99.00",
