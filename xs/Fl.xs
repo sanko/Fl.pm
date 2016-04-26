@@ -36,7 +36,6 @@ void set_isa(const char * klass, const char * parent) {
     // TODO: make this spider up the list and make deeper connections?
 }
 
-
 #include <FL/Fl.H>
 
 // Execution
@@ -56,6 +55,15 @@ execute()
     INTERFACE:
         Fl::run    Fl::check
         Fl::ready
+
+BOOT:
+    Fl_stash  = gv_stashpv( "Fl", TRUE );
+    Fl_export = get_hv( "Fl::EXPORT_TAGS", TRUE );
+
+    export_tag("wait", "execute");
+    export_tag("check", "execute");
+    export_tag("ready", "execute");
+    export_tag("run", "execute");
 
 #include <FL/Fl_Widget.H>
 
@@ -166,12 +174,4 @@ Fl_Box::labelsize(int size)
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
-    Fl_stash  = gv_stashpv( "Fl", TRUE );
-    Fl_export = get_hv( "Fl::EXPORT_TAGS", TRUE );
-
     set_isa("Fl::Box", "Fl::Widget");
-
-    export_tag("wait", "execute");
-    export_tag("check", "execute");
-    export_tag("ready", "execute");
-    export_tag("run", "execute");
