@@ -1,6 +1,7 @@
 TYPEMAP
-Object * O_Class
+Object    * O_Class
 Fl_Widget * O_Class
+Fl_Group  * O_Class
 Fl_Box    * O_Class
 Fl_Window * O_Class
 

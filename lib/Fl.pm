@@ -111,6 +111,22 @@ return true until you call C<Fl::check()> or C<Fl::wait()>).
 
 =back
 
+This list will grow.
+
+=head1 Classes
+
+Fl contains several widgets and other classes including:
+
+=over
+
+=item L<Fl::Box>
+
+=item L<Fl::Window>
+
+=back
+
+This is the current list and will expand as the distribution develops.
+
 =head1 LICENSE
 
 Copyright (C) Sanko Robinson.

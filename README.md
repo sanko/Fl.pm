@@ -79,6 +79,17 @@ your namespace. These functions include:
     This returns true if `Fl::check()` would do anything (it will continue to
     return true until you call `Fl::check()` or `Fl::wait()`).
 
+This list will grow.
+
+# Classes
+
+Fl contains several widgets and other classes including:
+
+- [Fl::Box](https://metacpan.org/pod/Fl::Box)
+- [Fl::Window](https://metacpan.org/pod/Fl::Window)
+
+This is the current list and will expand as the distribution develops.
+
 # LICENSE
 
 Copyright (C) Sanko Robinson.

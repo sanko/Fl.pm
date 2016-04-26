@@ -134,14 +134,51 @@ Fl_Widget::test_shortcut()
 int
 Fl_Widget::take_focus()
 
+#include <FL/Fl_Group.H>
+
+MODULE = Fl::Group          PACKAGE = Fl::Group         PREFIX = Fl_
+
+PROTOTYPES: DISABLE
+
+=pod
+
+No Fl::Group->new(...) constructor
+
+=cut
+
+void
+Fl_Group::DESTROY()
+
 #include <FL/Fl_Window.H>
 
-MODULE = Fl::Window        PACKAGE = Fl::Window         PREFIX = Fl_
+MODULE = Fl::Window         PACKAGE = Fl::Window         PREFIX = Fl_
 
 PROTOTYPES: DISABLE
 
 Fl_Window *
-Fl_Window::new(int x, int y, int w, int h, const char * title = "")
+Fl_Window::new(...)
+    CASE: ( items == 3 || items == 4 )
+        CODE:
+            /*(int w, int h, char * title = $0)*/
+            char * label = PL_origfilename;
+            int w = (int)SvIV(ST(1));
+            int h = (int)SvIV(ST(2));
+            if (items == 4) label = (char *)SvPV_nolen(ST(3));
+            RETVAL = new Fl_Window(w,h,label);
+        OUTPUT:
+            RETVAL
+    CASE: (items == 5 || items == 6)
+        CODE:
+            /*(int x, int y, int w, int h, char * title = $0)*/
+            char * label = PL_origfilename;
+            int x = (int)SvIV(ST(1));
+            int y = (int)SvIV(ST(2));
+            int w = (int)SvIV(ST(3));
+            int h = (int)SvIV(ST(4));
+            if (items == 6) label = (char *)SvPV_nolen(ST(5));
+            RETVAL = new Fl_Window(x,y,w,h,label);
+        OUTPUT:
+            RETVAL
 
 void
 Fl_Window::DESTROY()
@@ -175,3 +212,5 @@ MODULE = Fl        PACKAGE = Fl
 
 BOOT:
     set_isa("Fl::Box", "Fl::Widget");
+    set_isa("Fl::Group", "Fl::Widget");
+    set_isa("Fl::Window", "Fl::Group");
