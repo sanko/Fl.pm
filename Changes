@@ -1,6 +1,7 @@
-Revision history for Perl extension Fltk
+Revision history for Perl extension Fl
 
 {{$NEXT}}
 
-    - original version
+0.99.00 2016-04-26T04:55:11Z
 
+    - First release. Resume project with stable 1.3.3 branch of FLTK
