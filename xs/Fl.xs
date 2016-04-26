@@ -63,14 +63,68 @@ MODULE = Fl::Widget        PACKAGE = Fl::Widget         PREFIX = Fl_
 
 PROTOTYPES: DISABLE
 
+=pod
+
+No Fl::Widget->new(...) constructor
+
+=cut
+
 void
-Fl_Widget::activate()
+Fl_Widget::DESTROY()
+
+void
+Fl_Widget::set_active()
+
+void
+Fl_Widget::set_changed()
+
+void
+Fl_Widget::set_output()
+
+void
+Fl_Widget::set_visible()
+
+void
+Fl_Widget::set_visible_focus()
+
+void
+Fl_Widget::redraw_label()
+
+void
+Fl_Widget::redraw()
 
 unsigned int
 Fl_Widget::active()
 
+unsigned int
+Fl_Widget::output()
+
 int
 Fl_Widget::active_r()
+
+int
+Fl_Widget::visible_r()
+
+int
+Fl_Widget::x()
+
+int
+Fl_Widget::y()
+
+int
+Fl_Widget::w()
+
+int
+Fl_Widget::h()
+
+int
+Fl_Widget::use_accents_menu()
+
+int
+Fl_Widget::test_shortcut()
+
+int
+Fl_Widget::take_focus()
 
 #include <FL/Fl_Window.H>
 
