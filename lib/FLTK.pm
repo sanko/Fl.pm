@@ -6,7 +6,7 @@ our $VERSION = '0.99.00';
 use XSLoader;
 use vars qw[@EXPORT_OK @EXPORT %EXPORT_TAGS];
 use Exporter qw[import];
-use Fl; # TODO: allow imports
+use Fl qw[:all];
 #
 BEGIN {*FLTK:: = *Fl::}
 1;

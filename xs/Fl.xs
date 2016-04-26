@@ -1,46 +1,41 @@
 #include "include/Fl_pm.h"
 
-SV * cvrv;
+HV * Fl_stash,  // For inserting stuff directly into Fl's namespace
+   * Fl_export; // For inserting stuff directly into Fl's exports
 
-int call ( const char * code, const char * args ) {
+void register_constant( char * name, SV * value ) {
     dTHX;
-    int retval;
-    dSP;
-    ENTER;
-        SAVETMPS;
-            PUSHMARK( sp );
-    XPUSHs( sv_2mortal( newSVpv( args, strlen( args ) ) ) );
-            PUTBACK;
-    retval = call_pv( code, G_SCALAR | G_EVAL );
-        FREETMPS;
-    LEAVE;
-    return retval;
-}
-int call ( SV * code, const char * args ) {
-    dTHX;
-    int retval;
-    dSP;
-    ENTER;
-        SAVETMPS;
-            PUSHMARK( sp );
-    XPUSHs( sv_2mortal( newSVpv( args, strlen( args ) ) ) );
-            PUTBACK;
-    retval = call_sv( code, G_SCALAR );
-        FREETMPS;
-    LEAVE;
-    return retval;
+    newCONSTSUB( Fl_stash, name, value );
 }
 
-void set_isa(char * klass, char * parent) {
+void register_constant( char * package, const char * name, SV * value ) {
     dTHX;
-#ifndef get_av
-    AV *isa = perl_get_av(klass, 1);
-#else
-    AV *isa = get_av(klass, 1);
-#endif
-    dSP;
-    av_push(isa, newSVpv(parent, 0));
+    HV * _stash  = gv_stashpv( package, TRUE );
+    newCONSTSUB( _stash, name, value );
 }
+
+void export_tag (const char * what, const char * _tag ) {
+    dTHX;
+    //warn("Exporting %s to %s", what, _tag);
+    SV ** tag = hv_fetch( Fl_export, _tag, strlen(_tag), TRUE );
+    if (tag && SvOK(* tag) && SvROK(* tag ) && (SvTYPE(SvRV(*tag))) == SVt_PVAV)
+        av_push((AV*)SvRV(*tag), newSVpv(what, 0));
+    else {
+        SV * av;
+        av = (SV*) newAV( );
+        av_push((AV*)av, newSVpv(what, 0));
+        tag = hv_store( Fl_export, _tag, strlen(_tag), newRV_noinc(av), 0 );
+    }
+}
+
+void set_isa(const char * klass, const char * parent) {
+    dTHX;
+    HV * parent_stash = gv_stashpv( parent, GV_ADD | GV_ADDMULTI );
+    av_push( get_av( form( "%s::ISA", klass ), TRUE ),
+             newSVpv( parent, 0 ) );
+    // TODO: make this spider up the list and make deeper connections?
+}
+
 
 #include <FL/Fl.H>
 
@@ -117,4 +112,12 @@ Fl_Box::labelsize(int size)
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
+    Fl_stash  = gv_stashpv( "Fl", TRUE );
+    Fl_export = get_hv( "Fl::EXPORT_TAGS", TRUE );
+
     set_isa("Fl::Box", "Fl::Widget");
+
+    export_tag("wait", "execute");
+    export_tag("check", "execute");
+    export_tag("ready", "execute");
+    export_tag("run", "execute");
