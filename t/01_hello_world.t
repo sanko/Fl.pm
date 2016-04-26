@@ -2,10 +2,7 @@ use strict;
 use warnings;
 use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
-$|++;
-use_ok $_ for qw(
-    Fl
-);
+use Fl;
 
 #use Data::Dump qw[pp];
 #diag pp \%Fl::;
