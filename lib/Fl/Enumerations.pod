@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Fl::Enumerations - Static Variables
+Fl::Enumerations - Easily Imported Static Variables
 
 =head1 Synopsis
 
@@ -69,9 +69,9 @@ The FLTK version number.
 
 Values related to Fl::Box box types including:
 
-=for :markdown [http://www.fltk.org/doc-1.3/boxtypes.png]
+=for markdown [http://www.fltk.org/doc-1.3/boxtypes.png]
 
-=for :html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
+=for html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
 
 =over
 
