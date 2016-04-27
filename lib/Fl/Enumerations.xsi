@@ -6,11 +6,9 @@ BOOT:
     export_constant( "FL_MAJOR_VERSION", "version", newSViv(FL_MAJOR_VERSION ));
     export_constant( "FL_MINOR_VERSION", "version", newSViv(FL_MINOR_VERSION ));
     export_constant( "FL_PATCH_VERSION", "version", newSViv(FL_PATCH_VERSION ));
-    export_constant( "FL_VERSION",       "version", newSViv(FL_VERSION ));
-
+    export_constant( "FL_VERSION",       "version", newSVnv(FL_VERSION ));
 
     export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(FL_ROUND_UP_BOX));
-
 
     export_constant( "FL_NO_BOX",                   "box", newSViv(FL_NO_BOX));
     export_constant( "FL_FLAT_BOX",                 "box", newSViv(FL_FLAT_BOX));
