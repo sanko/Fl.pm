@@ -86,6 +86,7 @@ This list will grow.
 Fl contains several widgets and other classes including:
 
 - [Fl::Box](https://metacpan.org/pod/Fl::Box)
+- [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)
 
 This is the current list and will expand as the distribution develops.
