@@ -3,9 +3,10 @@ Revision history for Perl extension Fl
 {{$NEXT}}
 
     - FLTK.pm now has a $VERSION
-    - Fl_Label types exported with :label tag
-    - FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION, FL_VERSION exported with :version tag
-    - Fl_Boxtype types exported with :box tag
+    - New export values found in Fl::Enumerations
+        - Fl_Label types exported with :label tag
+        - FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION, FL_VERSION exported with :version tag
+        - Fl_Boxtype types exported with :box tag
     - We don't need to link with internal image or gl libs on most systems
     - New Widgets: Fl::Window, Fl::Box, Fl::Group
 
