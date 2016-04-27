@@ -11,13 +11,7 @@ my $box = new_ok
     'Fl::Box' => [FL_UP_BOX, 20, 40, 300, 100, 'Hello, World!'],
     'box w/ label and box type';
 #
-can_ok $box, 'labelsize';
-can_ok $box, 'labeltype';
-can_ok $box, 'labelfont';
-#
-$box->labelfont(FL_BOLD + FL_ITALIC);
-$box->labelsize(36);
-$box->labeltype(FL_SHADOW_LABEL);
+isa_ok $box, 'Fl::Widget';
 #
 undef $box;
 is $box, undef, 'box is now undef';

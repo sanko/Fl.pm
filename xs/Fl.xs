@@ -141,6 +141,15 @@ Fl_Widget::test_shortcut()
 int
 Fl_Widget::take_focus()
 
+void
+Fl_Widget::labelfont(Fl_Font font)
+
+void
+Fl_Widget::labelsize(int size)
+
+void
+Fl_Widget::labeltype(Fl_Labeltype type)
+
 INCLUDE: ../lib/Fl/Group.pod
 
 INCLUDE: ../lib/Fl/Window.pod
