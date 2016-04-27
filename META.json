@@ -65,6 +65,6 @@
          "web" : "https://github.com/sanko/Fl.pm"
       }
    },
-   "version" : "0.99.00",
+   "version" : "0.99.1",
    "x_serialization_backend" : "JSON::PP version 2.27300"
 }
