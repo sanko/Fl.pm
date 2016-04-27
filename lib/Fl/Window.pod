@@ -8,7 +8,13 @@ Fl::Window -
 
 =head1 Description
 
+
+
+
 =head1 Methods
+
+In addition to inheriting from Fl::Group, this widget also supports the
+following methods.
 
 =cut
 
@@ -20,10 +26,10 @@ PROTOTYPES: DISABLE
 
 =pod
 
-=head1 new(...)
+=head2 new(...)
 
 The constructor creates a window of a given size and (optionally) position on
-screen.
+screen. The upstream API has a few poorly designed options:
 
     my $window_a = Fl::Window->new(300, 500);
 
@@ -35,10 +41,48 @@ like this:
 If not provided, the window's title defaults to the filename of the current
 running script.
 
+You'll notice that the above examples don't define an on screen position. The
+window manager is allowed to place the new window as it sees fit. To define a
+position yourself, use either:
 
-The destructor I<also deletes all children.> This allows a whole tree to be
-deleted at once, without having to keep a pointer to all children in the user
-code.
+    my $window_c = Fl::Window->new(100, 150, 300, 500);
+
+...or...
+
+    my $window_d = Fl::Window->new(100, 150, 300, 500, 'Math is singular');
+
+In these examples, the new window is placed 100 pixels from the left and 150
+pixels down from the top of the display area.
+
+=begin TODO
+
+Ideally, we could also create windows with something like:
+
+    my $window = Fl::Window->new(
+        -position => [100, 100],
+        -size     => [380, 400],
+        -title    => 'NA'
+    );
+
+=end TODO
+
+Again, the ($w, $h) form of the constructor creates a top-level window and
+asks the window manager to position the window. The ($x, $y, $w, $h) form of
+the constructor either creates a subwindow or a top-level window at the
+specified location ($x, $y), subject to window manager configuration. If you
+do not specify the position of the window, the window manager will pick a
+place to show the window or allow the user to pick a location. Use
+C<position($x, $y)> or C<hotspot()> before calling C<show()> to request a
+position on the screen. See L<Fl::Window->resize()/resize(...)> for more
+details on positioning windows.
+
+Top-level windows initially have C<visible()> set to 0 and <parent()> set to
+C<undef>. Subwindows initially have C<visible()> set to 1 and C<parent()> set
+to the parent window pointer.
+
+Fl::Widget->box() defaults to C<FL_FLAT_BOX>. If you plan to completely fill
+the window with children widgets you should change this to C<FL_NO_BOX>. If
+you turn the window border off you may want to change this to C<FL_UP_BOX>.
 
 =cut
 
@@ -67,11 +111,69 @@ Fl_Window::new(...)
         OUTPUT:
             RETVAL
 
+=pod
+
+The destructor I<also deletes all children.> This allows a whole tree to be
+deleted at once, without having to keep a pointer to all children in the user
+code.
+
+=cut
+
 void
 Fl_Window::DESTROY()
 
+=pod
+
+=head2 show()
+
+Puts the window on the screen.
+
+On X, this usually has the side effect of opening the display.
+
+If the window is already shown, it is restored and raised to the top. This is
+really convenient because your program can call C<show()> at any time, even if
+the window is already up. It also means that C<show()> serves the purpose of
+C<raise()> in other toolkits.
+
+=cut
+
 void
 Fl_Window::show()
+
+=pod
+
+=head2 shown()
+
+Returns non-zero if C<show()> has been called but not C<hide()>.
+
+You can tell if a window is iconified with C<( $w->shown() && !$w->visible() )>.
+
+=cut
+
+int
+Fl_Window::shown()
+
+=pod
+
+=head2 hide()
+
+Removes the window from the screen.
+
+If the window is already hidden or has not been hsown then this does nothing
+and is harmless.
+
+=cut
+
+void
+Fl_Window::hide()
+
+=pod
+
+=head2 end()
+
+
+
+=cut
 
 void
 Fl_Window::end()

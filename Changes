@@ -6,6 +6,8 @@ Revision history for Perl extension Fl
     - Fl_Label types exported with :label tag
     - FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION, FL_VERSION exported with :version tag
     - Fl_Boxtype types exported with :box tag
+    - We don't need to link with internal image or gl libs on most systems
+    - New Widgets: Fl::Window, Fl::Box, Fl::Group
 
 0.99.00 2016-04-26T04:55:11Z
 

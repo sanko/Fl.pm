@@ -141,20 +141,7 @@ Fl_Widget::test_shortcut()
 int
 Fl_Widget::take_focus()
 
-#include <FL/Fl_Group.H>
-
-MODULE = Fl::Group          PACKAGE = Fl::Group         PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
-No Fl::Group->new(...) constructor
-
-=cut
-
-void
-Fl_Group::DESTROY()
+INCLUDE: ../lib/Fl/Group.pod
 
 INCLUDE: ../lib/Fl/Window.pod
 

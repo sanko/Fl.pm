@@ -1,0 +1,80 @@
+=pod
+
+=head1 NAME
+
+Fl::Group - The FLTK Container Widget
+
+=head1 Synopsis
+
+=head1 Description
+
+Fl::Group is the FLTK container widget.
+
+It maintains an array of child widgets. These children can themselves be any
+widget including Fl::Group. The most important subclass of Fl::Group is
+Fl::Window, however groups can also be used to control radio buttons or to
+enforce resize behavior.
+
+The tab and arrow keys are used to move the focus between widgets of this
+group, and to other groups. The only modifier grabbed is shift (for
+shift-tab), so that ctrl-tab, alt-up, and such are free for the app to use as
+shortcuts.
+
+=head1 Methods
+
+=cut
+
+#include <FL/Fl_Group.H>
+
+MODULE = Fl::Group         PACKAGE = Fl::Group         PREFIX = Fl_
+
+PROTOTYPES: DISABLE
+
+=pod
+
+=head2 new(...)
+
+The constructor creates a group of a given size and position on screen or
+within the parent.
+
+    my $group_a = Fl::Group->new(100, 150, 300, 500);
+
+...or...
+
+    my $group_b = Fl::Group->new(100, 150, 300, 500, 'Math is singular');
+
+In these examples, the new group is placed 100 pixels from the left and 150
+pixels down from the top of either the display area or parent widget.
+
+=begin TODO
+
+Ideally, we could also create windows with something like:
+
+    my $window = Fl::Group->new(
+        -position => [100, 100],
+        -size     => [380, 400],
+        -title    => 'NA'
+    );
+
+=end TODO
+
+=cut
+
+Fl_Group *
+Fl_Group::new(int x, int y, int w, int h, char * title = PL_origfilename)
+
+=pod
+
+The destructor I<also deletes all children.> This allows a whole tree to be
+deleted at once, without having to keep a pointer to all children in the user
+code.
+
+=cut
+
+void
+Fl_Group::DESTROY()
+
+MODULE = Fl        PACKAGE = Fl
+
+BOOT:
+    set_isa("Fl::Group", "Fl::Widget");
