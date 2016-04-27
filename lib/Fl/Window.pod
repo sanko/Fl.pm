@@ -2,14 +2,33 @@
 
 =head1 NAME
 
-Fl::Window -
+Fl::Window - Window Container for Widgets
 
 =head1 Synopsis
 
+    use Fl;
+    my $window = Fl::Window->new(350, 500, 'Hello, World!');
+    $window->show();
+    Fl::run();
+
 =head1 Description
 
+This widget produces an actual window.
 
+This can either be a main window, with a border and title and all the window
+management controls, or a "subwindow" inside a window. This is controlled by
+whether or not the window has a C<parent()>.
 
+Once you create a window, you usually add children L<Fl::Widget>s to it by
+using C<<$window->add($child)>> for each new widget. See Fl::Group for more
+information on how to add and remove children.
+
+There are several subclasses of Fl::Window that provide double-buffering,
+overlay, menu, and OpenGL support.
+
+The window's callback is done if the user tries to close a window using the
+window manager and Fl::modal() is zero or equal to the window. Fl::Window has
+a default callback that calls C<<Fl::Window->hide()>>.
 
 =head1 Methods
 
