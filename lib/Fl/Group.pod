@@ -74,7 +74,53 @@ code.
 void
 Fl_Group::DESTROY()
 
+=pod
+
+=head2 begin()
+
+Sets the current group so youcan build the widget tree by just constructing
+the widgets.
+
+    $group_a->begin();
+    Fl::Box->new(100, 75); # Automatically added to $group_a
+
+C<begin()> is automatically called by the constructor for Fl::Group (and thus
+Fl::Window as well). <begin()> is exactly the same as C<Fl::current(...)>.
+Don't gorget to C<end()> the group or window!
+
+=cut
+
+void
+Fl_Group::begin()
+
+=pod
+
+=head2 end()
+
+Any new widgets added to the widget tree will be added to the parent of the
+group.
+
+=cut
+
+void
+Fl_Group::end()
+
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
     set_isa("Fl::Group", "Fl::Widget");
+
+=pod
+
+=head1 LICENSE
+
+Copyright (C) Sanko Robinson.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Sanko Robinson E<lt>sanko@cpan.orgE<gt>
+
+=cut

@@ -167,17 +167,6 @@ and is harmless.
 void
 Fl_Window::hide()
 
-=pod
-
-=head2 end()
-
-
-
-=cut
-
-void
-Fl_Window::end()
-
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:

@@ -11,6 +11,8 @@ my $group2 = new_ok
 #
 isa_ok $group, 'Fl::Widget';
 #
-#can_ok $window, 'end';
+can_ok $group, 'begin';
+can_ok $group, 'end';
+
 #
 done_testing;
