@@ -37,3 +37,8 @@ Fl_Window::show()
 
 void
 Fl_Window::end()
+
+MODULE = Fl        PACKAGE = Fl
+
+BOOT:
+    set_isa("Fl::Window", "Fl::Group");

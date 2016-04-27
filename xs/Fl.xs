@@ -3,12 +3,12 @@
 HV * Fl_stash,  // For inserting stuff directly into Fl's namespace
    * Fl_export; // For inserting stuff directly into Fl's exports
 
-void register_constant( char * name, SV * value ) {
+void register_constant( const char * name, SV * value ) {
     dTHX;
     newCONSTSUB( Fl_stash, name, value );
 }
 
-void register_constant( char * package, const char * name, SV * value ) {
+void register_constant( const char * package, const char * name, SV * value ) {
     dTHX;
     HV * _stash  = gv_stashpv( package, TRUE );
     newCONSTSUB( _stash, name, value );
@@ -26,6 +26,11 @@ void export_tag (const char * what, const char * _tag ) {
         av_push((AV*)av, newSVpv(what, 0));
         tag = hv_store( Fl_export, _tag, strlen(_tag), newRV_noinc(av), 0 );
     }
+}
+
+void export_constant( const char * name, const char * _tag, SV * value ) {
+    register_constant(name, value);
+    export_tag(name, _tag);
 }
 
 void set_isa(const char * klass, const char * parent) {
@@ -64,6 +69,8 @@ BOOT:
     export_tag("check", "execute");
     export_tag("ready", "execute");
     export_tag("run", "execute");
+
+INCLUDE: ../lib/Fl/Enumerations.xsi
 
 #include <FL/Fl_Widget.H>
 
@@ -151,28 +158,12 @@ Fl_Group::DESTROY()
 
 INCLUDE: ../lib/Fl/Window.xsi
 
-#include <FL/Fl_Box.H>
-
-MODULE = Fl::Box        PACKAGE = Fl::Box            PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-Fl_Box *
-Fl_Box::new(int x, int y, int w, int h, const char * label = "" )
-
-void
-Fl_Box::DESTROY()
-
-void
-Fl_Box::labelfont(int font)
-
-void
-Fl_Box::labelsize(int size)
-
+INCLUDE: ../lib/Fl/Box.xsi
 
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
-    set_isa("Fl::Box", "Fl::Widget");
     set_isa("Fl::Group", "Fl::Widget");
-    set_isa("Fl::Window", "Fl::Group");
+
+    //register_constant( "DAMAGE_PUSHED", newSViv(fltk::DAMAGE_PUSHED));
+    //export_tag( "DAMAGE_PUSHED", "damage" );

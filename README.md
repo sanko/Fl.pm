@@ -5,12 +5,12 @@ Fl - Bindings for the Stable 1.3.x Branch of the Fast Light Toolkit
 
 # SYNOPSIS
 
-    use Fl qw[:execute];
+    use Fl qw[:execute :label :box :font];
     my $window = Fl::Window->new(100, 100, 300, 180);
-    my $box = Fl::Box->new(20, 40, 260, 100, 'Hello, World');
-    #$box->labelfont(BOLD + ITALIC); # TODO
+    my $box = Fl::Box->new(FL_UP_BOX, 20, 40, 260, 100, 'Hello, World');
+    $box->labelfont(FL_BOLD + FL_ITALIC);
     $box->labelsize(36);
-    #$box->labelfont(SHADOW_LABEL); # TODO
+    $box->labeltype(FL_SHADOW_LABEL);
     $window->end();
     $window->show();
     exit run();

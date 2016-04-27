@@ -1,0 +1,49 @@
+#include <FL/Fl_Box.H>
+
+MODULE = Fl::Box        PACKAGE = Fl::Box            PREFIX = Fl_
+
+PROTOTYPES: DISABLE
+
+Fl_Box *
+Fl_Box::new( ... )
+    CASE: (items == 5 || items == 6)
+        CODE:
+            /*(int x, int y, int w, int h, char * title = $0)*/
+            char * label = "";
+            int x = (int)SvIV(ST(1));
+            int y = (int)SvIV(ST(2));
+            int w = (int)SvIV(ST(3));
+            int h = (int)SvIV(ST(4));
+            if (items == 6) label = (char *)SvPV_nolen(ST(5));
+            RETVAL = new Fl_Box(x,y,w,h,label);
+        OUTPUT:
+            RETVAL
+    CASE: ( items == 7 )
+        CODE:
+            /*(Fl_Boxtype b, int x, int y, int w, int h, char * title)*/
+            Fl_Boxtype b = (Fl_Boxtype)SvIV(ST(1));
+            int x = (int)SvIV(ST(2));
+            int y = (int)SvIV(ST(3));
+            int w = (int)SvIV(ST(4));
+            int h = (int)SvIV(ST(5));
+            char * label = (char *)SvPV_nolen(ST(6));
+            RETVAL = new Fl_Box(b,x,y,w,h,label);
+        OUTPUT:
+            RETVAL
+
+void
+Fl_Box::DESTROY()
+
+void
+Fl_Box::labelfont(Fl_Font font)
+
+void
+Fl_Box::labelsize(int size)
+
+void
+Fl_Box::labeltype(Fl_Labeltype type)
+
+MODULE = Fl        PACKAGE = Fl
+
+BOOT:
+    set_isa("Fl::Box", "Fl::Widget");

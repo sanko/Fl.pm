@@ -1,0 +1,108 @@
+#include <Fl/Enumerations.H>
+
+MODULE = Fl        PACKAGE = Fl
+
+BOOT:
+    export_constant( "FL_MAJOR_VERSION", "version", newSViv(FL_MAJOR_VERSION ));
+    export_constant( "FL_MINOR_VERSION", "version", newSViv(FL_MINOR_VERSION ));
+    export_constant( "FL_PATCH_VERSION", "version", newSViv(FL_PATCH_VERSION ));
+    export_constant( "FL_VERSION",       "version", newSViv(FL_VERSION ));
+
+
+    export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(FL_ROUND_UP_BOX));
+
+
+    export_constant( "FL_NO_BOX",                   "box", newSViv(FL_NO_BOX));
+    export_constant( "FL_FLAT_BOX",                 "box", newSViv(FL_FLAT_BOX));
+    export_constant( "FL_UP_BOX",                   "box", newSViv(FL_UP_BOX));
+    export_constant( "FL_DOWN_BOX",                 "box", newSViv(FL_DOWN_BOX));
+    export_constant( "FL_UP_FRAME",                 "box", newSViv(FL_UP_FRAME));
+    export_constant( "FL_DOWN_FRAME",               "box", newSViv(FL_DOWN_FRAME));
+    export_constant( "FL_THIN_UP_BOX",              "box", newSViv(FL_THIN_UP_BOX));
+    export_constant( "FL_THIN_DOWN_BOX",            "box", newSViv(FL_THIN_DOWN_BOX));
+    export_constant( "FL_THIN_UP_FRAME",            "box", newSViv(FL_THIN_UP_FRAME));
+    export_constant( "FL_THIN_DOWN_FRAME",          "box", newSViv(FL_THIN_DOWN_FRAME));
+    export_constant( "FL_ENGRAVED_BOX",             "box", newSViv(FL_ENGRAVED_BOX));
+    export_constant( "FL_EMBOSSED_BOX",             "box", newSViv(FL_EMBOSSED_BOX));
+    export_constant( "FL_ENGRAVED_FRAME",           "box", newSViv(FL_ENGRAVED_FRAME));
+    export_constant( "FL_EMBOSSED_FRAME",           "box", newSViv(FL_EMBOSSED_FRAME));
+    export_constant( "FL_BORDER_BOX",               "box", newSViv(FL_BORDER_BOX));
+    export_constant( "_FL_SHADOW_BOX",              "box", newSViv(_FL_SHADOW_BOX));
+    export_constant( "FL_BORDER_FRAME",             "box", newSViv(FL_BORDER_FRAME));
+    export_constant( "_FL_SHADOW_FRAME",            "box", newSViv(_FL_SHADOW_FRAME));
+    export_constant( "_FL_ROUNDED_BOX",             "box", newSViv(_FL_ROUNDED_BOX));
+    export_constant( "_FL_RSHADOW_BOX",             "box", newSViv(_FL_RSHADOW_BOX));
+    export_constant( "_FL_ROUNDED_FRAME",           "box", newSViv(_FL_ROUNDED_FRAME));
+    export_constant( "_FL_RFLAT_BOX",               "box", newSViv(_FL_RFLAT_BOX));
+    export_constant( "_FL_ROUND_UP_BOX",            "box", newSViv(_FL_ROUND_UP_BOX));
+    export_constant( "_FL_ROUND_DOWN_BOX",          "box", newSViv(_FL_ROUND_DOWN_BOX));
+    export_constant( "_FL_DIAMOND_UP_BOX",          "box", newSViv(_FL_DIAMOND_UP_BOX));
+    export_constant( "_FL_DIAMOND_DOWN_BOX",        "box", newSViv(_FL_DIAMOND_DOWN_BOX));
+    export_constant( "_FL_OVAL_BOX",                "box", newSViv(_FL_OVAL_BOX));
+    export_constant( "_FL_OSHADOW_BOX",             "box", newSViv(_FL_OSHADOW_BOX));
+    export_constant( "_FL_OVAL_FRAME",              "box", newSViv(_FL_OVAL_FRAME));
+    export_constant( "_FL_OFLAT_BOX",               "box", newSViv(_FL_OFLAT_BOX));
+    export_constant( "_FL_PLASTIC_UP_BOX",          "box", newSViv(_FL_PLASTIC_UP_BOX));
+    export_constant( "_FL_PLASTIC_DOWN_BOX",        "box", newSViv(_FL_PLASTIC_DOWN_BOX));
+    export_constant( "_FL_PLASTIC_UP_FRAME",        "box", newSViv(_FL_PLASTIC_UP_FRAME));
+    export_constant( "_FL_PLASTIC_DOWN_FRAME",      "box", newSViv(_FL_PLASTIC_DOWN_FRAME));
+    export_constant( "_FL_PLASTIC_THIN_UP_BOX",     "box", newSViv(_FL_PLASTIC_THIN_UP_BOX));
+    export_constant( "_FL_PLASTIC_THIN_DOWN_BOX",   "box", newSViv(_FL_PLASTIC_THIN_DOWN_BOX));
+    export_constant( "_FL_PLASTIC_ROUND_UP_BOX",    "box", newSViv(_FL_PLASTIC_ROUND_UP_BOX));
+    export_constant( "_FL_PLASTIC_ROUND_DOWN_BOX",  "box", newSViv(_FL_PLASTIC_ROUND_DOWN_BOX));
+    export_constant( "_FL_GTK_UP_BOX",              "box", newSViv(_FL_GTK_UP_BOX));
+    export_constant( "_FL_GTK_DOWN_BOX",            "box", newSViv(_FL_GTK_DOWN_BOX));
+    export_constant( "_FL_GTK_UP_FRAME",            "box", newSViv(_FL_GTK_UP_FRAME));
+    export_constant( "_FL_GTK_DOWN_FRAME",          "box", newSViv(_FL_GTK_DOWN_FRAME));
+    export_constant( "_FL_GTK_THIN_UP_BOX",         "box", newSViv(_FL_GTK_THIN_UP_BOX));
+    export_constant( "_FL_GTK_THIN_DOWN_BOX",       "box", newSViv(_FL_GTK_THIN_DOWN_BOX));
+    export_constant( "_FL_GTK_THIN_UP_FRAME",       "box", newSViv(_FL_GTK_THIN_UP_FRAME));
+    export_constant( "_FL_GTK_THIN_DOWN_FRAME",     "box", newSViv(_FL_GTK_THIN_DOWN_FRAME));
+    export_constant( "_FL_GTK_ROUND_UP_BOX",        "box", newSViv(_FL_GTK_ROUND_UP_BOX));
+    export_constant( "_FL_GTK_ROUND_DOWN_BOX",      "box", newSViv(_FL_GTK_ROUND_DOWN_BOX));
+    export_constant( "_FL_GLEAM_UP_BOX",            "box", newSViv(_FL_GLEAM_UP_BOX));
+    export_constant( "_FL_GLEAM_DOWN_BOX",          "box", newSViv(_FL_GLEAM_DOWN_BOX));
+    export_constant( "_FL_GLEAM_UP_FRAME",          "box", newSViv(_FL_GLEAM_UP_FRAME));
+    export_constant( "_FL_GLEAM_DOWN_FRAME",        "box", newSViv(_FL_GLEAM_DOWN_FRAME));
+    export_constant( "_FL_GLEAM_THIN_UP_BOX",       "box", newSViv(_FL_GLEAM_THIN_UP_BOX));
+    export_constant( "_FL_GLEAM_THIN_DOWN_BOX",     "box", newSViv(_FL_GLEAM_THIN_DOWN_BOX));
+    export_constant( "_FL_GLEAM_ROUND_UP_BOX",      "box", newSViv(_FL_GLEAM_ROUND_UP_BOX));
+    export_constant( "_FL_GLEAM_ROUND_DOWN_BOX",    "box", newSViv(_FL_GLEAM_ROUND_DOWN_BOX));
+    export_constant( "FL_FREE_BOXTYPE",             "box", newSViv(FL_FREE_BOXTYPE));
+
+    // Fl_Labeltype
+    export_constant( "FL_NORMAL_LABEL",    "label", newSViv(FL_NORMAL_LABEL));
+    export_constant( "FL_NO_LABEL",        "label", newSViv(FL_NO_LABEL));
+    export_constant( "_FL_SHADOW_LABEL",   "label", newSViv(_FL_SHADOW_LABEL));
+    export_constant( "_FL_ENGRAVED_LABEL", "label", newSViv(_FL_ENGRAVED_LABEL));
+    export_constant( "_FL_EMBOSSED_LABEL", "label", newSViv(_FL_EMBOSSED_LABEL));
+    export_constant( "_FL_MULTI_LABEL",    "label", newSViv(_FL_MULTI_LABEL));
+    export_constant( "_FL_ICON_LABEL",     "label", newSViv(_FL_ICON_LABEL));
+    export_constant( "_FL_IMAGE_LABEL",    "label", newSViv(_FL_IMAGE_LABEL));
+    export_constant( "FL_FREE_LABELTYPE",  "label", newSViv(FL_FREE_LABELTYPE));
+
+    export_constant( "FL_SHADOW_LABEL",   "label", newSViv(FL_SHADOW_LABEL));
+    export_constant( "FL_ENGRAVED_LABEL", "label", newSViv(FL_ENGRAVED_LABEL));
+    export_constant( "FL_EMBOSSED_LABEL", "label", newSViv(FL_EMBOSSED_LABEL));
+
+    // Fl_Font
+    export_constant( "FL_HELVETICA",             "font", newSViv(FL_HELVETICA));
+    export_constant( "FL_HELVETICA_BOLD",        "font", newSViv(FL_HELVETICA_BOLD));
+    export_constant( "FL_HELVETICA_ITALIC",      "font", newSViv(FL_HELVETICA_ITALIC));
+    export_constant( "FL_HELVETICA_BOLD_ITALIC", "font", newSViv(FL_HELVETICA_BOLD_ITALIC));
+    export_constant( "FL_COURIER",               "font", newSViv(FL_COURIER));
+    export_constant( "FL_COURIER_BOLD",          "font", newSViv(FL_COURIER_BOLD));
+    export_constant( "FL_COURIER_ITALIC",        "font", newSViv(FL_COURIER_ITALIC));
+    export_constant( "FL_COURIER_BOLD_ITALIC",   "font", newSViv(FL_COURIER_BOLD_ITALIC));
+    export_constant( "FL_TIMES",                 "font", newSViv(FL_TIMES));
+    export_constant( "FL_TIMES_BOLD",            "font", newSViv(FL_TIMES_BOLD));
+    export_constant( "FL_TIMES_ITALIC",          "font", newSViv(FL_TIMES_ITALIC));
+    export_constant( "FL_TIMES_BOLD_ITALIC",     "font", newSViv(FL_TIMES_BOLD_ITALIC));
+    export_constant( "FL_SYMBOL",                "font", newSViv(FL_SYMBOL));
+    export_constant( "FL_SCREEN",                "font", newSViv(FL_SCREEN));
+    export_constant( "FL_SCREEN_BOLD",           "font", newSViv(FL_SCREEN_BOLD));
+    export_constant( "FL_ZAPF_DINGBATS",         "font", newSViv(FL_ZAPF_DINGBATS));
+    export_constant( "FL_FREE_FONT",             "font", newSViv(FL_FREE_FONT));
+    export_constant( "FL_BOLD",                  "font", newSViv(FL_BOLD));
+ 	export_constant( "FL_ITALIC",                "font", newSViv(FL_ITALIC));
+    export_constant( "FL_BOLD_ITALIC",           "font", newSViv(FL_BOLD_ITALIC));

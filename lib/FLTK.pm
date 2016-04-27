@@ -16,9 +16,9 @@ FLTK - Historical Package Name Alias
     use FLTK qw[:label];
     my $window = FLTK::Window->new(100, 100, 300, 180);
     my $box = FLTK::Box->new(20, 40, 260, 100, 'Hello, World');
-    #$box->labelfont(BOLD + ITALIC); # TODO
+    $box->labelfont(BOLD + ITALIC); # TODO
     $box->labelsize(36);
-    #$box->labelfont(SHADOW_LABEL); # TODO
+    $box->labelfont(SHADOW_LABEL); # TODO
     $window->end();
     $window->show();
     exit FLTK::run();
