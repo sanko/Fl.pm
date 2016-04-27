@@ -1,7 +1,7 @@
 package FLTK;
 use Fl qw[:all];
-BEGIN {*FLTK:: = *Fl::}
 our $VERSION = '0.99.00';
+BEGIN {*FLTK:: = *Fl::}
 1;
 __END__
 
