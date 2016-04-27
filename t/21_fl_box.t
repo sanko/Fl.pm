@@ -15,4 +15,5 @@ isa_ok $box, 'Fl::Widget';
 #
 undef $box;
 is $box, undef, 'box is now undef';
+#
 done_testing;

@@ -6,6 +6,11 @@ Fl::Group - The FLTK Container Widget
 
 =head1 Synopsis
 
+    my $group = Fl::Group->new(100, 200, 340, 180);
+    $group->begin();
+    # Create new widgets here
+    $group->end();
+
 =head1 Description
 
 Fl::Group is the FLTK container widget.
@@ -21,6 +26,8 @@ shift-tab), so that ctrl-tab, alt-up, and such are free for the app to use as
 shortcuts.
 
 =head1 Methods
+
+Fl::Group is a subclass of Fl::Widget but also supports these methods:
 
 =cut
 
@@ -76,6 +83,36 @@ Fl_Group::DESTROY()
 
 =pod
 
+=head2 C<add(...)>
+
+    my $button = Fl::Button->new(...);
+    $group->add($button);
+
+Adds a widget to the end of this group. If the widget already has a parent, it
+is first removed from that parent.
+
+=cut
+
+void
+Fl_Group::add(Fl_Widget * widget)
+
+=pod
+
+=head2 C<add_resizable(...)>
+
+    my $button = Fl::Button->new(...);
+    $group->add_resizable($button);
+
+Adds the widget to the group and makes it the resizable widget.
+
+=cut
+
+void
+Fl_Group::add_resizable(Fl_Widget * widget)
+    C_ARGS: * widget
+
+=pod
+
 =head2 begin()
 
 Sets the current group so youcan build the widget tree by just constructing
@@ -92,6 +129,31 @@ Don't gorget to C<end()> the group or window!
 
 void
 Fl_Group::begin()
+
+=pod
+
+=head2 C<children()>
+
+Returns how many child widgets the group has.
+
+=cut
+
+int
+Fl_Group::children()
+
+=pod
+
+=head2 C<clear()>
+
+Deletes all child widgets from memory recursively.
+
+This method differs from the C<remove()> method in that it affects all child
+widgets and deletes them from memory.
+
+=cut
+
+void
+Fl_Group::clear()
 
 =pod
 
@@ -124,3 +186,10 @@ it under the same terms as Perl itself.
 Sanko Robinson E<lt>sanko@cpan.orgE<gt>
 
 =cut
+
+/*
+    TODO
+        - array()
+        ? as_group()
+        - child()
+*/

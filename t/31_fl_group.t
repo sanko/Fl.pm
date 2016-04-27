@@ -11,8 +11,11 @@ my $group2 = new_ok
 #
 isa_ok $group, 'Fl::Widget';
 #
+can_ok $group, 'add';
+can_ok $group, 'add_resizable';
 can_ok $group, 'begin';
+can_ok $group, 'children';
+can_ok $group, 'clear';
 can_ok $group, 'end';
-
 #
 done_testing;
