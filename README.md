@@ -22,9 +22,12 @@ Light Toolkit; a cross-platform GUI toolkit compatible with Microsoft Windows,
 MacOS X, and Linux/Unix platforms with X11. It was designed to be small, quick
 and comes with a very simple yet complete API.
 
-# Functions
+# Functions & Exports
 
-The top level Fl namespace exports several functions sorted by type.
+The top level Fl namespace exports several functions sorted by type. This list
+will grow as the dist develops.
+
+## `:execute`
 
     use Fl qw[:execute];
 
@@ -79,7 +82,13 @@ your namespace. These functions include:
     This returns true if `Fl::check()` would do anything (it will continue to
     return true until you call `Fl::check()` or `Fl::wait()`).
 
-This list will grow.
+## `:enum`
+
+    use Fl qw[:enum]; # All Fl::Enumeration values
+    use Fl qw[:font]; # Only import enum values related to fonttype
+
+The `:enum` and related tags allow you to import values listed in
+Fl::Enumerations.
 
 # Classes
 

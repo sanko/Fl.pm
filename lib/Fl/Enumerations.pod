@@ -4,9 +4,14 @@
 
 Fl::Enumerations - Static Variables
 
+=head1 Synopsis
+
+    use Fl qw[:enum]; # Import everything!
+    use Fl qw[:font]; # Import fonts
+
 =head1 Description
 
-...
+This file contains type definitions and general enumerations.
 
 =head1 Exports
 
@@ -29,21 +34,91 @@ This tag imports values related to the library and its version number:
 
 =item FL_MAJOR_VERSION
 
+The major release version of this FLTK library.
+
 =item FL_MINOR_VERSION
+
+The minor release version for this library.
+
+FLTK remains mostly source-code compatible between minor version changes.
 
 =item FL_PATCH_VERSION
 
+The patch version for this library.
+
+FLTK remains binary compatible between patches.
+
 =item FL_VERSION
+
+The FLTK version number.
+
+    FL_MAJOR_VERSION + (FL_MINOR_VERSION * 0.01) + (FL_PATCH_VERSION * 0.0001)
 
 =back
 
 =cut
+
     export_constant( "FL_MAJOR_VERSION", "version", newSViv(FL_MAJOR_VERSION ));
     export_constant( "FL_MINOR_VERSION", "version", newSViv(FL_MINOR_VERSION ));
     export_constant( "FL_PATCH_VERSION", "version", newSViv(FL_PATCH_VERSION ));
     export_constant( "FL_VERSION",       "version", newSVnv(FL_VERSION ));
 
+=pod
 
+=head2 C<:box>
+
+Values related to Fl::Box box types including:
+
+=for :markdown [http://www.fltk.org/doc-1.3/boxtypes.png]
+
+=for :html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
+
+=over
+
+=item FL_NO_BOX
+
+Nothing is drawn at all. This box is invisible and the default for
+Fl::Box->new(...).
+
+=item FL_FLAT_BOX
+
+A flat box.
+
+=item FL_UP_BOX
+
+=item FL_DOWN_BOX
+
+=item FL_UP_FRAME
+
+=item FL_DOWN_FRAME
+
+=item FL_THIN_UP_BOX
+
+=item FL_THIN_DOWN_BOX
+
+=item FL_THIN_UP_FRAME
+
+=item FL_THIN_DOWN_FRAME
+
+=item FL_ENGRAVED_BOX
+
+=item FL_EMBOSSED_BOX
+
+=item FL_ENGRAVED_FRAME
+
+=item FL_EMBOSSED_FRAME
+
+=item FL_BORDER_BOX
+
+=item FL_BORDER_FRAME
+
+=item FL_FREE_BOXTYPE
+
+The first free box type for creation of new box types.
+
+=back
+
+=cut
 
     export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(FL_ROUND_UP_BOX));
 
@@ -105,6 +180,43 @@ This tag imports values related to the library and its version number:
     export_constant( "_FL_GLEAM_ROUND_DOWN_BOX",    "box", newSViv(_FL_GLEAM_ROUND_DOWN_BOX));
     export_constant( "FL_FREE_BOXTYPE",             "box", newSViv(FL_FREE_BOXTYPE));
 
+=pod
+
+=head2 C<:label>
+
+The C<labeltype()> method of Fl::Widget sets the type of the label. The
+following standard label types are included:
+
+=over
+
+=item FL_NORMAL_LABEL
+
+Draws the text.
+
+=item FL_NO_LABEL
+
+Does nothing.
+
+=item FL_SHADOW_LABEL
+
+Draws a drop shadow under the text.
+
+=item FL_ENGRAVED_LABEL
+
+Draws edges as though the text is engraved.
+
+=item FL_EMBOSSED_LABEL
+
+Draws edges as though the text is raised.
+
+=item FL_FREE_BOXTYPE
+
+First free labeltype to use for creating your own labeltypes.
+
+=back
+
+=cut
+
     // Fl_Labeltype
     export_constant( "FL_NORMAL_LABEL",    "label", newSViv(FL_NORMAL_LABEL));
     export_constant( "FL_NO_LABEL",        "label", newSViv(FL_NO_LABEL));
@@ -119,6 +231,98 @@ This tag imports values related to the library and its version number:
     export_constant( "FL_SHADOW_LABEL",   "label", newSViv(FL_SHADOW_LABEL));
     export_constant( "FL_ENGRAVED_LABEL", "label", newSViv(FL_ENGRAVED_LABEL));
     export_constant( "FL_EMBOSSED_LABEL", "label", newSViv(FL_EMBOSSED_LABEL));
+
+=pod
+
+=head2 C<:font>
+
+=over
+
+=item FL_HELVETICA
+
+Helvetica (or Arial) normal.
+
+=item FL_HELVETICA_BOLD
+
+Helvetica (or Arial) bold.
+
+=item FL_HELVETICA_ITALIC
+
+Helvetica (or Arial) oblique.
+
+=item FL_HELVETICA_BOLD_ITALIC
+
+Helvetica (or Arial) bold-oblique.
+
+=item FL_COURIER
+
+Courier normal.
+
+=item FL_COURIER_BOLD
+
+Courier bold.
+
+=item FL_COURIER_ITALIC
+
+Courier italic.
+
+=item FL_COURIER_BOLD_ITALIC
+
+Courier bold-italic.
+
+=item FL_TIMES
+
+Times roman.
+
+=item FL_TIMES_BOLD
+
+Times roman bold.
+
+=item FL_TIMES_ITALIC
+
+Times roman italic.
+
+=item FL_TIMES_BOLD_ITALIC
+
+Times roman bold-italic.
+
+=item FL_SYMBOL
+
+Standard symbol font.
+
+=item FL_SCREEN
+
+Default monospaced screen font.
+
+=item FL_SCREEN_BOLD
+
+Default monospaced bold screen font.
+
+=item FL_ZAPF_DINGBATS
+
+Zapf-dingbats font.
+
+See https://en.wikipedia.org/wiki/Zapf_Dingbats
+
+=item FL_FREE_FONT
+
+First one free to allocate for custom fonts.
+
+=item FL_BOLD
+
+Add this to C<FL_HELVETICA>, C<FL_COURIER>, or C<FL_TIMES>.
+
+=item FL_ITALIC
+
+Add this to C<FL_HELVETICA>, C<FL_COURIER>, or C<FL_TIMES>.
+
+=item FL_BOLD_ITALIC
+
+Add this to C<FL_HELVETICA>, C<FL_COURIER>, or C<FL_TIMES>.
+
+=back
+
+=cut
 
     // Fl_Font
     export_constant( "FL_HELVETICA",             "font", newSViv(FL_HELVETICA));
@@ -141,6 +345,12 @@ This tag imports values related to the library and its version number:
     export_constant( "FL_BOLD",                  "font", newSViv(FL_BOLD));
  	export_constant( "FL_ITALIC",                "font", newSViv(FL_ITALIC));
     export_constant( "FL_BOLD_ITALIC",           "font", newSViv(FL_BOLD_ITALIC));
+
+
+    // Don't forget to export them with the :enum tag in Fl.pm
+    // Fl_Cursor
+    // Fl_Damage
+    // Fl_Event
 
 =pod
 

@@ -9,8 +9,7 @@ use Exporter qw[import];
 #
 our $NOXS ||= $0 eq __FILE__;    # for testing
 XSLoader::load 'Fl', $VERSION
-    if !$Fl::NOXS
-    ;                            # Fills %EXPORT_TAGS on BOOT
+    if !$Fl::NOXS;               # Fills %EXPORT_TAGS on BOOT
 #
 @EXPORT_OK = sort map { @$_ = sort @$_; @$_ } values %EXPORT_TAGS;
 $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
@@ -18,12 +17,17 @@ $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
     = sort map { defined $EXPORT_TAGS{$_} ? @{$EXPORT_TAGS{$_}} : () }
     qw[box font label]
     if 1 < scalar keys %EXPORT_TAGS;
+@{$EXPORT_TAGS{'enum'}}               # Merge these under a single tag
+    = sort map { defined $EXPORT_TAGS{$_} ? @{$EXPORT_TAGS{$_}} : () }
+    qw[box font label version]
+    if 1 < scalar keys %EXPORT_TAGS;
 @EXPORT    # Export these tags (if prepended w/ ':') or functions by default
     = sort map { m[^:(.+)] ? @{$EXPORT_TAGS{$1}} : $_ } qw[:style :default]
     if 0 && keys %EXPORT_TAGS > 1;
-
 1;
 __END__
+
+=pod
 
 =encoding utf-8
 
@@ -50,9 +54,12 @@ Light Toolkit; a cross-platform GUI toolkit compatible with Microsoft Windows,
 MacOS X, and Linux/Unix platforms with X11. It was designed to be small, quick
 and comes with a very simple yet complete API.
 
-=head1 Functions
+=head1 Functions & Exports
 
-The top level Fl namespace exports several functions sorted by type.
+The top level Fl namespace exports several functions sorted by type. This list
+will grow as the dist develops.
+
+=head2 C<:execute>
 
     use Fl qw[:execute];
 
@@ -111,7 +118,13 @@ return true until you call C<Fl::check()> or C<Fl::wait()>).
 
 =back
 
-This list will grow.
+=head2 C<:enum>
+
+    use Fl qw[:enum]; # All Fl::Enumeration values
+    use Fl qw[:font]; # Only import enum values related to fonttype
+
+The C<:enum> and related tags allow you to import values listed in
+Fl::Enumerations.
 
 =head1 Classes
 
@@ -141,4 +154,3 @@ it under the same terms as Perl itself.
 Sanko Robinson E<lt>sanko@cpan.orgE<gt>
 
 =cut
-
