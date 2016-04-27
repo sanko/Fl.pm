@@ -1,12 +1,49 @@
+=pod
+
+=head1 NAME
+
+Fl::Enumerations - Static Variables
+
+=head1 Description
+
+...
+
+=head1 Exports
+
+Values are exported directly or with tags.
+
+=cut
+
 #include <FL/Enumerations.H>
 
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
+=pod
+
+=head2 C<:version>
+
+This tag imports values related to the library and its version number:
+
+=over
+
+=item FL_MAJOR_VERSION
+
+=item FL_MINOR_VERSION
+
+=item FL_PATCH_VERSION
+
+=item FL_VERSION
+
+=back
+
+=cut
     export_constant( "FL_MAJOR_VERSION", "version", newSViv(FL_MAJOR_VERSION ));
     export_constant( "FL_MINOR_VERSION", "version", newSViv(FL_MINOR_VERSION ));
     export_constant( "FL_PATCH_VERSION", "version", newSViv(FL_PATCH_VERSION ));
     export_constant( "FL_VERSION",       "version", newSVnv(FL_VERSION ));
+
+
 
     export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(FL_ROUND_UP_BOX));
 
@@ -104,3 +141,18 @@ BOOT:
     export_constant( "FL_BOLD",                  "font", newSViv(FL_BOLD));
  	export_constant( "FL_ITALIC",                "font", newSViv(FL_ITALIC));
     export_constant( "FL_BOLD_ITALIC",           "font", newSViv(FL_BOLD_ITALIC));
+
+=pod
+
+=head1 LICENSE
+
+Copyright (C) Sanko Robinson.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Sanko Robinson E<lt>sanko@cpan.orgE<gt>
+
+=cut

@@ -47,3 +47,18 @@ MODULE = Fl        PACKAGE = Fl
 
 BOOT:
     set_isa("Fl::Box", "Fl::Widget");
+
+=pod
+
+=head1 LICENSE
+
+Copyright (C) Sanko Robinson.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Sanko Robinson E<lt>sanko@cpan.orgE<gt>
+
+=cut
