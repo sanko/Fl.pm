@@ -122,7 +122,7 @@ package inc::MBFlExt;
                                 module_name        => 'Fl',
                                 extra_linker_flags => '-L'
                                     . $AF->library_path . ' '
-                                    . $AF->ldflags(qw[images gl])
+                                    . $AF->ldflags
                                     . ' -lstdc++'
                     );
                 printf "%s\n",
