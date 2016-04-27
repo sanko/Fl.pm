@@ -1,8 +1,46 @@
+=pod
+
+=head1 NAME
+
+Fl::Window -
+
+=head1 Synopsis
+
+=head1 Description
+
+=head1 Methods
+
+=cut
+
 #include <FL/Fl_Window.H>
 
 MODULE = Fl::Window         PACKAGE = Fl::Window         PREFIX = Fl_
 
 PROTOTYPES: DISABLE
+
+=pod
+
+=head1 new(...)
+
+The constructor creates a window of a given size and (optionally) position on
+screen.
+
+    my $window_a = Fl::Window->new(300, 500);
+
+This creates a window from the given size. You may also set the window's title
+like this:
+
+    my $window_b = Fl::Window->new(300, 500, 'Basic math');
+
+If not provided, the window's title defaults to the filename of the current
+running script.
+
+
+The destructor I<also deletes all children.> This allows a whole tree to be
+deleted at once, without having to keep a pointer to all children in the user
+code.
+
+=cut
 
 Fl_Window *
 Fl_Window::new(...)
@@ -13,10 +51,10 @@ Fl_Window::new(...)
             int w = (int)SvIV(ST(1));
             int h = (int)SvIV(ST(2));
             if (items == 4) label = (char *)SvPV_nolen(ST(3));
-            RETVAL = new Fl_Window(w,h,label);
+            RETVAL = new Fl_Window(w, h, label);
         OUTPUT:
             RETVAL
-    CASE: (items == 5 || items == 6)
+    CASE: ( items == 5 || items == 6 )
         CODE:
             /*(int x, int y, int w, int h, char * title = $0)*/
             char * label = PL_origfilename;
@@ -25,7 +63,7 @@ Fl_Window::new(...)
             int w = (int)SvIV(ST(3));
             int h = (int)SvIV(ST(4));
             if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Window(x,y,w,h,label);
+            RETVAL = new Fl_Window(x, y, w, h, label);
         OUTPUT:
             RETVAL
 

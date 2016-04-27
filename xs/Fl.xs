@@ -70,7 +70,7 @@ BOOT:
     export_tag("ready", "execute");
     export_tag("run", "execute");
 
-INCLUDE: ../lib/Fl/Enumerations.xsi
+INCLUDE: ../lib/Fl/Enumerations.pod
 
 #include <FL/Fl_Widget.H>
 
@@ -156,9 +156,9 @@ No Fl::Group->new(...) constructor
 void
 Fl_Group::DESTROY()
 
-INCLUDE: ../lib/Fl/Window.xsi
+INCLUDE: ../lib/Fl/Window.pod
 
-INCLUDE: ../lib/Fl/Box.xsi
+INCLUDE: ../lib/Fl/Box.pod
 
 MODULE = Fl        PACKAGE = Fl
 

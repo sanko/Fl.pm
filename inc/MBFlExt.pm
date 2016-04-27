@@ -30,7 +30,7 @@ package inc::MBFlExt;
             my ($self, %args) = @_;
             ($args{dl_file} = $args{dl_name}) =~ s/.*:://
                 unless $args{dl_file};
-            $args{'dl_funcs'} = \%inc::MBFl::dl_funcs; # Frakin' CBuilder
+            $args{'dl_funcs'} = \%inc::MBFl::dl_funcs;    # Frakin' CBuilder
             require ExtUtils::Mksymlists;
             ExtUtils::Mksymlists::Mksymlists( # dl. abbrev for dynamic library
                 DL_VARS  => $args{dl_vars}      || [],
@@ -113,8 +113,7 @@ package inc::MBFlExt;
             make_path(catdir(qw[blib arch auto Fl]),
                       {verbose => !$self->quiet(), mode => 0777});
             @obj = map { canonpath abs2rel($_) } @obj;
-            my $lib
-                = catdir(qw[blib arch auto Fl], 'Fl.' . $Config{'so'});
+            my $lib = catdir(qw[blib arch auto Fl], 'Fl.' . $Config{'so'});
             if (!$self->up_to_date([@obj], $lib)) {
                 printf q[Building '%s'... ], $lib;
                 my ($dll, @cleanup)
@@ -145,8 +144,8 @@ package inc::MBFlExt;
             $typemap =~ s[\.xs$][\.tm];
             $typemap = 'type.map' if !-e $typemap;
             my @xsi;
-            find sub { push @xsi, $File::Find::name if m[\.xsi$] },
-                catdir('xs');
+            find sub { push @xsi, $File::Find::name if m[\.(pod|xsi)$] },
+                catdir('lib/Fl');
             $self->add_to_cleanup($cpp);
             return $cpp
                 if $self->up_to_date([@xsi, $xs,
