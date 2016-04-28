@@ -35,3 +35,4 @@ eg/raw.cxx.orig
 eg/cxx2xs.pl
 eg/raw.cxx
 t/*.txt
+*.orig

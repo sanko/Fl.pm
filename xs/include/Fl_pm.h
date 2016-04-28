@@ -22,4 +22,7 @@
 HINSTANCE dllInstance( );
 #endif // #ifdef WIN32
 
+#include <FL/Fl_Widget.H>
+const char * object2package (Fl_Widget * w);
+
 #endif // #ifndef fltk_pm_h

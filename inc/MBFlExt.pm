@@ -89,6 +89,7 @@ package inc::MBFlExt;
                 map { abs2rel($_) if -f } @obj;
             }
             my @cpp;
+            find(sub { push @cpp, $File::Find::name if m[.+\.cxx$]; }, 'xs');
         XS: for my $XS ((sort { lc $a cmp lc $b } @xs)) {
                 push @cpp, _xs_to_cpp($self, $XS)
                     or exit !printf 'Cannot Parse %s', $XS;
