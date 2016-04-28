@@ -143,6 +143,19 @@ Fl_Group::children()
 
 =pod
 
+=head2 C<child(...)>
+
+    my $kid = $group->child(1);
+
+Returns the N'th child of the group. Please not that no index checks are made.
+
+=cut
+
+Fl_Widget *
+Fl_Group::child(int n)
+
+=pod
+
 =head2 C<clear()>
 
 Deletes all child widgets from memory recursively.
@@ -186,10 +199,3 @@ it under the same terms as Perl itself.
 Sanko Robinson E<lt>sanko@cpan.orgE<gt>
 
 =cut
-
-/*
-    TODO
-        - array()
-        ? as_group()
-        - child()
-*/
