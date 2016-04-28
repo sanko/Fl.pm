@@ -150,6 +150,10 @@ Fl_Widget::labelsize(int size)
 void
 Fl_Widget::labeltype(Fl_Labeltype type)
 
+void
+Fl_Widget::box(Fl_Boxtype box)
+
+
 INCLUDE: ../lib/Fl/Group.pod
 
 INCLUDE: ../lib/Fl/Window.pod
