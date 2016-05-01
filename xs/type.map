@@ -1,6 +1,7 @@
 TYPEMAP
 Object      *   O_Class
 Fl_Widget   *   O_Class
+Fl_Chart    *   O_Class
 Fl_Group    *   O_Class
 Fl_Box      *   O_Class
 Fl_Window   *   O_Class
@@ -10,6 +11,7 @@ Fl_Fontsize     T_ENUM
 Fl_Font         T_ENUM
 Fl_Color        T_ENUM
 AV          *   T_AVREF_REFCOUNT_FIXED
+uchar           T_U_CHAR
 
 OUTPUT
 O_Class
