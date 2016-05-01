@@ -236,7 +236,13 @@ First free labeltype to use for creating your own labeltypes.
 
 =head2 C<:font>
 
+The following may be imported with this tag:
+
 =over
+
+=item FL_NORMAL_SIZE
+
+This is the approximate height of a font in pixels.
 
 =item FL_HELVETICA
 
@@ -346,11 +352,61 @@ Add this to C<FL_HELVETICA>, C<FL_COURIER>, or C<FL_TIMES>.
  	export_constant( "FL_ITALIC",                "font", newSViv(FL_ITALIC));
     export_constant( "FL_BOLD_ITALIC",           "font", newSViv(FL_BOLD_ITALIC));
 
+    // Fl_Fontsize
+    export_constant( "FL_NORMAL_SIZE",           "font", newSViv(FL_NORMAL_SIZE));
 
-    // Don't forget to export them with the :enum tag in Fl.pm
-    // Fl_Cursor
-    // Fl_Damage
-    // Fl_Event
+=pod
+
+=head2 C<:chart>
+
+This tag imports values related to Fl::Chart:
+
+=for markdown [http://www.fltk.org/doc-1.3/charts.png]
+
+=for html <center><img src="http://www.fltk.org/doc-1.3/charts.png" /></center>
+
+=over
+
+=item FL_BAR_CHART
+
+Each sample value is drawn as a vertical bar.
+
+=item FL_FILLED_CHART
+
+The chart is filled from the bottom of the graph to the sample values.
+
+=item FL_HORBAR_CHART
+
+Each sample value is drawn as a horizontal bar.
+
+=item FL_LINE_CHART
+
+The chart is drawn as a polyline with vertices at each sample value.
+
+=item FL_PIE_CHART
+
+A pie chart is drawn with each sample value being drawn as a proportionate
+slice in the circle.
+
+=item FL_LINE_CHART
+
+Like C<FL_PIE_CHART> but the first slice is separated from the pie.
+
+=item FL_SPIKE_CHART
+
+Each sample value is drawn as a vertical line.
+
+=back
+
+=cut
+
+    export_constant( "FL_BAR_CHART",        "chart", newSViv(FL_BAR_CHART ));
+    export_constant( "FL_FILLED_CHART",     "chart", newSViv(FL_FILLED_CHART ));
+    export_constant( "FL_HORBAR_CHART",     "chart", newSViv(FL_HORBAR_CHART ));
+    export_constant( "FL_LINE_CHART",       "chart", newSViv(FL_LINE_CHART ));
+    export_constant( "FL_PIE_CHART",        "chart", newSViv(FL_PIE_CHART ));
+    export_constant( "FL_SPECIALPIE_CHART", "chart", newSViv(FL_SPECIALPIE_CHART ));
+    export_constant( "FL_SPIKE_CHART",      "chart", newSViv(FL_SPIKE_CHART ));
 
 =pod
 
@@ -366,3 +422,8 @@ it under the same terms as Perl itself.
 Sanko Robinson E<lt>sanko@cpan.orgE<gt>
 
 =cut
+
+    // Don't forget to export them with the :enum tag in Fl.pm
+    // Fl_Cursor
+    // Fl_Damage
+    // Fl_Event

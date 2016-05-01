@@ -19,7 +19,7 @@ $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
     if 1 < scalar keys %EXPORT_TAGS;
 @{$EXPORT_TAGS{'enum'}}               # Merge these under a single tag
     = sort map { defined $EXPORT_TAGS{$_} ? @{$EXPORT_TAGS{$_}} : () }
-    qw[box font label version]
+    qw[box chart color font label version]
     if 1 < scalar keys %EXPORT_TAGS;
 @EXPORT    # Export these tags (if prepended w/ ':') or functions by default
     = sort map { m[^:(.+)] ? @{$EXPORT_TAGS{$1}} : $_ } qw[:style :default]

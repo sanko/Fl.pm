@@ -1,0 +1,280 @@
+=pod
+
+=head1 NAME
+
+Fl::Chart - Display Simple Chart Data
+
+=head1 Synopsis
+
+   use Fl qw[:chart];
+
+=head1 Description
+
+Fl::Chart can display data in one of several formats. The following are
+imported from Fl with the C<:chart> tag.
+
+=for markdown [http://www.fltk.org/doc-1.3/charts.png]
+
+=for html <center><img src="http://www.fltk.org/doc-1.3/charts.png" /></center>
+
+=head1 Methods
+
+Fl::Chart is a subclass of Fl::Widget but also supports these methods:
+
+=cut
+
+#include <FL/Fl_Chart.H>
+
+MODULE = Fl::Chart         PACKAGE = Fl::Chart         PREFIX = Fl_
+
+PROTOTYPES: DISABLE
+
+=pod
+
+=head2 new(...)
+
+The constructor creates a chart of a given size and position on screen or
+within the parent.
+
+    my $chart_a = Fl::Chart->new(100, 150, 300, 500);
+
+...or...
+
+    my $chart_b = Fl::Chart->new(100, 150, 300, 500, 'Daily Volume');
+
+In these examples, the new chart is placed 100 pixels from the left and 150
+pixels down from the top of either the display area or parent widget.
+
+The default boxtyle is C<FL_NO_BOX>.
+
+=begin TODO
+
+Ideally, we could also create windows with something like:
+
+    my $window = Fl::Group->new(
+        -position => [100, 100],
+        -size     => [380, 400],
+        -title    => 'NA'
+    );
+
+=end TODO
+
+=cut
+
+Fl_Chart *
+Fl_Chart::new(int x, int y, int w, int h, char * label = 0)
+
+=pod
+
+The destructor I<also deletes all data>.
+
+=cut
+
+void
+Fl_Chart::DESTROY()
+
+=pod
+
+=head2 C<add(...)>
+
+    $chart->add(60, 'March 13, 2016', FL_RED);
+    $chart->add(64.3);
+
+Add the data value with optional label and color to the chart.
+
+=cut
+
+void
+Fl_Chart::add(double val, const char * str = 0, Fl_Color col = 0)
+
+=pod
+
+=head2 C<autosize(...)>
+
+    $chart->autosize(1);
+    my $resizing = $chart->autosize();
+
+Get whether the chart will automatically adjust bounds of the chart. Returns
+non-zero if the chart will automatically resize.
+
+=cut
+
+void
+Fl_Chart::autosize(IN_OUTLIST uchar autosize = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->autosize(autosize);
+        if (GIMME_V != G_VOID)
+            autosize = THIS->autosize(); // Don't bother if called in void context
+
+=pod
+
+=head2 bounds(...)
+
+    my ($upper, lower) = $chart->bounds();
+    $chart->bounds(100, -100);
+
+Gets or sets the lower and upper bounds of the char values
+
+=cut
+
+void
+Fl_Chart::bounds(IN_OUTLIST double a = NO_INIT, IN_OUTLIST double b = NO_INIT)
+    CODE:
+        if (items == 3)
+            THIS->bounds(a, b);
+        if (GIMME_V != G_VOID)
+            THIS->bounds(&a, &b); // Don't bother if called in void context
+
+=pod
+
+=head2 clear()
+
+    $chart->clear();
+
+Removes all values from the chart.
+
+=cut
+
+void
+Fl_Chart::clear()
+
+=pod
+
+=head2 insert(...)
+
+    $chart->insert(1, 60, 'March 13, 2016', FL_RED);
+    $chart->insert(2, 64.3);
+
+Inserts a value at the given position. Position 1 is the first data value.
+
+=cut
+
+void
+Fl_Chart::insert(int _index, double value, const char * str = 0, unsigned int color = 0)
+
+=pod
+
+=head2 C<maxsize(...)>
+
+    $chart->maxsize(200);
+    my $limit = $chart->maxsize();
+
+Gets or sets the maximum number of data values for a chart.
+
+If you don't call this method, the chart will be allowed to grow to any size
+depending on available memory.
+
+=cut
+
+void
+Fl_Chart::maxsize(IN_OUTLIST int maxsize = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->maxsize(maxsize);
+        if (GIMME_V != G_VOID)
+            maxsize = THIS->maxsize(); // Don't bother if called in void context
+
+=pod
+
+=head2 replace(...)
+
+    $chart->replace(1, 60, 'March 13, 2016', FL_RED);
+    $chart->replace(2, 64.3);
+
+Replaces a value at the given position. Position 1 is the first data value.
+
+=cut
+
+void
+Fl_Chart::replace(int _index, double value, const char * str = 0, unsigned int color = 0)
+
+=pod
+
+=head2 size()
+
+    my $sample_size = $chart->size();
+
+Returns the number of data points in the chart.
+
+=cut
+
+int
+Fl_Chart::size()
+
+=pod
+
+=head2 textcolor(...)
+
+    $chart->textcolor(FL_BLACK);
+    my $color = $chart->textcolor();
+
+Gets or sets the chart's text color.
+
+=cut
+
+void
+Fl_Chart::textcolor(IN_OUTLIST Fl_Color color = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->textcolor(color);
+        if (GIMME_V != G_VOID)
+            color = THIS->textcolor(); // Don't bother if called in void context
+
+=pod
+
+=head2 textfont(...)
+
+    $chart->textfont(FL_COURIER_BOLD);
+    my $font = $chart->textfont();
+
+Gets or sets the chart's font.
+
+=cut
+
+void
+Fl_Chart::textfont(IN_OUTLIST Fl_Font font = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->textfont(font);
+        if (GIMME_V != G_VOID)
+            font = THIS->textfont(); // Don't bother if called in void context
+
+=pod
+
+=head2 textsize(...)
+
+    $chart->textsize(100);
+    $chart->textsize(FL_NORMAL_SIZE);
+
+Sets the chart's text size.
+
+=cut
+
+void
+Fl_Chart::textsize(IN_OUTLIST Fl_Fontsize size = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->textsize(size);
+        if (GIMME_V != G_VOID)
+            size = THIS->textsize(); // Don't bother if called in void context
+
+MODULE = Fl        PACKAGE = Fl
+
+BOOT:
+    set_isa("Fl::Chart", "Fl::Widget");
+
+=pod
+
+=head1 LICENSE
+
+Copyright (C) Sanko Robinson.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Sanko Robinson E<lt>sanko@cpan.orgE<gt>
+
+=cut

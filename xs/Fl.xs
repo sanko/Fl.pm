@@ -14,7 +14,7 @@ void register_constant( const char * package, const char * name, SV * value ) {
     newCONSTSUB( _stash, name, value );
 }
 
-void export_tag (const char * what, const char * _tag ) {
+void export_function (const char * what, const char * _tag ) {
     dTHX;
     //warn("Exporting %s to %s", what, _tag);
     SV ** tag = hv_fetch( Fl_export, _tag, strlen(_tag), TRUE );
@@ -30,7 +30,7 @@ void export_tag (const char * what, const char * _tag ) {
 
 void export_constant( const char * name, const char * _tag, SV * value ) {
     register_constant(name, value);
-    export_tag(name, _tag);
+    export_function(name, _tag);
 }
 
 void set_isa(const char * klass, const char * parent) {
@@ -65,10 +65,10 @@ BOOT:
     Fl_stash  = gv_stashpv( "Fl", TRUE );
     Fl_export = get_hv( "Fl::EXPORT_TAGS", TRUE );
 
-    export_tag("wait", "execute");
-    export_tag("check", "execute");
-    export_tag("ready", "execute");
-    export_tag("run", "execute");
+    export_function("wait", "execute");
+    export_function("check", "execute");
+    export_function("ready", "execute");
+    export_function("run", "execute");
 
 INCLUDE: ../lib/Fl/Enumerations.pod
 
@@ -160,10 +160,14 @@ INCLUDE: ../lib/Fl/Window.pod
 
 INCLUDE: ../lib/Fl/Box.pod
 
+INCLUDE: ../lib/Fl/Chart.pod
+
+INCLUDE: ../lib/Fl/Color.pod
+
 MODULE = Fl        PACKAGE = Fl
 
 BOOT:
     set_isa("Fl::Group", "Fl::Widget");
 
     //register_constant( "DAMAGE_PUSHED", newSViv(fltk::DAMAGE_PUSHED));
-    //export_tag( "DAMAGE_PUSHED", "damage" );
+    //export_function( "DAMAGE_PUSHED", "damage" );

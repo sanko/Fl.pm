@@ -6,7 +6,9 @@ Fl_Box      *   O_Class
 Fl_Window   *   O_Class
 Fl_Boxtype      T_ENUM
 Fl_Labeltype    T_ENUM
+Fl_Fontsize     T_ENUM
 Fl_Font         T_ENUM
+Fl_Color        T_ENUM
 AV          *   T_AVREF_REFCOUNT_FIXED
 
 OUTPUT
