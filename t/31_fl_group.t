@@ -18,5 +18,6 @@ can_ok $group, 'children';
 can_ok $group, 'child';
 can_ok $group, 'clear';
 can_ok $group, 'end';
+can_ok $group, 'resizable';
 #
 done_testing;
