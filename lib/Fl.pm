@@ -134,6 +134,8 @@ Fl contains several widgets and other classes including:
 
 =item L<Fl::Box>
 
+=item L<Fl::Chart>
+
 =item L<Fl::Group>
 
 =item L<Fl::Window>

@@ -95,6 +95,7 @@ Fl::Enumerations.
 Fl contains several widgets and other classes including:
 
 - [Fl::Box](https://metacpan.org/pod/Fl::Box)
+- [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)
 
