@@ -37,7 +37,7 @@ Fl - Bindings for the Stable 1.3.x Branch of the Fast Light Toolkit
 
 =head1 SYNOPSIS
 
-    use Fl qw[:execute :label :box :font];
+    use Fl qw[:event :label :box :font];
     my $window = Fl::Window->new(100, 100, 300, 180);
     my $box = Fl::Box->new(FL_UP_BOX, 20, 40, 260, 100, 'Hello, World');
     $box->labelfont(FL_BOLD + FL_ITALIC);
@@ -54,69 +54,18 @@ Light Toolkit; a cross-platform GUI toolkit compatible with Microsoft Windows,
 MacOS X, and Linux/Unix platforms with X11. It was designed to be small, quick
 and comes with a very simple yet complete API.
 
-=head1 Functions & Exports
+=head1 Exports
 
 The top level Fl namespace exports several functions sorted by type. This list
 will grow as the dist develops.
 
-=head2 C<:execute>
+=head2 C<:event>
 
-    use Fl qw[:execute];
+    use Fl qw[:event];
 
 This would import functions related to application execution directly into
-your namespace. These functions include:
-
-=over
-
-=item C<run()>
-
-As long as any windows are displayed, this calles Fl::wait() repeatedly.
-
-When all windows are closed, it returns zero.
-
-=item C<check()>
-
-This is the same as calling C<Fl::wait(0)>.
-
-Calling this during (for example) a long calculation process will keep the
-screen up to date and the interface responsive without forking or threading.
-
-This returns non-zero if any windws are displayed. Otherwise, zero is
-returned.
-
-=item C<wait()>
-
-Waits until 'something happens' and then returns.
-
-Call this repeatedly to 'run' your program. You can also check what happened
-each time after this returns which is quite useful for managing program state.
-
-What this really does is call all idle callbacks, all elapsed timeouts, call
-Fl::flush() to get the screen to update, and then wait some time (zero if the
-are idle callbacks, the sortest of all pending timeouts, or infinity) for any
-events from the user or any Fl::ad_fd() callbacks. It then handles the events
-and calls the callbacks and then returns.
-
-The return value of Fl::wait() is non-zero if there are any visible windows.
-
-C<Fl::wait($time)> waits a maxium of C<$time> seconds. It may return much
-sooner if something happens.
-
-The return value is positive if an event or fd happens before the time
-elapsed. It is zero if nothing happens (on Windows this will only return zero
-if $time is zero). It is negative if an error occurs (this will happen on X11
-if a signal happens).
-
-=item C<ready()>
-
-This is similar to C<Fl::check()> except this does not call C<Fl::flush()> or
-any callbacks, which is useful if your program is in a state where such
-callbacks are illegal.
-
-This returns true if C<Fl::check()> would do anything (it will continue to
-return true until you call C<Fl::check()> or C<Fl::wait()>).
-
-=back
+your namespace. Please see Fl::Event for a list of these functions and
+more.
 
 =head2 C<:enum>
 
@@ -125,6 +74,13 @@ return true until you call C<Fl::check()> or C<Fl::wait()>).
 
 The C<:enum> and related tags allow you to import values listed in
 Fl::Enumerations.
+
+=head2 C<:color>
+
+    use Fl qw[:color]
+
+Static variables and utility functions related to colors may be found in
+Fl::Color.
 
 =head1 Classes
 

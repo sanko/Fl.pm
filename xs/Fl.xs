@@ -41,34 +41,16 @@ void set_isa(const char * klass, const char * parent) {
     // TODO: make this spider up the list and make deeper connections?
 }
 
-#include <FL/Fl.H>
-
-// Execution
-double wait( double time = NO_INIT ) {
-    return time == NO_INIT ? Fl::wait() : Fl::wait( time );
-}
-
 MODULE = Fl        PACKAGE = Fl                 PREFIX = Fl::
 
 PROTOTYPES: DISABLE
 
-double
-wait(double time = NO_INIT)
-
-int
-execute()
-    INTERFACE:
-        Fl::run    Fl::check
-        Fl::ready
-
 BOOT:
+    /* Setup! */
     Fl_stash  = gv_stashpv( "Fl", TRUE );
     Fl_export = get_hv( "Fl::EXPORT_TAGS", TRUE );
 
-    export_function("wait", "execute");
-    export_function("check", "execute");
-    export_function("ready", "execute");
-    export_function("run", "execute");
+INCLUDE: ../lib/Fl/Event.pod
 
 INCLUDE: ../lib/Fl/Enumerations.pod
 

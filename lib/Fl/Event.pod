@@ -1,0 +1,137 @@
+=pod
+
+=head1 NAME
+
+Fl::Event - Event Loop Related Functions
+
+=head1 Synopsis
+
+    use Fl qw[:event];
+    # ...
+    run();
+
+=head1 Description
+
+The C<:event> import tag brings all of these functions into your
+namespace.
+
+=over
+
+=item C<run()>
+
+    ...
+    $window->show();
+    Fl::run();
+
+As long as any windows are displayed, this calles Fl::wait() repeatedly.
+
+When all windows are closed, it returns zero.
+
+=item C<check()>
+
+    while (!calculation_done()) {
+        calculate();
+        Fl::check();
+        last if user_hit_abort_button();
+    }
+
+This is the same as calling C<Fl::wait(0)>.
+
+Calling this during (for example) a long calculation process will keep the
+screen up to date and the interface responsive without forking or threading.
+
+This returns non-zero if any windws are displayed. Otherwise, zero is
+returned.
+
+=item C<wait()>
+
+    Fl::wait(2);
+
+Waits until 'something happens' and then returns.
+
+Call this repeatedly to 'run' your program. You can also check what happened
+each time after this returns which is quite useful for managing program state.
+
+What this really does is call all idle callbacks, all elapsed timeouts, call
+Fl::flush() to get the screen to update, and then wait some time (zero if the
+are idle callbacks, the sortest of all pending timeouts, or infinity) for any
+events from the user or any Fl::ad_fd() callbacks. It then handles the events
+and calls the callbacks and then returns.
+
+The return value of Fl::wait() is non-zero if there are any visible windows.
+
+C<Fl::wait($time)> waits a maxium of C<$time> seconds. It may return much
+sooner if something happens.
+
+The return value is positive if an event or fd happens before the time
+elapsed. It is zero if nothing happens (on Windows this will only return zero
+if $time is zero). It is negative if an error occurs (this will happen on X11
+if a signal happens).
+
+=item C<ready()>
+
+    while (!calculation_done()) {
+        calculate();
+        if (Fl::ready()) {
+            do_expensive_cleanup();
+            Fl::check();
+            last if user_hit_abort_button();
+        }
+    }
+
+This is similar to C<Fl::check()> except this does not call C<Fl::flush()> or
+any callbacks, which is useful if your program is in a state where such
+callbacks are illegal.
+
+This returns true if C<Fl::check()> would do anything (it will continue to
+return true until you call C<Fl::check()> or C<Fl::wait()>).
+
+=back
+
+=cut
+
+#include <FL/Fl.H>
+
+MODULE = Fl        PACKAGE = Fl                 PREFIX = Fl::
+
+PROTOTYPES: DISABLE
+
+double
+wait(double time = NO_INIT)
+    CASE: items = 1
+        CODE:
+            RETVAL = Fl::wait(time);
+        OUTPUT:
+            RETVAL
+    CASE:
+        CODE:
+            RETVAL = Fl::wait();
+        OUTPUT:
+            RETVAL
+
+int
+execution()
+    INTERFACE:
+        Fl::run    Fl::check
+        Fl::ready
+
+BOOT:
+    export_function("wait",  "event");
+    export_function("check", "event");
+    export_function("ready", "event");
+    export_function("run",   "event");
+
+=pod
+
+=head1 LICENSE
+
+Copyright (C) Sanko Robinson.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Sanko Robinson E<lt>sanko@cpan.orgE<gt>
+
+=cut
