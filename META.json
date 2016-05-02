@@ -28,6 +28,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
+            "Alien::FLTK" : "v1.3.3",
             "Module::Build" : "0.4005",
             "Module::Build::XSUtil" : "0.03"
          }
@@ -43,7 +44,6 @@
       },
       "runtime" : {
          "requires" : {
-            "Alien::FLTK" : "0",
             "perl" : "5.008001"
          }
       },

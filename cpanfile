@@ -4,4 +4,6 @@ on 'test' => sub {
     requires 'Test::More', '0.98';
 };
 
-requires 'Alien::FLTK';
+on 'configure' => sub {
+    requires 'Alien::FLTK', '1.3.3';
+};

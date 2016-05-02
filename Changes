@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Require Alien::FLTK during configure because some smokers ignore runtime prereqs
+
 0.99.2 2016-05-02T02:57:53Z
 
     - New widget: Fl::Chart
