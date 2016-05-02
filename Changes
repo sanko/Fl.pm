@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.2 2016-05-02T02:57:53Z
+
     - New widget: Fl::Chart
     - New demo script: eg/chart.pl
     - New export values found in Fl::Enumerations
