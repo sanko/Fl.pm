@@ -8,6 +8,7 @@ Revision history for Perl extension Fl
         - Fl_Chart types exported with :chart tag
     - New utility functions and values found in Fl::Color
         - Import them with the :color tag
+    - Event loop functions are now documented in Fl::Event and imported with the :event tag
 
 0.99.1 2016-04-27T22:11:14Z
 
