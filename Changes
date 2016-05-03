@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Forgot to update eg/synopsis.pl to new :event tag in v0.99.2
+
 0.99.3 2016-05-02T20:19:14Z
 
     - Require Alien::FLTK during configure because some smokers ignore runtime prereqs
