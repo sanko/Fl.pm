@@ -3,6 +3,49 @@
 HV * Fl_stash,  // For inserting stuff directly into Fl's namespace
    * Fl_export; // For inserting stuff directly into Fl's exports
 
+class Callback {
+    public: /* TODO: Make these private */
+        SV * callback = (SV*)NULL;
+        SV * args     = (SV *)NULL;
+        SV * widget   = (SV *)NULL;
+
+    public:
+        ~Callback() { };
+        Callback(SV * cb, SV * as, SV * w) {
+            dTHX;
+            callback = newSVsv(cb);//sv_mortalcopy(cb);
+            args     = newSVsv(as);//sv_mortalcopy(as);
+            widget   = newSVsv(w);
+        };
+        void trigger() {
+            dTHX;
+
+            int i;
+
+            if (!SvOK(callback))
+                return;
+
+            dSP;
+
+            ENTER;
+            SAVETMPS;
+            PUSHMARK(SP);
+            if (SvOK(widget))
+                XPUSHs(widget);
+            if (args != (SV*)NULL)
+                XPUSHs(args);
+            PUTBACK;
+            i = call_sv(callback, G_SCALAR);
+            SPAGAIN;
+            if (i != 1)
+                croak("handler failed");
+            PUTBACK;
+            FREETMPS;
+            LEAVE;
+            return;
+        };
+};
+
 void register_constant( const char * name, SV * value ) {
     dTHX;
     newCONSTSUB( Fl_stash, name, value );
@@ -39,6 +82,11 @@ void set_isa(const char * klass, const char * parent) {
     av_push( get_av( form( "%s::ISA", klass ), TRUE ),
              newSVpv( parent, 0 ) );
     // TODO: make this spider up the list and make deeper connections?
+}
+
+void _cb_w ( Fl_Widget * widget, void * CODE ) {
+    ((Callback * ) CODE)->trigger();
+    return;
 }
 
 MODULE = Fl        PACKAGE = Fl                 PREFIX = Fl::
@@ -135,6 +183,9 @@ Fl_Widget::labeltype(Fl_Labeltype type)
 void
 Fl_Widget::box(Fl_Boxtype box)
 
+void
+Fl_Widget::callback( SV * callback, SV * args = (SV*)NULL )
+        C_ARGS: _cb_w, (void *) new Callback( callback, args, ST(0) )
 
 INCLUDE: ../lib/Fl/Group.pod
 

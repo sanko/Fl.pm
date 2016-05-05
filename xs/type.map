@@ -20,7 +20,7 @@ O_Class
         sv_setref_pv( $arg, object2package($var), (void*) $var );
     }
     else {
-        $arg = &PL_sv_undef;
+        $arg = newSV(0);
     }
 
 INPUT
