@@ -13,15 +13,15 @@ FLTK - Historical Package Name Alias
 
 =head1 SYNOPSIS
 
-    use FLTK qw[:label];
+    use FLTK qw[:all];
     my $window = FLTK::Window->new(100, 100, 300, 180);
-    my $box = FLTK::Box->new(20, 40, 260, 100, 'Hello, World');
-    $box->labelfont(BOLD + ITALIC); # TODO
+    my $box = FLTK::Box->new(FL_UP_BOX, 20, 40, 260, 100, 'Hello, World');
+    $box->labelfont(FL_BOLD + FL_ITALIC);
     $box->labelsize(36);
-    $box->labelfont(SHADOW_LABEL); # TODO
+    $box->labeltype(FL_SHADOW_LABEL);
     $window->end();
     $window->show();
-    exit FLTK::run();
+    exit run();
 
 =head1 DESCRIPTION
 
@@ -29,7 +29,9 @@ The FLTK package is a namespace alias for the Fl package. It's only use is to
 allow (most) code written for the old FLTK distribution to use the new Fl
 package with a little less work. Please note that the toolkit itself is not
 100% compatible so expect complex code written for FLTK to just plain kill
-kill over on Fl even with this alias.
+over on Fl even with this alias.
+
+Again the two toolkits are not 100% compatible!
 
 =head1 LICENSE
 
