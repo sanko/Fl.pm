@@ -3,7 +3,7 @@ Revision history for Perl extension Fl
 {{$NEXT}}
 
     - New widget: Fl::Button
-    - Incomplete callback system for widgets
+    - Incomplete callback system for widgets (strong refs cause crash)
     - New export tags/values (get them all with :enum, of course):
         - :when - Callback trigger conditions
         - :button - Fl::Button types (normal, toggle, radio)

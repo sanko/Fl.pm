@@ -82,6 +82,18 @@ Fl::Enumerations.
 Static variables and utility functions related to colors may be found in
 Fl::Color.
 
+=head2 C<:keyboard>
+
+    use Fl qw[:keyboard];
+
+Event and state values for keyboard buttons.
+
+=head2 C<:mouse>
+
+    use Fl qw[:mouse];
+
+Event and state values for mouse buttons.
+
 =head1 Classes
 
 Fl contains several widgets and other classes including:
@@ -89,6 +101,8 @@ Fl contains several widgets and other classes including:
 =over
 
 =item L<Fl::Box>
+
+=item L<Fl::Button>
 
 =item L<Fl::Chart>
 

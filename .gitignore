@@ -38,3 +38,8 @@ t/*.txt
 *.orig
 
 TODO
+
+
+Untitled*
+eg/
+xs/Fl.cxx

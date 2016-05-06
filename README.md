@@ -50,11 +50,24 @@ Fl::Enumerations.
 Static variables and utility functions related to colors may be found in
 Fl::Color.
 
+## `:keyboard`
+
+    use Fl qw[:keyboard];
+
+Event and state values for keyboard buttons.
+
+## `:mouse`
+
+    use Fl qw[:mouse];
+
+Event and state values for mouse buttons.
+
 # Classes
 
 Fl contains several widgets and other classes including:
 
 - [Fl::Box](https://metacpan.org/pod/Fl::Box)
+- [Fl::Button](https://metacpan.org/pod/Fl::Button)
 - [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)
