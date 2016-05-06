@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.4 2016-05-06T02:02:22Z
+
     - New widget: Fl::Button
     - Incomplete callback system for widgets (strong refs cause crash)
     - New export tags/values (get them all with :enum, of course):
