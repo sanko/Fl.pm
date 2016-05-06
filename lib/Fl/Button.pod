@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Fl::Button - Simple Box and Label Widget
+Fl::Button - Simple Clickable Button Widget
 
 =head1 Synopsis
 
