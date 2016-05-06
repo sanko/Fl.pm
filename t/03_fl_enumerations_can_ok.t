@@ -20,5 +20,18 @@ can_ok 'main', 'FL_BAR_CHART';
 # :color
 can_ok 'main', 'FL_BLACK';
 can_ok 'main', 'fl_show_colormap';
+
+# :button
+can_ok 'main', 'FL_NORMAL_BUTTON';
+
+# :when
+can_ok 'main', 'FL_WHEN_NEVER';
+
+# :keyboard
+can_ok 'main', 'FL_F';
+
+# :mouse
+can_ok 'main', 'FL_LEFT_MOUSE';
+
 #
 done_testing;

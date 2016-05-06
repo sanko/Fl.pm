@@ -5,9 +5,8 @@ HV * Fl_stash,  // For inserting stuff directly into Fl's namespace
 
 class Callback {
     public: /* TODO: Make these private */
-        SV * callback = (SV*)NULL;
+        SV * callback = (SV* )NULL;
         SV * args     = (SV *)NULL;
-        SV * widget   = (SV *)NULL;
 
     public:
         ~Callback() { };
@@ -15,9 +14,8 @@ class Callback {
             dTHX;
             callback = newSVsv(cb);//sv_mortalcopy(cb);
             args     = newSVsv(as);//sv_mortalcopy(as);
-            widget   = newSVsv(w);
         };
-        void trigger() {
+        void trigger(Fl_Widget * w) {
             dTHX;
 
             int i;
@@ -30,8 +28,8 @@ class Callback {
             ENTER;
             SAVETMPS;
             PUSHMARK(SP);
-            if (SvOK(widget))
-                XPUSHs(widget);
+            //if (SvOK(widget))
+            //    XPUSHs(widget);
             if (args != (SV*)NULL)
                 XPUSHs(args);
             PUTBACK;
@@ -85,7 +83,7 @@ void set_isa(const char * klass, const char * parent) {
 }
 
 void _cb_w ( Fl_Widget * widget, void * CODE ) {
-    ((Callback * ) CODE)->trigger();
+    ((Callback * ) CODE)->trigger(widget);
     return;
 }
 
@@ -187,14 +185,27 @@ void
 Fl_Widget::callback( SV * callback, SV * args = (SV*)NULL )
         C_ARGS: _cb_w, (void *) new Callback( callback, args, ST(0) )
 
+void
+Fl_Widget::when(IN_OUTLIST Fl_When i = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->when(i);
+        if (GIMME_V != G_VOID)
+            i = THIS->when(); // Don't bother if called in void context
+
+void
+Fl_Widget::type(IN_OUTLIST uchar i = NO_INIT)
+    CODE:
+        if (items == 2)
+            THIS->type(i);
+        if (GIMME_V != G_VOID)
+            i = THIS->type(); // Don't bother if called in void context
+
 INCLUDE: ../lib/Fl/Group.pod
-
 INCLUDE: ../lib/Fl/Window.pod
-
 INCLUDE: ../lib/Fl/Box.pod
-
+INCLUDE: ../lib/Fl/Button.pod
 INCLUDE: ../lib/Fl/Chart.pod
-
 INCLUDE: ../lib/Fl/Color.pod
 
 MODULE = Fl        PACKAGE = Fl

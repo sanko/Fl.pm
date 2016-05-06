@@ -410,6 +410,467 @@ Each sample value is drawn as a vertical line.
 
 =pod
 
+=head2 C<:when>
+
+This tag imports values related to when callbacks are triggered for widgets:
+
+=over
+
+=item FL_WHEN_NEVER
+
+Never call the callback.
+
+=item FL_WHEN_CHANGED
+
+Do the callback only when the widget value changes.
+
+=item FL_WHEN_NOT_CHANGED
+
+Do the callback whenever the user interacts with the widget.
+
+=item FL_WHEN_RELEASE
+
+Do the callback when the button or key is released and the value changes.
+
+=item FL_WHEN_RELEASE_ALWAYS
+
+Do the callback when the button or key is released, even if the value doesn't
+change.
+
+=item FL_WHEN_ENTER_KEY
+
+Do the callback when the user presses the ENTER key and the value changes.
+
+=item FL_WHEN_ENTER_KEY_ALWAYS
+
+Do the callback when the user presses the ENTER key, even if the value doesn't
+change.
+
+=item FL_WHEN_ENTER_KEY_CHANGED
+
+=back
+
+=cut
+
+    export_constant( "FL_WHEN_NEVER",             "when", newSViv(FL_WHEN_NEVER));
+    export_constant( "FL_WHEN_CHANGED",           "when", newSViv(FL_WHEN_CHANGED));
+    export_constant( "FL_WHEN_NOT_CHANGED",       "when", newSViv(FL_WHEN_NOT_CHANGED));
+    export_constant( "FL_WHEN_RELEASE",           "when", newSViv(FL_WHEN_RELEASE));
+    export_constant( "FL_WHEN_RELEASE_ALWAYS",    "when", newSViv(FL_WHEN_RELEASE_ALWAYS));
+    export_constant( "FL_WHEN_ENTER_KEY",         "when", newSViv(FL_WHEN_ENTER_KEY));
+    export_constant( "FL_WHEN_ENTER_KEY_ALWAYS",  "when", newSViv(FL_WHEN_ENTER_KEY_ALWAYS));
+    export_constant( "FL_WHEN_ENTER_KEY_CHANGED", "when", newSViv(FL_WHEN_ENTER_KEY_CHANGED));
+
+=pod
+
+=head2 C<:keyboard>
+
+This tag imports values related to keyboard keys. These are often used for
+callback triggering and L<when(...)|Fl::Widget/"when(...)">.
+
+=over
+
+=item FL_Button
+
+A mouse button; use Fl_Button + n for mouse button n.
+
+=item FL_BackSpace
+
+The backspace key.
+
+=item FL_Tab
+
+The tab key.
+
+=item FL_Iso_Key
+
+The additional key of ISO keyboards.
+
+=item FL_Enter
+
+The enter key.
+
+=item FL_Pause
+
+The pause key.
+
+=item FL_Scroll_Lock
+
+The scroll lock key.
+
+=item FL_Escape
+
+The escape key.
+
+=item FL_Kana
+
+The Kana key of JIS keyboards.
+
+=item FL_Eisu
+
+The Eisu key of JIS keyboards.
+
+=item FL_Yen
+
+The Yen key of JIS keyboards.
+
+FL_JIS_Underscore
+
+The underscore key of JIS keyboards.
+
+=item FL_Home
+
+The home key.
+
+=item FL_Left
+
+The left arrow key.
+
+=item FL_Up
+
+The up arrow key.
+
+=item FL_Right
+
+The right arrow key.
+
+=item FL_Down
+
+The down arrow key.
+
+=item FL_Page_Up
+
+The page-up key.
+
+=item FL_Page_Down
+
+The page-down key.
+
+=item FL_End
+
+The end key.
+
+=item FL_Print
+
+The print (or print-screen) key.
+
+=item FL_Insert
+
+The insert key.
+
+=item FL_Menu
+
+The menu key.
+
+=item FL_Help
+
+The 'help' key on Mac keyboards
+
+=item FL_Num_Lock
+
+The num lock key.
+
+=item FL_KP
+
+One of the keypad numbers; use FL_KP + 'n' for digit n.
+
+=item FL_KP_Enter
+
+The enter key on the keypad, same as Fl_KP+'\\r'.
+
+=item FL_KP_Last
+
+The last keypad key; use to range-check keypad.
+
+=item FL_F
+
+One of the function keys; use FL_F + n for function key n.
+
+=item FL_F_Last
+
+The last function key; use to range-check function keys.
+
+=item FL_Shift_L
+
+The lefthand shift key.
+
+=item FL_Shift_R
+
+The righthand shift key.
+
+=item FL_Control_L
+
+The lefthand control key.
+
+=item FL_Control_R
+
+The righthand control key.
+
+=item FL_Caps_Lock
+
+The caps lock key.
+
+=item FL_Meta_L
+
+The left meta/Windows key.
+
+=item FL_Meta_R
+
+The right meta/Windows key.
+
+=item FL_Alt_L
+
+The left alt key.
+
+=item FL_Alt_R
+
+The right alt key.
+
+=item FL_Delete
+
+The delete key.
+
+=item FL_Volume_Down
+
+Volume control down
+
+=item FL_Volume_Mute
+
+Mute sound from the system
+
+=item FL_Volume_Up
+
+Volume control up
+
+=item FL_Media_Play
+
+Start playing of audio
+
+=item FL_Media_Stop
+
+Stop playing audio
+
+=item FL_Media_Prev
+
+Previous track
+
+=item FL_Media_Next
+
+Next track
+
+=item FL_Home_Page
+
+Display user's home page
+
+=item FL_Mail
+
+Invoke user's mail program
+
+=item FL_Search
+
+Search
+
+=item FL_Back
+
+Like back on a browser
+
+=item FL_Forward
+
+Like forward on a browser
+
+=item FL_Stop
+
+Stop current operation
+
+=item FL_Refresh
+
+Refresh the page
+
+=item FL_Sleep
+
+Put system to sleep
+
+=item FL_Favorites
+
+Show favorite locations
+
+=back
+
+The following constants define bits in the Fl::event_state() value. You get
+these with C<:keyboard> as well.
+
+=over
+
+=item FL_SHIFT
+
+One of the shift keys is down
+
+=item FL_CAPS_LOCK
+
+The caps lock is on
+
+=item FL_CTRL
+
+One of the ctrl keys is down
+
+=item FL_ALT
+
+One of the alt keys is down
+
+=item FL_NUM_LOCK
+
+The num lock is on
+
+=item FL_META
+
+One of the meta/Windows keys is down
+
+=item FL_SCROLL_LOCK
+
+The scroll lock is on
+
+=item FL_KEY_MASK
+
+All keys are 16 bit for now
+
+=item FL_COMMAND
+
+An alias for FL_CTRL on WIN32 and X11, or FL_META on MacOS X
+
+=item FL_CONTROL
+
+An alias for FL_META on WIN32 and X11, or FL_CTRL on MacOS X
+
+=back
+
+=cut
+
+    export_constant( "FL_Button",      "keyboard", newSViv(FL_Button));
+    export_constant( "FL_BackSpace",   "keyboard", newSViv(FL_BackSpace));
+    export_constant( "FL_Tab",         "keyboard", newSViv(FL_Tab));
+    export_constant( "FL_Iso_Key",     "keyboard", newSViv(FL_Iso_Key));
+    export_constant( "FL_Enter",       "keyboard", newSViv(FL_Enter));
+    export_constant( "FL_Pause",       "keyboard", newSViv(FL_Pause));
+    export_constant( "FL_Scroll_Lock", "keyboard", newSViv(FL_Scroll_Lock));
+    export_constant( "FL_Escape",      "keyboard", newSViv(FL_Escape));
+    export_constant( "FL_Kana",        "keyboard", newSViv(FL_Kana));
+    export_constant( "FL_Eisu",        "keyboard", newSViv(FL_Eisu));
+    export_constant( "FL_Yen",         "keyboard", newSViv(FL_Yen));
+    export_constant( "FL_JIS_Underscore", "keyboard", newSViv(FL_JIS_Underscore));
+    export_constant( "FL_Home",        "keyboard", newSViv(FL_Home));
+    export_constant( "FL_Left",        "keyboard", newSViv(FL_Left));
+    export_constant( "FL_Up",          "keyboard", newSViv(FL_Up));
+    export_constant( "FL_Right",       "keyboard", newSViv(FL_Right));
+    export_constant( "FL_Down",        "keyboard", newSViv(FL_Down));
+    export_constant( "FL_Page_Up",     "keyboard", newSViv(FL_Page_Up));
+    export_constant( "FL_Page_Down",   "keyboard", newSViv(FL_Page_Down));
+    export_constant( "FL_End",         "keyboard", newSViv(FL_End));
+    export_constant( "FL_Print",       "keyboard", newSViv(FL_Print));
+    export_constant( "FL_Insert",      "keyboard", newSViv(FL_Insert));
+    export_constant( "FL_Menu",        "keyboard", newSViv(FL_Menu));
+    export_constant( "FL_Help",        "keyboard", newSViv(FL_Help));
+    export_constant( "FL_Num_Lock",    "keyboard", newSViv(FL_Num_Lock));
+    export_constant( "FL_KP",          "keyboard", newSViv(FL_KP));
+    export_constant( "FL_KP_Enter",    "keyboard", newSViv(FL_KP_Enter));
+    export_constant( "FL_KP_Last",     "keyboard", newSViv(FL_KP_Last));
+    export_constant( "FL_F",           "keyboard", newSViv(FL_F));
+    export_constant( "FL_F_Last",      "keyboard", newSViv(FL_F_Last));
+    export_constant( "FL_Shift_L",     "keyboard", newSViv(FL_Shift_L));
+    export_constant( "FL_Shift_R",     "keyboard", newSViv(FL_Shift_R));
+    export_constant( "FL_Control_L",   "keyboard", newSViv(FL_Control_L));
+    export_constant( "FL_Control_R",   "keyboard", newSViv(FL_Control_R));
+    export_constant( "FL_Caps_Lock",   "keyboard", newSViv(FL_Caps_Lock));
+    export_constant( "FL_Meta_L",      "keyboard", newSViv(FL_Meta_L));
+    export_constant( "FL_Meta_R",      "keyboard", newSViv(FL_Meta_R));
+    export_constant( "FL_Alt_L",       "keyboard", newSViv(FL_Alt_L));
+    export_constant( "FL_Alt_R",       "keyboard", newSViv(FL_Alt_R));
+    export_constant( "FL_Delete",      "keyboard", newSViv(FL_Delete));
+    export_constant( "FL_Volume_Down", "keyboard", newSViv(FL_Volume_Down));
+    export_constant( "FL_Volume_Mute", "keyboard", newSViv(FL_Volume_Mute));
+    export_constant( "FL_Volume_Up",   "keyboard", newSViv(FL_Volume_Up));
+    export_constant( "FL_Media_Play",  "keyboard", newSViv(FL_Media_Play));
+    export_constant( "FL_Media_Stop",  "keyboard", newSViv(FL_Media_Stop));
+    export_constant( "FL_Media_Prev",  "keyboard", newSViv(FL_Media_Prev));
+    export_constant( "FL_Media_Next",  "keyboard", newSViv(FL_Media_Next));
+    export_constant( "FL_Home_Page",   "keyboard", newSViv(FL_Home_Page));
+    export_constant( "FL_Mail",        "keyboard", newSViv(FL_Mail));
+    export_constant( "FL_Search",      "keyboard", newSViv(FL_Search));
+    export_constant( "FL_Back",        "keyboard", newSViv(FL_Back));
+    export_constant( "FL_Forward",     "keyboard", newSViv(FL_Forward));
+    export_constant( "FL_Stop",        "keyboard", newSViv(FL_Stop));
+    export_constant( "FL_Refresh",     "keyboard", newSViv(FL_Refresh));
+    export_constant( "FL_Sleep",       "keyboard", newSViv(FL_Sleep));
+    export_constant( "FL_Favorites",   "keyboard", newSViv(FL_Favorites));
+    export_constant( "FL_SHIFT",       "keyboard", newSViv(FL_SHIFT));
+    export_constant( "FL_CAPS_LOCK",   "keyboard", newSViv(FL_CAPS_LOCK));
+    export_constant( "FL_CTRL",        "keyboard", newSViv(FL_CTRL));
+    export_constant( "FL_ALT",         "keyboard", newSViv(FL_ALT));
+    export_constant( "FL_NUM_LOCK",    "keyboard", newSViv(FL_NUM_LOCK));
+    export_constant( "FL_META",        "keyboard", newSViv(FL_META));
+    export_constant( "FL_SCROLL_LOCK", "keyboard", newSViv(FL_SCROLL_LOCK));
+    export_constant( "FL_KEY_MASK",    "keyboard", newSViv(FL_KEY_MASK));
+    export_constant( "FL_COMMAND",      "keyboard", newSViv(FL_COMMAND));
+    export_constant( "FL_CONTROL",      "keyboard", newSViv(FL_CONTROL));
+
+=pod
+
+=head2 C<:mouse>
+
+These constants define the button numbers for FL_PUSH and FL_RELEASE events.
+
+See also Fl::event_button().
+
+=over
+
+=item FL_LEFT_MOUSE
+
+The left mouse button
+
+=item FL_MIDDLE_MOUSE
+
+The middle mouse button
+
+=item FL_RIGHT_MOUSE
+
+The right mouse button
+
+=back
+
+The following constants define bits in the Fl::event_state() value. You get
+these with C<:mouse> as well.
+
+=over
+
+=item FL_BUTTON1
+
+Mouse button 1 is pushed
+
+=item FL_BUTTON2
+
+Mouse button 2 is pushed
+
+=item FL_BUTTON3
+
+Mouse button 3 is pushed
+
+=item FL_BUTTONS
+
+Any mouse button is pushed
+
+=back
+
+=cut
+
+    export_constant( "FL_LEFT_MOUSE",   "mouse", newSViv(FL_LEFT_MOUSE));
+    export_constant( "FL_MIDDLE_MOUSE", "mouse", newSViv(FL_MIDDLE_MOUSE));
+    export_constant( "FL_RIGHT_MOUSE",  "mouse", newSViv(FL_RIGHT_MOUSE));
+    export_constant( "FL_BUTTON1",      "mouse", newSViv(FL_BUTTON1));
+    export_constant( "FL_BUTTON2",      "mouse", newSViv(FL_BUTTON2));
+    export_constant( "FL_BUTTON3",      "mouse", newSViv(FL_BUTTON3));
+    export_constant( "FL_BUTTONS",      "mouse", newSViv(FL_BUTTONS));
+
+=pod
+
 =head1 LICENSE
 
 Copyright (C) Sanko Robinson.
