@@ -5,8 +5,8 @@ HV * Fl_stash,  // For inserting stuff directly into Fl's namespace
 
 class Callback {
     public: /* TODO: Make these private */
-        SV * callback = (SV* )NULL;
-        SV * args     = (SV *)NULL;
+        SV * callback;
+        SV * args;
 
     public:
         ~Callback() { };
