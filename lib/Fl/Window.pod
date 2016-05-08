@@ -140,6 +140,14 @@ code.
 
 void
 Fl_Window::DESTROY()
+    CODE:
+        int refcount = SvREFCNT(SvRV(ST(0)));
+        if (refcount == 1) {
+            delete THIS;
+        }
+        else {
+            SvREFCNT_dec(ST(0));
+        }
 
 =pod
 

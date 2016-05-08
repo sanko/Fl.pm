@@ -23,23 +23,34 @@ class Callback {
             if (!SvOK(callback))
                 return;
 
+            SV * widget;
+            widget = sv_newmortal();
+            sv_setref_pv( widget, object2package(w), (void*) w );
+
             dSP;
 
             ENTER;
             SAVETMPS;
             PUSHMARK(SP);
-            //if (SvOK(widget))
-            //    XPUSHs(widget);
+
+            if (SvOK(widget))
+               XPUSHs(widget);
             if (args != (SV*)NULL)
                 XPUSHs(args);
+
             PUTBACK;
+
             i = call_sv(callback, G_SCALAR);
+
             SPAGAIN;
+
             if (i != 1)
-                croak("handler failed");
+                croak("Callback failed");
+
             PUTBACK;
             FREETMPS;
             LEAVE;
+
             return;
         };
 };
@@ -114,6 +125,14 @@ No Fl::Widget->new(...) constructor
 
 void
 Fl_Widget::DESTROY()
+    CODE:
+        int refcount = SvREFCNT(SvRV(ST(0)));
+        if (refcount == 1) {
+            delete THIS;
+        }
+        else {
+            SvREFCNT_dec(ST(0));
+        }
 
 void
 Fl_Widget::set_active()

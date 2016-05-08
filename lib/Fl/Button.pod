@@ -116,6 +116,14 @@ Fl_Button::new( ... )
 
 void
 Fl_Button::DESTROY()
+    CODE:
+        int refcount = SvREFCNT(SvRV(ST(0)));
+        if (refcount == 1) {
+            delete THIS;
+        }
+        else {
+            SvREFCNT_dec(ST(0));
+        }
 
 =pod
 

@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Callbacks no longer cause crash due to bad ref counts
+
 0.99.4 2016-05-06T02:02:22Z
 
     - New widget: Fl::Button

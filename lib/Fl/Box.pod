@@ -75,6 +75,14 @@ Fl_Box::new( ... )
 
 void
 Fl_Box::DESTROY()
+    CODE:
+        int refcount = SvREFCNT(SvRV(ST(0)));
+        if (refcount == 1) {
+            delete THIS;
+        }
+        else {
+            SvREFCNT_dec(ST(0));
+        }
 
 MODULE = Fl        PACKAGE = Fl
 
