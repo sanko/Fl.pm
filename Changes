@@ -8,8 +8,11 @@ Revision history for Perl extension Fl
         - Fl::LightButton - a button with a light to indicate 'on' vs 'off'
         - Fl::ReturnButton - triggers callback when Enter key is pressed
         - Fl::RepeatButton - repeatedly triggers callback as long as it's held down
-        - Fl::RadioButton - looks like a radio button and acts like one too
+        - Fl::RadioRoundButton - looks like a radio button and acts like one too
         - Fl::RoundButton - looks like a radio button but behaves like a traditional button
+        - Fl::RadioButton - acts like a radio button but looks like a regular one
+        - Fl::RadioLightButton - no idea...
+        - Fl::ToggleButton - toggles on when pressed and back off when pressed again
 
 0.99.4 2016-05-06T02:02:22Z
 

@@ -220,18 +220,24 @@ Fl_Widget::type(IN_OUTLIST uchar i = NO_INIT)
         if (GIMME_V != G_VOID)
             i = THIS->type(); // Don't bother if called in void context
 
+
+
+
 INCLUDE: ../lib/Fl/Group.pod
 INCLUDE: ../lib/Fl/Window.pod
 
 INCLUDE: ../lib/Fl/Box.pod
 
 INCLUDE: ../lib/Fl/Button.pod
-INCLUDE: ../lib/Fl/RepeatButton.pod
-INCLUDE: ../lib/Fl/ReturnButton.pod
-INCLUDE: ../lib/Fl/LightButton.pod
-INCLUDE: ../lib/Fl/CheckButton.pod
-INCLUDE: ../lib/Fl/RoundButton.pod
-INCLUDE: ../lib/Fl/RadioButton.pod
+    INCLUDE: ../lib/Fl/LightButton.pod
+        INCLUDE: ../lib/Fl/CheckButton.pod
+        INCLUDE: ../lib/Fl/RadioLightButton.pod
+        INCLUDE: ../lib/Fl/RoundButton.pod
+            INCLUDE: ../lib/Fl/RadioRoundButton.pod
+    INCLUDE: ../lib/Fl/RadioButton.pod
+    INCLUDE: ../lib/Fl/RepeatButton.pod
+    INCLUDE: ../lib/Fl/ReturnButton.pod
+    INCLUDE: ../lib/Fl/ToggleButton.pod
 
 INCLUDE: ../lib/Fl/Chart.pod
 

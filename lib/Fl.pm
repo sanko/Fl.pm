@@ -2,7 +2,7 @@ package Fl;
 use 5.008001;
 use strict;
 use warnings;
-our $VERSION = '0.99.4';
+our $VERSION = '0.99.5';
 use XSLoader;
 use vars qw[@EXPORT_OK @EXPORT %EXPORT_TAGS];
 use Exporter qw[import];
@@ -115,6 +115,12 @@ Fl contains several widgets and other classes including:
 =item L<Fl::RoundButton>
 
 =item L<Fl::RadioButton>
+
+=item L<Fl::RadioRoundButton>
+
+=item L<Fl::RadioLightButton>
+
+=item L<Fl::ToggleButton>
 
 =item L<Fl::Chart>
 
