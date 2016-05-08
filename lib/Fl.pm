@@ -62,8 +62,6 @@ Many widgets come with Fl but we'll cover just the basics here.
 
 Fl provides many types of buttons:
 
-=for markdown <center>[http://www.fltk.org/doc-1.3/buttons.png]</center>
-
 =for html <center><img src="http://www.fltk.org/doc-1.3/buttons.png" /></center>
 
 =over
@@ -104,8 +102,6 @@ group.
 
 =head1 Box Types
 
-=for markdown <center>[http://www.fltk.org/doc-1.3/boxtypes.png]</center>
-
 =for html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
 
 Widgets are drawn on screen according to their box types. The full list of
@@ -126,8 +122,6 @@ C<image()>, and C<deimage()> methods control labeling of widgets.
 The C<label()> method sets the string that is displayed for hte label. Symbols
 can be included withthe label string by escaping them with the C<@> symbol.
 C<@@> displays a single at symbol.
-
-=for markdown <center>[http://www.fltk.org/doc-1.3/symbols.png]</center>
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/symbols.png" /></center>
 

@@ -187,16 +187,6 @@ its children. Widgets that rae horizontally or vertically inside the
 dimensions of the box are scaled to the new size. Widgets outside othe box are
 moved.
 
-=begin markdown
-
-In these examples, the gray area is the resizable:
-
-[http://www.fltk.org/doc-1.3/resizebox1.png]
-
-[http://www.fltk.org/doc-1.3/resizebox2.png]
-
-=end markdown
-
 =begin html
 
 In these examples, the gray area is the resizable:

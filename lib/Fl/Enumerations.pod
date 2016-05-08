@@ -69,8 +69,6 @@ The FLTK version number.
 
 Values related to Fl::Box box types including:
 
-=for markdown [http://www.fltk.org/doc-1.3/boxtypes.png]
-
 =for html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
 
 =over
@@ -358,8 +356,6 @@ Add this to C<FL_HELVETICA>, C<FL_COURIER>, or C<FL_TIMES>.
 =head2 C<:chart>
 
 This tag imports values related to Fl::Chart:
-
-=for markdown [http://www.fltk.org/doc-1.3/charts.png]
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/charts.png" /></center>
 

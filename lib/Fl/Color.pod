@@ -298,8 +298,6 @@ BOOT:
 Pops up a window to let the user pick a colormap entry. The provided color is
 highlighted when the grid is shown.
 
-=for markdown [http://www.fltk.org/doc-1.3/fl_show_colormap.png]
-
 =for html <center><img src="http://www.fltk.org/doc-1.3/fl_show_colormap.png" /></center>
 
 =cut

@@ -30,8 +30,6 @@ Many widgets come with Fl but we'll cover just the basics here.
 
 Fl provides many types of buttons:
 
-<center>[http://www.fltk.org/doc-1.3/buttons.png]</center>
-
 <div>
     <center><img src="http://www.fltk.org/doc-1.3/buttons.png" /></center>
 </div>
@@ -65,8 +63,6 @@ group.
 
 # Box Types
 
-<center>[http://www.fltk.org/doc-1.3/boxtypes.png]</center>
-
 <div>
     <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
 </div>
@@ -89,8 +85,6 @@ The `label()`, `align()`, `labelfont()`, `lablesize()`, `labeltype()`,
 The `label()` method sets the string that is displayed for hte label. Symbols
 can be included withthe label string by escaping them with the `@` symbol.
 `@@` displays a single at symbol.
-
-<center>[http://www.fltk.org/doc-1.3/symbols.png]</center>
 
 <div>
     <center><img src="http://www.fltk.org/doc-1.3/symbols.png" /></center>
