@@ -72,6 +72,8 @@ Fl contains several widgets and other classes including:
 - [Fl::LightButton](https://metacpan.org/pod/Fl::LightButton) - a button with a light to indicate 'on' vs 'off'
 - [Fl::ReturnButton](https://metacpan.org/pod/Fl::ReturnButton)
 - [Fl::RepeatButton](https://metacpan.org/pod/Fl::RepeatButton)
+- [Fl::RoundButton](https://metacpan.org/pod/Fl::RoundButton)
+- [Fl::RadioButton](https://metacpan.org/pod/Fl::RadioButton)
 - [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)

@@ -112,6 +112,10 @@ Fl contains several widgets and other classes including:
 
 =item L<Fl::RepeatButton>
 
+=item L<Fl::RoundButton>
+
+=item L<Fl::RadioButton>
+
 =item L<Fl::Chart>
 
 =item L<Fl::Group>

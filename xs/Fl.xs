@@ -230,6 +230,8 @@ INCLUDE: ../lib/Fl/RepeatButton.pod
 INCLUDE: ../lib/Fl/ReturnButton.pod
 INCLUDE: ../lib/Fl/LightButton.pod
 INCLUDE: ../lib/Fl/CheckButton.pod
+INCLUDE: ../lib/Fl/RoundButton.pod
+INCLUDE: ../lib/Fl/RadioButton.pod
 
 INCLUDE: ../lib/Fl/Chart.pod
 
