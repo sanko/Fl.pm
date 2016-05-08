@@ -121,7 +121,6 @@ The first free box type for creation of new box types.
 =cut
 
     export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(FL_ROUND_UP_BOX));
-
     export_constant( "FL_NO_BOX",                   "box", newSViv(FL_NO_BOX));
     export_constant( "FL_FLAT_BOX",                 "box", newSViv(FL_FLAT_BOX));
     export_constant( "FL_UP_BOX",                   "box", newSViv(FL_UP_BOX));
@@ -137,47 +136,47 @@ The first free box type for creation of new box types.
     export_constant( "FL_ENGRAVED_FRAME",           "box", newSViv(FL_ENGRAVED_FRAME));
     export_constant( "FL_EMBOSSED_FRAME",           "box", newSViv(FL_EMBOSSED_FRAME));
     export_constant( "FL_BORDER_BOX",               "box", newSViv(FL_BORDER_BOX));
-    export_constant( "_FL_SHADOW_BOX",              "box", newSViv(_FL_SHADOW_BOX));
+    export_constant( "FL_SHADOW_BOX",              "box", newSViv(_FL_SHADOW_BOX));
     export_constant( "FL_BORDER_FRAME",             "box", newSViv(FL_BORDER_FRAME));
-    export_constant( "_FL_SHADOW_FRAME",            "box", newSViv(_FL_SHADOW_FRAME));
-    export_constant( "_FL_ROUNDED_BOX",             "box", newSViv(_FL_ROUNDED_BOX));
-    export_constant( "_FL_RSHADOW_BOX",             "box", newSViv(_FL_RSHADOW_BOX));
-    export_constant( "_FL_ROUNDED_FRAME",           "box", newSViv(_FL_ROUNDED_FRAME));
-    export_constant( "_FL_RFLAT_BOX",               "box", newSViv(_FL_RFLAT_BOX));
-    export_constant( "_FL_ROUND_UP_BOX",            "box", newSViv(_FL_ROUND_UP_BOX));
-    export_constant( "_FL_ROUND_DOWN_BOX",          "box", newSViv(_FL_ROUND_DOWN_BOX));
-    export_constant( "_FL_DIAMOND_UP_BOX",          "box", newSViv(_FL_DIAMOND_UP_BOX));
-    export_constant( "_FL_DIAMOND_DOWN_BOX",        "box", newSViv(_FL_DIAMOND_DOWN_BOX));
-    export_constant( "_FL_OVAL_BOX",                "box", newSViv(_FL_OVAL_BOX));
-    export_constant( "_FL_OSHADOW_BOX",             "box", newSViv(_FL_OSHADOW_BOX));
-    export_constant( "_FL_OVAL_FRAME",              "box", newSViv(_FL_OVAL_FRAME));
-    export_constant( "_FL_OFLAT_BOX",               "box", newSViv(_FL_OFLAT_BOX));
-    export_constant( "_FL_PLASTIC_UP_BOX",          "box", newSViv(_FL_PLASTIC_UP_BOX));
-    export_constant( "_FL_PLASTIC_DOWN_BOX",        "box", newSViv(_FL_PLASTIC_DOWN_BOX));
-    export_constant( "_FL_PLASTIC_UP_FRAME",        "box", newSViv(_FL_PLASTIC_UP_FRAME));
-    export_constant( "_FL_PLASTIC_DOWN_FRAME",      "box", newSViv(_FL_PLASTIC_DOWN_FRAME));
-    export_constant( "_FL_PLASTIC_THIN_UP_BOX",     "box", newSViv(_FL_PLASTIC_THIN_UP_BOX));
-    export_constant( "_FL_PLASTIC_THIN_DOWN_BOX",   "box", newSViv(_FL_PLASTIC_THIN_DOWN_BOX));
-    export_constant( "_FL_PLASTIC_ROUND_UP_BOX",    "box", newSViv(_FL_PLASTIC_ROUND_UP_BOX));
-    export_constant( "_FL_PLASTIC_ROUND_DOWN_BOX",  "box", newSViv(_FL_PLASTIC_ROUND_DOWN_BOX));
-    export_constant( "_FL_GTK_UP_BOX",              "box", newSViv(_FL_GTK_UP_BOX));
-    export_constant( "_FL_GTK_DOWN_BOX",            "box", newSViv(_FL_GTK_DOWN_BOX));
-    export_constant( "_FL_GTK_UP_FRAME",            "box", newSViv(_FL_GTK_UP_FRAME));
-    export_constant( "_FL_GTK_DOWN_FRAME",          "box", newSViv(_FL_GTK_DOWN_FRAME));
-    export_constant( "_FL_GTK_THIN_UP_BOX",         "box", newSViv(_FL_GTK_THIN_UP_BOX));
-    export_constant( "_FL_GTK_THIN_DOWN_BOX",       "box", newSViv(_FL_GTK_THIN_DOWN_BOX));
-    export_constant( "_FL_GTK_THIN_UP_FRAME",       "box", newSViv(_FL_GTK_THIN_UP_FRAME));
-    export_constant( "_FL_GTK_THIN_DOWN_FRAME",     "box", newSViv(_FL_GTK_THIN_DOWN_FRAME));
-    export_constant( "_FL_GTK_ROUND_UP_BOX",        "box", newSViv(_FL_GTK_ROUND_UP_BOX));
-    export_constant( "_FL_GTK_ROUND_DOWN_BOX",      "box", newSViv(_FL_GTK_ROUND_DOWN_BOX));
-    export_constant( "_FL_GLEAM_UP_BOX",            "box", newSViv(_FL_GLEAM_UP_BOX));
-    export_constant( "_FL_GLEAM_DOWN_BOX",          "box", newSViv(_FL_GLEAM_DOWN_BOX));
-    export_constant( "_FL_GLEAM_UP_FRAME",          "box", newSViv(_FL_GLEAM_UP_FRAME));
-    export_constant( "_FL_GLEAM_DOWN_FRAME",        "box", newSViv(_FL_GLEAM_DOWN_FRAME));
-    export_constant( "_FL_GLEAM_THIN_UP_BOX",       "box", newSViv(_FL_GLEAM_THIN_UP_BOX));
-    export_constant( "_FL_GLEAM_THIN_DOWN_BOX",     "box", newSViv(_FL_GLEAM_THIN_DOWN_BOX));
-    export_constant( "_FL_GLEAM_ROUND_UP_BOX",      "box", newSViv(_FL_GLEAM_ROUND_UP_BOX));
-    export_constant( "_FL_GLEAM_ROUND_DOWN_BOX",    "box", newSViv(_FL_GLEAM_ROUND_DOWN_BOX));
+    export_constant( "FL_SHADOW_FRAME",            "box", newSViv(_FL_SHADOW_FRAME));
+    export_constant( "FL_ROUNDED_BOX",             "box", newSViv(_FL_ROUNDED_BOX));
+    export_constant( "FL_RSHADOW_BOX",             "box", newSViv(_FL_RSHADOW_BOX));
+    export_constant( "FL_ROUNDED_FRAME",           "box", newSViv(_FL_ROUNDED_FRAME));
+    export_constant( "FL_RFLAT_BOX",               "box", newSViv(_FL_RFLAT_BOX));
+    export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(_FL_ROUND_UP_BOX));
+    export_constant( "FL_ROUND_DOWN_BOX",          "box", newSViv(_FL_ROUND_DOWN_BOX));
+    export_constant( "FL_DIAMOND_UP_BOX",          "box", newSViv(_FL_DIAMOND_UP_BOX));
+    export_constant( "FL_DIAMOND_DOWN_BOX",        "box", newSViv(_FL_DIAMOND_DOWN_BOX));
+    export_constant( "FL_OVAL_BOX",                "box", newSViv(_FL_OVAL_BOX));
+    export_constant( "FL_OSHADOW_BOX",             "box", newSViv(_FL_OSHADOW_BOX));
+    export_constant( "FL_OVAL_FRAME",              "box", newSViv(_FL_OVAL_FRAME));
+    export_constant( "FL_OFLAT_BOX",               "box", newSViv(_FL_OFLAT_BOX));
+    export_constant( "FL_PLASTIC_UP_BOX",          "box", newSViv(_FL_PLASTIC_UP_BOX));
+    export_constant( "FL_PLASTIC_DOWN_BOX",        "box", newSViv(_FL_PLASTIC_DOWN_BOX));
+    export_constant( "FL_PLASTIC_UP_FRAME",        "box", newSViv(_FL_PLASTIC_UP_FRAME));
+    export_constant( "FL_PLASTIC_DOWN_FRAME",      "box", newSViv(_FL_PLASTIC_DOWN_FRAME));
+    export_constant( "FL_PLASTIC_THIN_UP_BOX",     "box", newSViv(_FL_PLASTIC_THIN_UP_BOX));
+    export_constant( "FL_PLASTIC_THIN_DOWN_BOX",   "box", newSViv(_FL_PLASTIC_THIN_DOWN_BOX));
+    export_constant( "FL_PLASTIC_ROUND_UP_BOX",    "box", newSViv(_FL_PLASTIC_ROUND_UP_BOX));
+    export_constant( "FL_PLASTIC_ROUND_DOWN_BOX",  "box", newSViv(_FL_PLASTIC_ROUND_DOWN_BOX));
+    export_constant( "FL_GTK_UP_BOX",              "box", newSViv(_FL_GTK_UP_BOX));
+    export_constant( "FL_GTK_DOWN_BOX",            "box", newSViv(_FL_GTK_DOWN_BOX));
+    export_constant( "FL_GTK_UP_FRAME",            "box", newSViv(_FL_GTK_UP_FRAME));
+    export_constant( "FL_GTK_DOWN_FRAME",          "box", newSViv(_FL_GTK_DOWN_FRAME));
+    export_constant( "FL_GTK_THIN_UP_BOX",         "box", newSViv(_FL_GTK_THIN_UP_BOX));
+    export_constant( "FL_GTK_THIN_DOWN_BOX",       "box", newSViv(_FL_GTK_THIN_DOWN_BOX));
+    export_constant( "FL_GTK_THIN_UP_FRAME",       "box", newSViv(_FL_GTK_THIN_UP_FRAME));
+    export_constant( "FL_GTK_THIN_DOWN_FRAME",     "box", newSViv(_FL_GTK_THIN_DOWN_FRAME));
+    export_constant( "FL_GTK_ROUND_UP_BOX",        "box", newSViv(_FL_GTK_ROUND_UP_BOX));
+    export_constant( "FL_GTK_ROUND_DOWN_BOX",      "box", newSViv(_FL_GTK_ROUND_DOWN_BOX));
+    export_constant( "FL_GLEAM_UP_BOX",            "box", newSViv(_FL_GLEAM_UP_BOX));
+    export_constant( "FL_GLEAM_DOWN_BOX",          "box", newSViv(_FL_GLEAM_DOWN_BOX));
+    export_constant( "FL_GLEAM_UP_FRAME",          "box", newSViv(_FL_GLEAM_UP_FRAME));
+    export_constant( "FL_GLEAM_DOWN_FRAME",        "box", newSViv(_FL_GLEAM_DOWN_FRAME));
+    export_constant( "FL_GLEAM_THIN_UP_BOX",       "box", newSViv(_FL_GLEAM_THIN_UP_BOX));
+    export_constant( "FL_GLEAM_THIN_DOWN_BOX",     "box", newSViv(_FL_GLEAM_THIN_DOWN_BOX));
+    export_constant( "FL_GLEAM_ROUND_UP_BOX",      "box", newSViv(_FL_GLEAM_ROUND_UP_BOX));
+    export_constant( "FL_GLEAM_ROUND_DOWN_BOX",    "box", newSViv(_FL_GLEAM_ROUND_DOWN_BOX));
     export_constant( "FL_FREE_BOXTYPE",             "box", newSViv(FL_FREE_BOXTYPE));
 
 =pod
@@ -209,9 +208,9 @@ Draws edges as though the text is engraved.
 
 Draws edges as though the text is raised.
 
-=item FL_FREE_BOXTYPE
+=item FL_ICON_LABEL
 
-First free labeltype to use for creating your own labeltypes.
+Draws the icon associated with the text.
 
 =back
 
@@ -220,14 +219,13 @@ First free labeltype to use for creating your own labeltypes.
     // Fl_Labeltype
     export_constant( "FL_NORMAL_LABEL",    "label", newSViv(FL_NORMAL_LABEL));
     export_constant( "FL_NO_LABEL",        "label", newSViv(FL_NO_LABEL));
-    export_constant( "_FL_SHADOW_LABEL",   "label", newSViv(_FL_SHADOW_LABEL));
-    export_constant( "_FL_ENGRAVED_LABEL", "label", newSViv(_FL_ENGRAVED_LABEL));
-    export_constant( "_FL_EMBOSSED_LABEL", "label", newSViv(_FL_EMBOSSED_LABEL));
-    export_constant( "_FL_MULTI_LABEL",    "label", newSViv(_FL_MULTI_LABEL));
-    export_constant( "_FL_ICON_LABEL",     "label", newSViv(_FL_ICON_LABEL));
-    export_constant( "_FL_IMAGE_LABEL",    "label", newSViv(_FL_IMAGE_LABEL));
+    export_constant( "FL_SHADOW_LABEL",   "label", newSViv(_FL_SHADOW_LABEL));
+    export_constant( "FL_ENGRAVED_LABEL", "label", newSViv(_FL_ENGRAVED_LABEL));
+    export_constant( "FL_EMBOSSED_LABEL", "label", newSViv(_FL_EMBOSSED_LABEL));
+    export_constant( "FL_MULTI_LABEL",    "label", newSViv(_FL_MULTI_LABEL));
+    export_constant( "FL_ICON_LABEL",     "label", newSViv(_FL_ICON_LABEL));
+    export_constant( "FL_IMAGE_LABEL",    "label", newSViv(_FL_IMAGE_LABEL));
     export_constant( "FL_FREE_LABELTYPE",  "label", newSViv(FL_FREE_LABELTYPE));
-
     export_constant( "FL_SHADOW_LABEL",   "label", newSViv(FL_SHADOW_LABEL));
     export_constant( "FL_ENGRAVED_LABEL", "label", newSViv(FL_ENGRAVED_LABEL));
     export_constant( "FL_EMBOSSED_LABEL", "label", newSViv(FL_EMBOSSED_LABEL));
@@ -349,7 +347,7 @@ Add this to C<FL_HELVETICA>, C<FL_COURIER>, or C<FL_TIMES>.
     export_constant( "FL_ZAPF_DINGBATS",         "font", newSViv(FL_ZAPF_DINGBATS));
     export_constant( "FL_FREE_FONT",             "font", newSViv(FL_FREE_FONT));
     export_constant( "FL_BOLD",                  "font", newSViv(FL_BOLD));
- 	export_constant( "FL_ITALIC",                "font", newSViv(FL_ITALIC));
+    export_constant( "FL_ITALIC",                "font", newSViv(FL_ITALIC));
     export_constant( "FL_BOLD_ITALIC",           "font", newSViv(FL_BOLD_ITALIC));
 
     // Fl_Fontsize
@@ -868,6 +866,145 @@ Any mouse button is pushed
     export_constant( "FL_BUTTON2",      "mouse", newSViv(FL_BUTTON2));
     export_constant( "FL_BUTTON3",      "mouse", newSViv(FL_BUTTON3));
     export_constant( "FL_BUTTONS",      "mouse", newSViv(FL_BUTTONS));
+
+=pod
+
+=head1 C<:align>
+
+Flags to control the label alignment.
+
+This controls how labels are displayed next to or inside the widget. The
+default value is FL_ALIGN_CENTER for most widgets which centers the label
+inside the widget.
+
+Flags can be or'd to achieve a combination of alignments.
+
+Outside alignments:
+
+               TOP_LEFT        TOP       TOP_RIGHT
+       LEFT_TOP+---------------------------------+RIGHT_TOP
+               |                                 |
+           LEFT|                                 |RIGHT
+               |                                 |
+    LEFT_BOTTOM+---------------------------------+RIGHT_BOTTOM
+               BOTTOM_RIGHT   BOTTOM   BOTTOM_LEFT
+
+Inside alignments:
+
+               +---------------------------------+
+               |TOP_LEFT       TOP      TOP_RIGHT|
+               |                                 |
+               |LEFT                        RIGHT|
+               |                                 |
+               |BOTTOM_RIGHT  BOTTOM  BOTTOM_LEFT|
+               +---------------------------------+
+
+The following values are exported with the C<:align> tag:
+
+=over
+
+=item FL_ALIGN_CENTER
+
+Align the label horizontally in the middle.
+
+=item FL_ALIGN_TOP
+
+Align the label at the top of the widget.
+
+=item FL_ALIGN_BOTTOM
+
+Align the label at the bottom of the widget.
+
+=item FL_ALIGN_LEFT
+
+Align the label at the left of the widget.
+
+=item FL_ALIGN_RIGHT
+
+Align the label to the right of the widget.
+
+=item FL_ALIGN_INSIDE
+
+Draw the label inside of the widget.
+
+=item FL_ALIGN_TEXT_OVER_IMAGE
+
+If the label contains an image, draw the text on top of the image.
+
+=item FL_ALIGN_IMAGE_OVER_TEXT
+
+If the label contains an image, draw the text below the image.
+
+=item FL_ALIGN_CLIP
+
+All parts of the label that are lager than the widget will not be drawn.
+
+=item FL_ALIGN_WRAP
+
+Wrap text that does not fit the width of the widget.
+
+=item FL_ALIGN_IMAGE_NEXT_TO_TEXT
+
+If the label contains an image, draw the text to the right of the image.
+
+=item FL_ALIGN_TEXT_NEXT_TO_IMAGE
+
+If the label contains an image, draw the text to the left of the image.
+
+=item FL_ALIGN_IMAGE_BACKDROP
+
+If the label contains an image, draw the image or deimage in the background.
+
+=item FL_ALIGN_TOP_LEFT
+
+=item FL_ALIGN_TOP_RIGHT
+
+=item FL_ALIGN_BOTTOM_LEFT
+
+=item FL_ALIGN_BOTTOM_RIGHT
+
+=item FL_ALIGN_LEFT_TOP
+
+=item FL_ALIGN_RIGHT_TOP
+
+=item FL_ALIGN_LEFT_BOTTOM
+
+=item FL_ALIGN_RIGHT_BOTTOM
+
+=item FL_ALIGN_NOWRAP
+
+=item FL_ALIGN_POSITION_MASK
+
+=item FL_ALIGN_IMAGE_MASK
+
+=back
+
+=cut
+
+    export_constant( "FL_ALIGN_CENTER",             "align", newSViv(FL_ALIGN_CENTER));
+    export_constant( "FL_ALIGN_TOP",                "align", newSViv(FL_ALIGN_TOP));
+    export_constant( "FL_ALIGN_BOTTOM",             "align", newSViv(FL_ALIGN_BOTTOM));
+    export_constant( "FL_ALIGN_LEFT",               "align", newSViv(FL_ALIGN_LEFT));
+    export_constant( "FL_ALIGN_RIGHT",              "align", newSViv(FL_ALIGN_RIGHT));
+    export_constant( "FL_ALIGN_INSIDE",             "align", newSViv(FL_ALIGN_INSIDE));
+    export_constant( "FL_ALIGN_TEXT_OVER_IMAGE",    "align", newSViv(FL_ALIGN_TEXT_OVER_IMAGE));
+    export_constant( "FL_ALIGN_IMAGE_OVER_TEXT",    "align", newSViv(FL_ALIGN_IMAGE_OVER_TEXT));
+    export_constant( "FL_ALIGN_CLIP",               "align", newSViv(FL_ALIGN_CLIP));
+    export_constant( "FL_ALIGN_WRAP",               "align", newSViv(FL_ALIGN_WRAP));
+    export_constant( "FL_ALIGN_IMAGE_NEXT_TO_TEXT", "align", newSViv(FL_ALIGN_IMAGE_NEXT_TO_TEXT));
+    export_constant( "FL_ALIGN_TEXT_NEXT_TO_IMAGE", "align", newSViv(FL_ALIGN_TEXT_NEXT_TO_IMAGE));
+    export_constant( "FL_ALIGN_IMAGE_BACKDROP",     "align", newSViv(FL_ALIGN_IMAGE_BACKDROP));
+    export_constant( "FL_ALIGN_TOP_LEFT",           "align", newSViv(FL_ALIGN_TOP_LEFT));
+    export_constant( "FL_ALIGN_TOP_RIGHT",          "align", newSViv(FL_ALIGN_TOP_RIGHT));
+    export_constant( "FL_ALIGN_BOTTOM_LEFT",        "align", newSViv(FL_ALIGN_BOTTOM_LEFT));
+    export_constant( "FL_ALIGN_BOTTOM_RIGHT",       "align", newSViv(FL_ALIGN_BOTTOM_RIGHT));
+    export_constant( "FL_ALIGN_LEFT_TOP",           "align", newSViv(FL_ALIGN_LEFT_TOP));
+    export_constant( "FL_ALIGN_RIGHT_TOP",          "align", newSViv(FL_ALIGN_RIGHT_TOP));
+    export_constant( "FL_ALIGN_LEFT_BOTTOM",        "align", newSViv(FL_ALIGN_LEFT_BOTTOM));
+    export_constant( "FL_ALIGN_RIGHT_BOTTOM",       "align", newSViv(FL_ALIGN_RIGHT_BOTTOM));
+    export_constant( "FL_ALIGN_NOWRAP",             "align", newSViv(FL_ALIGN_NOWRAP));
+    export_constant( "FL_ALIGN_POSITION_MASK",      "align", newSViv(FL_ALIGN_POSITION_MASK));
+    export_constant( "FL_ALIGN_IMAGE_MASK",         "align", newSViv(FL_ALIGN_IMAGE_MASK));
 
 =pod
 

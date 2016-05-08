@@ -63,47 +63,162 @@ toggle buttons to turn it on or off. Radio buttons can be turned on with the
 `setonly()` method; this will also turn off other radio buttons in the same
 group.
 
-# Exports
+# Box Types
 
-The top level Fl namespace exports several functions sorted by type. This list
-will grow as the dist develops.
+<center>[http://www.fltk.org/doc-1.3/boxtypes.png]</center>
 
-## `:event`
+<div>
+    <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
+</div>
 
-    use Fl qw[:event];
+Widgets are drawn on screen according to their box types. The full list of
+these may be found in [":box" in Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#box) and may be imported into your
+namespace with the `:box` tag.
 
-This would import functions related to application execution directly into
-your namespace. Please see Fl::Event for a list of these functions and
-more.
+FL\_NO\_BOX means nothing is drawn at all, so whatever is already on the screen
+remains. The FL\_...\_FRAME types only draw their edges, leaving the interior
+unchanged.
 
-## `:enum`
+# Labels and Label Types
 
-    use Fl qw[:enum]; # All Fl::Enumeration values
-    use Fl qw[:font]; # Only import enum values related to fonttype
+The `label()`, `align()`, `labelfont()`, `lablesize()`, `labeltype()`,
+`image()`, and `deimage()` methods control labeling of widgets.
 
-The `:enum` and related tags allow you to import values listed in
-Fl::Enumerations.
+## `label()`
 
-## `:color`
+The `label()` method sets the string that is displayed for hte label. Symbols
+can be included withthe label string by escaping them with the `@` symbol.
+`@@` displays a single at symbol.
 
-    use Fl qw[:color]
+<center>[http://www.fltk.org/doc-1.3/symbols.png]</center>
 
-Static variables and utility functions related to colors may be found in
-Fl::Color.
+<div>
+    <center><img src="http://www.fltk.org/doc-1.3/symbols.png" /></center>
+</div>
 
-## `:keyboard`
+The `@` sign may also be followed by the following optional "formatting"
+characters, in this order:
 
-    use Fl qw[:keyboard];
+- '#' forces square scaling, rather than distortion to the widget's shape.
+- +\[1-9\] or -\[1-9\] tweaks the scaling a little bigger or smaller.
+- '$' flips the symbol horizontally, '%' flips it vertically.
+- \[0-9\] - rotates by a multiple of 45 degrees. '5' and '6' do no rotation
+while the others point in the direction of that key on a numeric keypad. '0',
+followed by four more digits rotates the symbol by that amount in degrees.
 
-Event and state values for keyboard buttons.
+Thus, to show a very large arrow pointing downward you would use the label
+string "@+92->".
 
-## `:mouse`
+## `align()`
 
-    use Fl qw[:mouse];
+The `align()` method positions the label. The following constants are
+imported with the `:align` tag and may be OR'd together as needed:
 
-Event and state values for mouse buttons.
+- FL\_ALIGN\_CENTER - center the label in the widget.
+- FL\_ALIGN\_TOP - align the label at the top of the widget.
+- FL\_ALIGN\_BOTTOM - align the label at the bottom of the widget.
+- FL\_ALIGN\_LEFT - align the label to the left of the widget.
+- FL\_ALIGN\_RIGHT - align the label to the right of the widget.
+- FL\_ALIGN\_LEFT\_TOP - The label appears to the left of the widget, aligned
+at the top. Outside labels only.
+- FL\_ALIGN\_RIGHT\_TOP - The label appears to the right of the widget,
+aligned at the top. Outside labels only.
+- FL\_ALIGN\_LEFT\_BOTTOM - The label appears to the left of the widget,
+aligned at the bottom. Outside labels only.
+- FL\_ALIGN\_RIGHT\_BOTTOM - The label appears to the right of the widget,
+aligned at the bottom. Outside labels only.
+- FL\_ALIGN\_INSIDE - align the label inside the widget.
+- FL\_ALIGN\_CLIP - clip the label to the widget's bounding box.
+- FL\_ALIGN\_WRAP - wrap the label text as needed.
+- FL\_ALIGN\_TEXT\_OVER\_IMAGE - show the label text over the image.
+- FL\_ALIGN\_IMAGE\_OVER\_TEXT - show the label image over the text (default).
+- FL\_ALIGN\_IMAGE\_NEXT\_TO\_TEXT - The image will appear to the left of the text.
+- FL\_ALIGN\_TEXT\_NEXT\_TO\_IMAGE - The image will appear to the right of the text.
+- FL\_ALIGN\_IMAGE\_BACKDROP - The image will be used as a background for the widget.
 
-# Classes
+Please see the [:align](https://metacpan.org/pod/Fl::Enumerations#align) tag for more.
+
+## `labeltype()`
+
+The `labeltype()` method sets the type of the label. The following standard
+label types are included:
+
+- FL\_NORMAL\_LABEL - draws the text.
+- FL\_NO\_LABEL - does nothing.
+- FL\_SHADOW\_LABEL - draws a drop shadow under the text.
+- FL\_ENGRAVED\_LABEL - draws edges as though the text is engraved.
+- FL\_EMBOSSED\_LABEL - draws edges as thought the text is raised.
+- FL\_ICON\_LABEL - draws the icon associated with the text.
+
+These are imported with the `:label` tag. Please see
+[Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#label) for more.
+
+# Callbacks
+
+Callbacks are functions that are called when the value of a widget is changed.
+A callback function is sent the widget's pointer and the data you provided.
+
+    sub xyz_callback {
+        my ($widget, $data) = @_;
+        ...
+    }
+
+The `callback(...)` method sets the callback function for a widget. You can
+optionally pass data needed for the callback:
+
+    my $xyz_data = 'Fire Kingdom';
+    $button->callback(&xyz_callback, $xyz_data);
+
+You can also pass an anonymous sub to the `callback(...)` method:
+
+    $button->callback(sub { warn 'Click!' });
+
+Normally, callbacks are performed only when the value of the widget changes.
+You can change this using the `when()|Fl::Widget/when(...)` method:
+
+    $button->when(FL_WHEN_NEVER);
+    $button->when(FL_WHEN_CHANGED);
+    $button->when(FL_WHEN_RELEASE);
+    $button->when(FL_WHEN_RELEASE_ALWAYS);
+    $button->when(FL_WHEN_ENTER_KEY);
+    $button->when(FL_WHEN_ENTER_KEY_ALWAYS);
+    $button->when(FL_WHEN_CHANGED | FL_WHEN_NOT_CHANGED);
+
+These values may be imported with the `:when` tag. Please see
+[Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#when) for more.
+
+A word of caution: care has been taken not to tip over when you delete a
+widget inside it's own callback but it's still not the best idea so...
+
+    $button->callback(
+        sub {
+            $button = undef; # Might be okay. Might implode.
+        }
+    );
+
+Eventually, I'll provide an explicit `delete_widget()` method that will mark
+the widget for deletion when it's safe to do so.
+
+# Shortcuts
+
+Shortcuts are key sequences that activate widgets such as buttons or menu
+items. The `shortcut(...)` method sets the shortcut for a widget:
+
+    $button->shortcut(FL_Enter);
+    $button->shortcut(FL_SHIFT + 'b');
+    $button->shortcut(FL_CTRL + 'b');
+    $button->shortcut(FL_ALT + 'b');
+    $button->shortcut(FL_CTRL + FL_ALT + 'b');
+    $button->shortcut(0); // no shortcut
+
+The shortcut value is the key event value - the ASCII value or one of the
+special keys described in [Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#keyboard)
+combined with any modifiers like Shift, Alt, and Control.
+
+These values may be imported with the `:keyboard` tag. Please see
+[Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#keyboard) for an expansive list.
+
+# Other Classes
 
 Fl contains several other widgets and other classes including:
 

@@ -19,7 +19,7 @@ $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
     if 1 < scalar keys %EXPORT_TAGS;
 @{$EXPORT_TAGS{'enum'}}               # Merge these under a single tag
     = sort map { defined $EXPORT_TAGS{$_} ? @{$EXPORT_TAGS{$_}} : () }
-    qw[box button chart color font keyboard label mouse version when]
+    qw[align box button chart color font keyboard label mouse version when]
     if 1 < scalar keys %EXPORT_TAGS;
 @EXPORT    # Export these tags (if prepended w/ ':') or functions by default
     = sort map { m[^:(.+)] ? @{$EXPORT_TAGS{$1}} : $_ } qw[:style :default]
@@ -102,47 +102,194 @@ toggle buttons to turn it on or off. Radio buttons can be turned on with the
 C<setonly()> method; this will also turn off other radio buttons in the same
 group.
 
-=head1 Exports
+=head1 Box Types
 
-The top level Fl namespace exports several functions sorted by type. This list
-will grow as the dist develops.
+=for markdown <center>[http://www.fltk.org/doc-1.3/boxtypes.png]</center>
 
-=head2 C<:event>
+=for html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>
 
-    use Fl qw[:event];
+Widgets are drawn on screen according to their box types. The full list of
+these may be found in L<Fl::Enumerations/":box"> and may be imported into your
+namespace with the C<:box> tag.
 
-This would import functions related to application execution directly into
-your namespace. Please see Fl::Event for a list of these functions and
-more.
+FL_NO_BOX means nothing is drawn at all, so whatever is already on the screen
+remains. The FL_..._FRAME types only draw their edges, leaving the interior
+unchanged.
 
-=head2 C<:enum>
+=head1 Labels and Label Types
 
-    use Fl qw[:enum]; # All Fl::Enumeration values
-    use Fl qw[:font]; # Only import enum values related to fonttype
+The C<label()>, C<align()>, C<labelfont()>, C<lablesize()>, C<labeltype()>,
+C<image()>, and C<deimage()> methods control labeling of widgets.
 
-The C<:enum> and related tags allow you to import values listed in
-Fl::Enumerations.
+=head2 C<label()>
 
-=head2 C<:color>
+The C<label()> method sets the string that is displayed for hte label. Symbols
+can be included withthe label string by escaping them with the C<@> symbol.
+C<@@> displays a single at symbol.
 
-    use Fl qw[:color]
+=for markdown <center>[http://www.fltk.org/doc-1.3/symbols.png]</center>
 
-Static variables and utility functions related to colors may be found in
-Fl::Color.
+=for html <center><img src="http://www.fltk.org/doc-1.3/symbols.png" /></center>
 
-=head2 C<:keyboard>
+The C<@> sign may also be followed by the following optional "formatting"
+characters, in this order:
 
-    use Fl qw[:keyboard];
+=over
 
-Event and state values for keyboard buttons.
+=item '#' forces square scaling, rather than distortion to the widget's shape.
 
-=head2 C<:mouse>
+=item +[1-9] or -[1-9] tweaks the scaling a little bigger or smaller.
 
-    use Fl qw[:mouse];
+=item '$' flips the symbol horizontally, '%' flips it vertically.
 
-Event and state values for mouse buttons.
+=item [0-9] - rotates by a multiple of 45 degrees. '5' and '6' do no rotation
+while the others point in the direction of that key on a numeric keypad. '0',
+followed by four more digits rotates the symbol by that amount in degrees.
 
-=head1 Classes
+=back
+
+Thus, to show a very large arrow pointing downward you would use the label
+string "@+92->".
+
+=head2 C<align()>
+
+The C<align()> method positions the label. The following constants are
+imported with the C<:align> tag and may be OR'd together as needed:
+
+=over
+
+=item FL_ALIGN_CENTER - center the label in the widget.
+
+=item FL_ALIGN_TOP - align the label at the top of the widget.
+
+=item FL_ALIGN_BOTTOM - align the label at the bottom of the widget.
+
+=item FL_ALIGN_LEFT - align the label to the left of the widget.
+
+=item FL_ALIGN_RIGHT - align the label to the right of the widget.
+
+=item FL_ALIGN_LEFT_TOP - The label appears to the left of the widget, aligned
+at the top. Outside labels only.
+
+=item FL_ALIGN_RIGHT_TOP - The label appears to the right of the widget,
+aligned at the top. Outside labels only.
+
+=item FL_ALIGN_LEFT_BOTTOM - The label appears to the left of the widget,
+aligned at the bottom. Outside labels only.
+
+=item FL_ALIGN_RIGHT_BOTTOM - The label appears to the right of the widget,
+aligned at the bottom. Outside labels only.
+
+=item FL_ALIGN_INSIDE - align the label inside the widget.
+
+=item FL_ALIGN_CLIP - clip the label to the widget's bounding box.
+
+=item FL_ALIGN_WRAP - wrap the label text as needed.
+
+=item FL_ALIGN_TEXT_OVER_IMAGE - show the label text over the image.
+
+=item FL_ALIGN_IMAGE_OVER_TEXT - show the label image over the text (default).
+
+=item FL_ALIGN_IMAGE_NEXT_TO_TEXT - The image will appear to the left of the text.
+
+=item FL_ALIGN_TEXT_NEXT_TO_IMAGE - The image will appear to the right of the text.
+
+=item FL_ALIGN_IMAGE_BACKDROP - The image will be used as a background for the widget.
+
+=back
+
+Please see the L<:align|Fl::Enumerations/":align"> tag for more.
+
+=head2 C<labeltype()>
+
+The C<labeltype()> method sets the type of the label. The following standard
+label types are included:
+
+=over
+
+=item FL_NORMAL_LABEL - draws the text.
+
+=item FL_NO_LABEL - does nothing.
+
+=item FL_SHADOW_LABEL - draws a drop shadow under the text.
+
+=item FL_ENGRAVED_LABEL - draws edges as though the text is engraved.
+
+=item FL_EMBOSSED_LABEL - draws edges as thought the text is raised.
+
+=item FL_ICON_LABEL - draws the icon associated with the text.
+
+=back
+
+These are imported with the C<:label> tag. Please see
+L<Fl::Enumerations|Fl::Enumerations/":label"> for more.
+
+=head1 Callbacks
+
+Callbacks are functions that are called when the value of a widget is changed.
+A callback function is sent the widget's pointer and the data you provided.
+
+    sub xyz_callback {
+        my ($widget, $data) = @_;
+        ...
+    }
+
+The C<callback(...)> method sets the callback function for a widget. You can
+optionally pass data needed for the callback:
+
+    my $xyz_data = 'Fire Kingdom';
+    $button->callback(&xyz_callback, $xyz_data);
+
+You can also pass an anonymous sub to the C<callback(...)> method:
+
+    $button->callback(sub { warn 'Click!' });
+
+Normally, callbacks are performed only when the value of the widget changes.
+You can change this using the C<when()|Fl::Widget/when(...)> method:
+
+    $button->when(FL_WHEN_NEVER);
+    $button->when(FL_WHEN_CHANGED);
+    $button->when(FL_WHEN_RELEASE);
+    $button->when(FL_WHEN_RELEASE_ALWAYS);
+    $button->when(FL_WHEN_ENTER_KEY);
+    $button->when(FL_WHEN_ENTER_KEY_ALWAYS);
+    $button->when(FL_WHEN_CHANGED | FL_WHEN_NOT_CHANGED);
+
+These values may be imported with the C<:when> tag. Please see
+L<Fl::Enumerations|Fl::Enumerations/":when"> for more.
+
+A word of caution: care has been taken not to tip over when you delete a
+widget inside it's own callback but it's still not the best idea so...
+
+    $button->callback(
+        sub {
+            $button = undef; # Might be okay. Might implode.
+        }
+    );
+
+Eventually, I'll provide an explicit C<delete_widget()> method that will mark
+the widget for deletion when it's safe to do so.
+
+=head1 Shortcuts
+
+Shortcuts are key sequences that activate widgets such as buttons or menu
+items. The C<shortcut(...)> method sets the shortcut for a widget:
+
+    $button->shortcut(FL_Enter);
+    $button->shortcut(FL_SHIFT + 'b');
+    $button->shortcut(FL_CTRL + 'b');
+    $button->shortcut(FL_ALT + 'b');
+    $button->shortcut(FL_CTRL + FL_ALT + 'b');
+    $button->shortcut(0); // no shortcut
+
+The shortcut value is the key event value - the ASCII value or one of the
+special keys described in L<Fl::Enumerations|Fl::Enumerations/":keyboard">
+combined with any modifiers like Shift, Alt, and Control.
+
+These values may be imported with the C<:keyboard> tag. Please see
+L<Fl::Enumerations|Fl::Enumerations/":keyboard"> for an expansive list.
+
+=head1 Other Classes
 
 Fl contains several other widgets and other classes including:
 
@@ -180,6 +327,8 @@ Fl contains several other widgets and other classes including:
 
 This is the current list and will expand as the distribution develops.
 
+=for todo http://www.fltk.org/doc-1.3/common.html
+
 =head1 LICENSE
 
 Copyright (C) Sanko Robinson.
@@ -192,3 +341,5 @@ it under the same terms as Perl itself.
 Sanko Robinson E<lt>sanko@cpan.orgE<gt>
 
 =cut
+
+

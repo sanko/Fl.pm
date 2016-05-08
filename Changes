@@ -2,6 +2,7 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Starting basic documentation in Fl.pm
     - Callbacks no longer cause crash on destruction due to bad ref counts
     - New widgets:
         - Fl::CheckButton - a button with a checkbox
@@ -13,7 +14,8 @@ Revision history for Perl extension Fl
         - Fl::RadioButton - acts like a radio button but looks like a regular one
         - Fl::RadioLightButton - no idea...
         - Fl::ToggleButton - toggles on when pressed and back off when pressed again
-    - Starting basic documentation in Fl.pm
+    - New export tags/values (get them all with :enum, of course):
+        - :align - Label alignment values
 
 0.99.4 2016-05-06T02:02:22Z
 
