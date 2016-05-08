@@ -4,16 +4,20 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Chart.H>
 
 const char * object2package (Fl_Widget * w) {
-    /*Remember to add _most_ specific classes first*/
-    const char * package = "Fl::Widget";
-         if ( dynamic_cast<Fl_Box    *>(w) ) { package = "Fl::Box";    }
-    else if ( dynamic_cast<Fl_Button *>(w) ) { package = "Fl::Button"; }
-    else if ( dynamic_cast<Fl_Window *>(w) ) { package = "Fl::Window"; }
-    else if ( dynamic_cast<Fl_Group  *>(w) ) { package = "Fl::Group";  }
-    else if ( dynamic_cast<Fl_Chart  *>(w) ) { package = "Fl::Chart";  }
-    return package;
+     /*Remember to add _most_ specific classes first*/
+     const char * package = "Fl::Widget";
+          if ( dynamic_cast<Fl_Box    *>(w) ) { package = "Fl::Box";    }
+     else if ( dynamic_cast<Fl_Check_Button *>(w) ) { package = "Fl::CheckButton"; }
+     else if ( dynamic_cast<Fl_Light_Button *>(w) ) { package = "Fl::LightButton"; }
+     else if ( dynamic_cast<Fl_Button *>(w) ) { package = "Fl::Button"; }
+     else if ( dynamic_cast<Fl_Window *>(w) ) { package = "Fl::Window"; }
+     else if ( dynamic_cast<Fl_Group  *>(w) ) { package = "Fl::Group";  }
+     else if ( dynamic_cast<Fl_Chart  *>(w) ) { package = "Fl::Chart";  }
+     return package;
 }

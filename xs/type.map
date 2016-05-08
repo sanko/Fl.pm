@@ -1,19 +1,21 @@
 TYPEMAP
-Object      *   O_Class
-Fl_Widget   *   O_Class
-Fl_Chart    *   O_Class
-Fl_Group    *   O_Class
-Fl_Box      *   O_Class
-Fl_Button   *   O_Class
-Fl_Window   *   O_Class
-Fl_Boxtype      T_ENUM
-Fl_Labeltype    T_ENUM
-Fl_Fontsize     T_ENUM
-Fl_Font         T_ENUM
-Fl_Color        T_ENUM
-Fl_When         T_ENUM
-AV          *   T_AVREF_REFCOUNT_FIXED
-uchar           T_U_CHAR
+Object          *   O_Class
+Fl_Widget       *   O_Class
+Fl_Chart        *   O_Class
+Fl_Group        *   O_Class
+Fl_Box          *   O_Class
+Fl_Button       *   O_Class
+Fl_Check_Button *   O_Class
+Fl_Light_Button *   O_Class
+Fl_Window       *   O_Class
+Fl_Boxtype          T_ENUM
+Fl_Labeltype        T_ENUM
+Fl_Fontsize         T_ENUM
+Fl_Font             T_ENUM
+Fl_Color            T_ENUM
+Fl_When             T_ENUM
+AV              *   T_AVREF_REFCOUNT_FIXED
+uchar               T_U_CHAR
 
 OUTPUT
 O_Class

@@ -222,9 +222,15 @@ Fl_Widget::type(IN_OUTLIST uchar i = NO_INIT)
 
 INCLUDE: ../lib/Fl/Group.pod
 INCLUDE: ../lib/Fl/Window.pod
+
 INCLUDE: ../lib/Fl/Box.pod
+
 INCLUDE: ../lib/Fl/Button.pod
+INCLUDE: ../lib/Fl/LightButton.pod
+INCLUDE: ../lib/Fl/CheckButton.pod
+
 INCLUDE: ../lib/Fl/Chart.pod
+
 INCLUDE: ../lib/Fl/Color.pod
 
 MODULE = Fl        PACKAGE = Fl

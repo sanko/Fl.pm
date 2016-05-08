@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Fl::Button - Simple, Clickable Button Widget
+Fl::Button - Standard Push Button
 
 =head1 Synopsis
 
@@ -91,7 +91,7 @@ PROTOTYPES: DISABLE
 
 The constructor creates the button using the given position, size, and label.
 
-Yuo can control how the button is drown when ON by setting down_box(). The
+You can control how the button is drawn when ON by setting down_box(). The
 default is FL_NO_BOX which will select an appropriate box type using the
 normal box type. The default box type is FL_UP_BOX.
 
