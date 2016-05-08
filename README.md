@@ -22,6 +22,47 @@ Light Toolkit; a cross-platform GUI toolkit compatible with Microsoft Windows,
 MacOS X, and Linux/Unix platforms with X11. It was designed to be small, quick
 and comes with a very simple yet complete API.
 
+# Common Widgets and Attributes
+
+Many widgets come with Fl but we'll cover just the basics here.
+
+## Buttons
+
+Fl provides many types of buttons:
+
+<center>[http://www.fltk.org/doc-1.3/buttons.png]</center>
+
+<div>
+    <center><img src="http://www.fltk.org/doc-1.3/buttons.png" /></center>
+</div>
+
+- [Fl::Button](https://metacpan.org/pod/Fl::Button) - A standard push button
+- [Fl::CheckButton](https://metacpan.org/pod/Fl::CheckButton) - A button with a check box
+- [Fl::LightButton](https://metacpan.org/pod/Fl::LightButton) - A push buton with a light
+- [Fl::RepeatButton](https://metacpan.org/pod/Fl::RepeatButton) - A push button that continues to trigger its callback when held
+- [Fl::ReturnButton](https://metacpan.org/pod/Fl::ReturnButton) - A push button that is activated by the Enter key
+- [Fl::RoundButton](https://metacpan.org/pod/Fl::RoundButton) - A button with a radio circle (See also [Fl::RadioRoundButton](https://metacpan.org/pod/Fl::RadioRoundButton))
+
+The constructor for all of these buttons takes the bounding box of the button
+and an optional label string:
+
+    my $fl_btn = Fl::Button->new($x, $y, $width, $height, "label");
+    my $fl_lbtn = Fl::LightButton->new($x, $y, $width, $height);
+    my $fl_rbtn = Fl::RoundButton->new($x, $y, $width, $height, "label");
+
+Each button has an associated `type()` which allows it to behave as a push
+button, toggle button, or radio button.
+
+    $fl_btn->type(FL_NORMAL_BUTTON);
+    $fl_lbtn->type(FL_TOGGLE_BUTTON);
+    $fl_rbtn->type(FL_RADIO_BUTTON);
+
+For toggle and radio buttons, the `value()` method returns the current button
+state (0 = off, 1 = on). The `set()` and `clear()` methods can be used on
+toggle buttons to turn it on or off. Radio buttons can be turned on with the
+`setonly()` method; this will also turn off other radio buttons in the same
+group.
+
 # Exports
 
 The top level Fl namespace exports several functions sorted by type. This list
@@ -64,7 +105,7 @@ Event and state values for mouse buttons.
 
 # Classes
 
-Fl contains several widgets and other classes including:
+Fl contains several other widgets and other classes including:
 
 - [Fl::Box](https://metacpan.org/pod/Fl::Box)
 - [Fl::Button](https://metacpan.org/pod/Fl::Button)

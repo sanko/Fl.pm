@@ -2,7 +2,7 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
-    - Callbacks no longer cause crash due to bad ref counts
+    - Callbacks no longer cause crash on destruction due to bad ref counts
     - New widgets:
         - Fl::CheckButton - a button with a checkbox
         - Fl::LightButton - a button with a light to indicate 'on' vs 'off'
@@ -13,6 +13,7 @@ Revision history for Perl extension Fl
         - Fl::RadioButton - acts like a radio button but looks like a regular one
         - Fl::RadioLightButton - no idea...
         - Fl::ToggleButton - toggles on when pressed and back off when pressed again
+    - Starting basic documentation in Fl.pm
 
 0.99.4 2016-05-06T02:02:22Z
 
