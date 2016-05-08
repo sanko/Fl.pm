@@ -7,6 +7,7 @@ Revision history for Perl extension Fl
         - Fl::CheckButton - a button with a checkbox
         - Fl::LightButton - a button with a light to indicate 'on' vs 'off'
         - Fl::ReturnButton - triggers callback when Enter key is pressed
+        - Fl::RepeatButton - repeatedly triggers callback as long as it's held down
 
 0.99.4 2016-05-06T02:02:22Z
 

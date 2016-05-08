@@ -110,6 +110,8 @@ Fl contains several widgets and other classes including:
 
 =item L<Fl::ReturnButton>
 
+=item L<Fl::RepeatButton>
+
 =item L<Fl::Chart>
 
 =item L<Fl::Group>

@@ -226,6 +226,7 @@ INCLUDE: ../lib/Fl/Window.pod
 INCLUDE: ../lib/Fl/Box.pod
 
 INCLUDE: ../lib/Fl/Button.pod
+INCLUDE: ../lib/Fl/RepeatButton.pod
 INCLUDE: ../lib/Fl/ReturnButton.pod
 INCLUDE: ../lib/Fl/LightButton.pod
 INCLUDE: ../lib/Fl/CheckButton.pod
