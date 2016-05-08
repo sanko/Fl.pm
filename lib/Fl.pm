@@ -104,6 +104,10 @@ Fl contains several widgets and other classes including:
 
 =item L<Fl::Button>
 
+=item L<Fl::CheckButton> - a button with a checkbox
+
+=item L<Fl::LightButton> - a button with a light to indicate 'on' vs 'off'
+
 =item L<Fl::Chart>
 
 =item L<Fl::Group>
