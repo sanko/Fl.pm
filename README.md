@@ -70,6 +70,7 @@ Fl contains several widgets and other classes including:
 - [Fl::Button](https://metacpan.org/pod/Fl::Button)
 - [Fl::CheckButton](https://metacpan.org/pod/Fl::CheckButton) - a button with a checkbox
 - [Fl::LightButton](https://metacpan.org/pod/Fl::LightButton) - a button with a light to indicate 'on' vs 'off'
+- [Fl::ReturnButton](https://metacpan.org/pod/Fl::ReturnButton)
 - [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)

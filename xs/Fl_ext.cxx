@@ -4,6 +4,7 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Window.H>
@@ -15,6 +16,7 @@ const char * object2package (Fl_Widget * w) {
           if ( dynamic_cast<Fl_Box    *>(w) ) { package = "Fl::Box";    }
      else if ( dynamic_cast<Fl_Check_Button *>(w) ) { package = "Fl::CheckButton"; }
      else if ( dynamic_cast<Fl_Light_Button *>(w) ) { package = "Fl::LightButton"; }
+     else if ( dynamic_cast<Fl_Return_Button *>(w) ) { package = "Fl::ReturnButton"; }
      else if ( dynamic_cast<Fl_Button *>(w) ) { package = "Fl::Button"; }
      else if ( dynamic_cast<Fl_Window *>(w) ) { package = "Fl::Window"; }
      else if ( dynamic_cast<Fl_Group  *>(w) ) { package = "Fl::Group";  }
