@@ -239,6 +239,8 @@ INCLUDE: ../lib/Fl/Button.pod
     INCLUDE: ../lib/Fl/ReturnButton.pod
     INCLUDE: ../lib/Fl/ToggleButton.pod
 
+INCLUDE: ../lib/Fl/Input.pod
+
 INCLUDE: ../lib/Fl/Chart.pod
 
 INCLUDE: ../lib/Fl/Color.pod

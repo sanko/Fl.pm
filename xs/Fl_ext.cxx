@@ -15,6 +15,7 @@
 #include <FL/Fl_Toggle_Button.H>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
+#include <FL/Fl_Input.H>
 
 const char * object2package (Fl_Widget * w) {
      /*Remember to add _most_ specific classes first*/
@@ -33,5 +34,6 @@ const char * object2package (Fl_Widget * w) {
      else if ( dynamic_cast<Fl_Window               *>(w) ) { package = "Fl::Window"; }
      else if ( dynamic_cast<Fl_Group                *>(w) ) { package = "Fl::Group";  }
      else if ( dynamic_cast<Fl_Chart                *>(w) ) { package = "Fl::Chart";  }
+     else if ( dynamic_cast<Fl_Input                *>(w) ) { package = "Fl::Input";  }
      return package;
 }

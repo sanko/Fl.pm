@@ -2,6 +2,9 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - New widgets:
+        - Fl::Input - single line text input widget
+
 0.99.5 2016-05-08T22:04:46Z
 
     - Starting basic documentation in Fl.pm

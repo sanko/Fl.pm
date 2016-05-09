@@ -1,10 +1,12 @@
 TYPEMAP
+
 Object                  *   O_Class
 Fl_Box                  *   O_Class
 Fl_Button               *   O_Class
 Fl_Chart                *   O_Class
 Fl_Check_Button         *   O_Class
 Fl_Group                *   O_Class
+Fl_Input                *   O_Class
 Fl_Light_Button         *   O_Class
 Fl_Radio_Button         *   O_Class
 Fl_Radio_Light_Button   *   O_Class
@@ -21,8 +23,19 @@ Fl_Font                     T_ENUM
 Fl_Fontsize                 T_ENUM
 Fl_Labeltype                T_ENUM
 Fl_When                     T_ENUM
+
+# Defaults
+const char                  *   T_PV
+const char                  **  T_PV
+char                        **  T_PV
+uchar                           T_U_CHAR
+uchar                       *   T_PV
+float                           T_FLOAT
+const void                  *   T_PTR
+int                         *   T_IPTR
+const int                   *   T_IPTR
+const uchar                 *   T_PV
 AV                      *   T_AVREF_REFCOUNT_FIXED
-uchar                       T_U_CHAR
 
 OUTPUT
 O_Class

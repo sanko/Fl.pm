@@ -141,7 +141,6 @@ The first free box type for creation of new box types.
     export_constant( "FL_RSHADOW_BOX",             "box", newSViv(_FL_RSHADOW_BOX));
     export_constant( "FL_ROUNDED_FRAME",           "box", newSViv(_FL_ROUNDED_FRAME));
     export_constant( "FL_RFLAT_BOX",               "box", newSViv(_FL_RFLAT_BOX));
-    export_constant( "FL_ROUND_UP_BOX",            "box", newSViv(_FL_ROUND_UP_BOX));
     export_constant( "FL_ROUND_DOWN_BOX",          "box", newSViv(_FL_ROUND_DOWN_BOX));
     export_constant( "FL_DIAMOND_UP_BOX",          "box", newSViv(_FL_DIAMOND_UP_BOX));
     export_constant( "FL_DIAMOND_DOWN_BOX",        "box", newSViv(_FL_DIAMOND_DOWN_BOX));
@@ -224,9 +223,6 @@ Draws the icon associated with the text.
     export_constant( "FL_ICON_LABEL",     "label", newSViv(_FL_ICON_LABEL));
     export_constant( "FL_IMAGE_LABEL",    "label", newSViv(_FL_IMAGE_LABEL));
     export_constant( "FL_FREE_LABELTYPE",  "label", newSViv(FL_FREE_LABELTYPE));
-    export_constant( "FL_SHADOW_LABEL",   "label", newSViv(FL_SHADOW_LABEL));
-    export_constant( "FL_ENGRAVED_LABEL", "label", newSViv(FL_ENGRAVED_LABEL));
-    export_constant( "FL_EMBOSSED_LABEL", "label", newSViv(FL_EMBOSSED_LABEL));
 
 =pod
 

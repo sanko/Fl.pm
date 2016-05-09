@@ -217,16 +217,7 @@ These values may be imported with the `:keyboard` tag. Please see
 Fl contains several other widgets and other classes including:
 
 - [Fl::Box](https://metacpan.org/pod/Fl::Box)
-- [Fl::Button](https://metacpan.org/pod/Fl::Button)
-- [Fl::CheckButton](https://metacpan.org/pod/Fl::CheckButton) - a button with a checkbox
-- [Fl::LightButton](https://metacpan.org/pod/Fl::LightButton) - a button with a light to indicate 'on' vs 'off'
-- [Fl::ReturnButton](https://metacpan.org/pod/Fl::ReturnButton)
-- [Fl::RepeatButton](https://metacpan.org/pod/Fl::RepeatButton)
-- [Fl::RoundButton](https://metacpan.org/pod/Fl::RoundButton)
-- [Fl::RadioButton](https://metacpan.org/pod/Fl::RadioButton)
-- [Fl::RadioRoundButton](https://metacpan.org/pod/Fl::RadioRoundButton)
-- [Fl::RadioLightButton](https://metacpan.org/pod/Fl::RadioLightButton)
-- [Fl::ToggleButton](https://metacpan.org/pod/Fl::ToggleButton)
+- [Fl::Input](https://metacpan.org/pod/Fl::Input)
 - [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)

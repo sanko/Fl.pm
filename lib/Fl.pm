@@ -291,25 +291,7 @@ Fl contains several other widgets and other classes including:
 
 =item L<Fl::Box>
 
-=item L<Fl::Button>
-
-=item L<Fl::CheckButton> - a button with a checkbox
-
-=item L<Fl::LightButton> - a button with a light to indicate 'on' vs 'off'
-
-=item L<Fl::ReturnButton>
-
-=item L<Fl::RepeatButton>
-
-=item L<Fl::RoundButton>
-
-=item L<Fl::RadioButton>
-
-=item L<Fl::RadioRoundButton>
-
-=item L<Fl::RadioLightButton>
-
-=item L<Fl::ToggleButton>
+=item L<Fl::Input>
 
 =item L<Fl::Chart>
 
