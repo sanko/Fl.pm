@@ -5,6 +5,7 @@ Revision history for Perl extension Fl
     - New widgets:
         - Fl::Input - single line text input widget
         - Fl::SecretInput - input widget with hidden text (password fields, etc.)
+        - Fl::FloatInput - limits users to type only floating point numbers
 
 0.99.5 2016-05-08T22:04:46Z
 

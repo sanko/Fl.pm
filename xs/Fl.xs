@@ -251,6 +251,8 @@ INCLUDE: ../lib/Fl/Button.pod
 
 INCLUDE: ../lib/Fl/Input.pod
 
+    INCLUDE: ../lib/Fl/FloatInput.pod
+
     INCLUDE: ../lib/Fl/SecretInput.pod
 
 INCLUDE: ../lib/Fl/Chart.pod
