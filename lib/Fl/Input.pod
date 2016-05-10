@@ -150,8 +150,8 @@ Ctrl-Right</b> </td><td><p class="starttd"><b>Move to bottom of document/field.<
 
 =head1 Methods
 
-Fl::RadioButton inherits from Fl::Button and Fl::Widget. On top of that, it
-exposes the following methods...
+Fl::Input inherits from Fl::Widget. On top of that, it exposes the following
+methods...
 
 =cut
 
@@ -193,7 +193,7 @@ Fl_Input::new( ... )
             RETVAL
 
 void
-Fl_Toggle_Button::DESTROY()
+Fl_Input::DESTROY()
     CODE:
         int refcount = SvREFCNT(SvRV(ST(0)));
         if (refcount == 1) {

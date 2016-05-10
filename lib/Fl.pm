@@ -291,7 +291,9 @@ Fl contains several other widgets and other classes including:
 
 =item L<Fl::Box>
 
-=item L<Fl::Input>
+=item L<Fl::Input> - Simple text input widget
+
+=item L<Fl::SecretInput> - Think 'password field'
 
 =item L<Fl::Chart>
 
