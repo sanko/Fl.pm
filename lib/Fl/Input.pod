@@ -26,8 +26,7 @@ compose key as defined by the operating system.
 
 =head2 Keyboard and Mouse Bindings
 
-<table  width="90%" border="1" summary="Fl_Input keyboard and mouse bindings.">
-<caption align="TOP"><a class="el" href="classFl__Input.html" title="This is the FLTK text input widget. ">Fl_Input</a> keyboard and mouse bindings.</caption>
+<table  width="90%" border="1" summary="Fl::Input keyboard and mouse bindings.">
 <tr>
 <td nowrap="NOWRAP" width="1%"><b>Mouse button 1</b> </td><td>Moves the cursor to this point. Drag selects characters. Double click selects words. Triple click selects all line. Shift+click extends the selection. When you select text it is automatically copied to the selection buffer. </td></tr>
 <tr>
@@ -41,8 +40,7 @@ compose key as defined by the operating system.
 <tr>
 <td nowrap="NOWRAP"><b>Enter</b> </td><td>May cause the callback, see <a class="el" href="classFl__Widget.html#ab194069add839e0aecbc541017c8d383" title="Returns the conditions under which the callback is called. ">when()</a>. </td></tr>
 </table>
-<table  width="90%" border="1" summary="Fl_Input platform specific keyboard bindings.">
-<caption align="TOP"><a class="el" href="classFl__Input.html" title="This is the FLTK text input widget. ">Fl_Input</a> platform specific keyboard bindings.</caption>
+<table  width="90%" border="1" summary="Fl::Input platform specific keyboard bindings.">
 <tr>
 <td nowrap="NOWRAP" width="1%"><b> Windows/Linux </b> </td><td nowrap="NOWRAP" width="1%"><b> Mac </b> </td><td nowrap="NOWRAP"><p class="starttd"><b> Function </b></p>
 <p class="endtd"></p>
