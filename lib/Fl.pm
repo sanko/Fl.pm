@@ -295,6 +295,10 @@ Fl contains several other widgets and other classes including:
 
 =item L<Fl::SecretInput> - Think 'password field'
 
+=item L<Fl::FloatInput>
+
+=item L<Fl::IntInput>
+
 =item L<Fl::Chart>
 
 =item L<Fl::Group>

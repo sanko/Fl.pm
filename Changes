@@ -6,6 +6,7 @@ Revision history for Perl extension Fl
         - Fl::Input - single line text input widget
         - Fl::SecretInput - input widget with hidden text (password fields, etc.)
         - Fl::FloatInput - limits users to type only floating point numbers
+        - Fl::IntInput - limits users to type only decimal digits and hex values
 
 0.99.5 2016-05-08T22:04:46Z
 
