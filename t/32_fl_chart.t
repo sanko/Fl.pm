@@ -25,8 +25,6 @@ can_ok $chart, 'textfont';
 can_ok $chart, 'textsize';
 #
 $chart->bounds(-125, 125);
-use Data::Dump;
-ddx $chart->bounds();
 is_deeply [$chart->bounds()], [-125, 125], 'bounds(lower, upper)';
 is $chart->textcolor(), FL_FOREGROUND_COLOR,
     'textcolor defaults to FL_FOREGROUND_COLOR';
