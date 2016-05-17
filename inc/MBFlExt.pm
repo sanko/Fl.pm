@@ -93,7 +93,7 @@ package inc::MBFlExt;
             my @pod;
             find(sub { push @pod, $File::Find::name if m[.+\.pod$]; },
                  'lib/Fl');
-            {
+            if (!$self->up_to_date([@pod], 'xs/Fl.cxx')) {
                 printf 'Generating source... ';
                 #
                 our (@xsubs, %includes, %exports);
@@ -119,6 +119,7 @@ package inc::MBFlExt;
                     );
                 syswrite $fh, $output;
                 close $fh;
+                $self->add_to_cleanup('xs/Fl.cxx');
                 print 'okay (' . length($output) . " bytes)\n";
             }
             my @cpp;
@@ -134,12 +135,13 @@ package inc::MBFlExt;
                 }
                 local $CC->{'quiet'} = $self->quiet();
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
-                my $obj = $CC->compile(
+                my $obj =
+                    $CC->compile(
                              source => $cpp,
                              include_dirs =>
                                  [curdir, dirname($cpp), $AF->include_dirs()],
                              'C++' => 1
-                );
+                    );
                 printf "%s\n",
                     ($obj && -f $obj) ? 'okay' : 'failed';    # XXX - exit?
                 push @obj, $obj;
