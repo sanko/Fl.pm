@@ -222,6 +222,8 @@ Fl contains several other widgets and other classes including:
 - [Fl::FloatInput](https://metacpan.org/pod/Fl::FloatInput)
 - [Fl::IntInput](https://metacpan.org/pod/Fl::IntInput)
 - [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
+- [Fl::Valuator](https://metacpan.org/pod/Fl::Valuator)
+- [Fl::Adjuster](https://metacpan.org/pod/Fl::Adjuster)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)
 

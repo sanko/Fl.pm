@@ -301,6 +301,10 @@ Fl contains several other widgets and other classes including:
 
 =item L<Fl::Chart>
 
+=item L<Fl::Valuator>
+
+=item L<Fl::Adjuster>
+
 =item L<Fl::Group>
 
 =item L<Fl::Window>
