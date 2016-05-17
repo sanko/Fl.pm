@@ -400,8 +400,7 @@ XS_EUPXS({{cpp.function.name}}) {
                 {% when 'DESTROY' %}
                     {% assign xs.return = 'XSRETURN_EMPTY;'%}
         if (self->cp_ctx != NULL)
-            Fl::delete_widget( self->cp_ctx );
-        Safefree(self);
+            Safefree(self);
                 {%else%}
                     {%unless definition.returns %}
                          {%assign xs.return = 'XSRETURN_EMPTY' %}

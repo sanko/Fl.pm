@@ -13,9 +13,9 @@ isa_ok $adj1, 'Fl::Valuator';
 #
 can_ok $adj1, 'soft';
 #
-#Fl::delete_widget($adj2);
-#is $adj2, undef, 'adj2 is now undef';
-#undef $adj1;
-#is $adj1, undef, 'adj1 is now undef';
+Fl::delete_widget($adj2);
+is $adj2, undef, 'adj2 is now undef';
+undef $adj1;
+is $adj1, undef, 'adj1 is now undef';
 #
 done_testing;
