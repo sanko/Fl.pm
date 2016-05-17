@@ -1,3 +1,7 @@
+class 'Fl::Button';
+isa 'Fl::Widget';
+include 'FL/Fl_Button.H';
+
 =pod
 
 =head1 NAME
@@ -74,16 +78,6 @@ All of the above values may be imported with the C<:when> or C<:enum> tag.
 
 Fl::Button inherits from Fl::Widget and exposes the following methods...
 
-=cut
-
-#include <FL/Fl_Button.H>
-
-MODULE = Fl::Button        PACKAGE = Fl::Button            PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
     my $button_a = Fl::Button->new(0, 0, 250, 500, 'Important Stuff');
@@ -99,31 +93,17 @@ The destructor removes the button.
 
 =cut
 
-Fl_Button *
-Fl_Button::new( ... )
-    CASE: (items == 5 || items == 6)
-        CODE:
-            /*(int x, int y, int w, int h, char * label = $0)*/
-            char * label = "";
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Button(x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-
-void
-Fl_Button::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             optional => [['const char *', 'label', '""']],
+             returns  => 'Fl_Button *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -135,8 +115,9 @@ Same as C<value(0)>.
 
 =cut
 
-int
-Fl_Button::clear()
+xs {name        => 'clear',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -151,13 +132,13 @@ The default value causes FLTK to figure out the correct matching down version.
 
 =cut
 
-void
-Fl_Button::down_box(IN_OUTLIST Fl_Boxtype b = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->down_box(b);
-        if (GIMME_V != G_VOID)
-            b = THIS->down_box(); // Don't bother if called in void context
+xs {name        => 'down_box',
+    definitions => [{returns => 'Fl_Boxtype'},
+                    {required => [['Fl_Boxtype', 'type']],
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -169,8 +150,9 @@ Same as C<value(1)>.
 
 =cut
 
-int
-Fl_Button::set()
+xs {name        => 'set',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -183,8 +165,9 @@ that calling C<value(1)> or C<set()> does not do this.
 
 =cut
 
-void
-Fl_Button::setonly()
+xs {name        => 'setonly',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -213,13 +196,13 @@ C<FL_ALT>, C<FL_F>, etc. may be imported with the C<:keyboard> tag.
 
 =cut
 
-void
-Fl_Button::shortcut(IN_OUTLIST int shortcut = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->shortcut(shortcut);
-        if (GIMME_V != G_VOID)
-            shortcut = THIS->shortcut(); // Don't bother if called in void context
+xs {name        => 'shortcut',
+    definitions => [{required => [['int', 'shortcut']],
+                     returns  => 'void'
+                    },
+                    {returns => ['int']}
+    ]
+};
 
 =pod
 
@@ -233,16 +216,16 @@ A non-zero value sets the button to 1 (on) and zero sets it to 0 (off).
 
 =cut
 
-int
-Fl_Button::value(int v)
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::Button", "Fl::Widget");
-    export_constant( "FL_NORMAL_BUTTON",    "button", newSViv(FL_NORMAL_BUTTON ));
-    export_constant( "FL_TOGGLE_BUTTON",    "button", newSViv(FL_TOGGLE_BUTTON ));
-    export_constant( "FL_RADIO_BUTTON",     "button", newSViv(FL_RADIO_BUTTON ));
+xs {name        => 'value',
+    definitions => [{required => [['int', 'val']],
+                     returns  => 'void'
+                    },
+                    {returns => 'int'}
+    ]
+};
+export_constant("FL_NORMAL_BUTTON", "button");
+export_constant("FL_TOGGLE_BUTTON", "button");
+export_constant("FL_RADIO_BUTTON",  "button");
 
 =pod
 

@@ -1,3 +1,7 @@
+class 'Fl::Group';
+isa 'Fl::Widget';
+include 'FL/Fl_Group.H';
+
 =pod
 
 =head1 NAME
@@ -29,16 +33,6 @@ shortcuts.
 
 Fl::Group is a subclass of Fl::Widget but also supports these methods:
 
-=cut
-
-#include <FL/Fl_Group.H>
-
-MODULE = Fl::Group         PACKAGE = Fl::Group         PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
 The constructor creates a group of a given size and position on screen or
@@ -67,8 +61,17 @@ Ideally, we could also create windows with something like:
 
 =cut
 
-Fl_Group *
-Fl_Group::new(int x, int y, int w, int h, char * title = PL_origfilename)
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             optional => [['const char *', 'label', '""']],
+             returns  => 'Fl_Group *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -77,17 +80,6 @@ deleted at once, without having to keep a pointer to all children in the user
 code.
 
 =cut
-
-void
-Fl_Group::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
 
 =pod
 
@@ -101,8 +93,13 @@ is first removed from that parent.
 
 =cut
 
-void
-Fl_Group::add(Fl_Widget * widget)
+xs {name        => 'add',
+    definitions => [{required => [['Fl_Widget *', 'widget']],
+                     c_args   => 'self->cp_ctx',
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -115,9 +112,13 @@ Adds the widget to the group and makes it the resizable widget.
 
 =cut
 
-void
-Fl_Group::add_resizable(Fl_Widget * widget)
-    C_ARGS: * widget
+xs {name        => 'add_resizable',
+    definitions => [{required => [['Fl_Widget *', 'widget']],
+                     c_args   => '* self->cp_ctx',
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -135,8 +136,9 @@ Don't gorget to C<end()> the group or window!
 
 =cut
 
-void
-Fl_Group::begin()
+xs {name        => 'begin',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -146,8 +148,9 @@ Returns how many child widgets the group has.
 
 =cut
 
-int
-Fl_Group::children()
+xs {name        => 'children',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -159,8 +162,10 @@ Returns the N'th child of the group. Please not that no index checks are made.
 
 =cut
 
-Fl_Widget *
-Fl_Group::child(int n)
+xs {name => 'child',
+    definitions =>
+        [{required => [['int', 'index']], returns => 'Fl_Widget *'}]
+};
 
 =pod
 
@@ -173,8 +178,9 @@ widgets and deletes them from memory.
 
 =cut
 
-void
-Fl_Group::clear()
+xs {name        => 'clear',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -211,8 +217,13 @@ Fl::Box as the resizable and/or by using a hierarchy of child Fl::Group's.
 
 =cut
 
-void
-Fl_Group::resizable(Fl_Widget * widget)
+xs {name        => 'resizable',
+    definitions => [{required => [['Fl_Widget *', 'widget']],
+                     c_args   => 'self->cp_ctx',
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -223,13 +234,9 @@ group.
 
 =cut
 
-void
-Fl_Group::end()
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::Group", "Fl::Widget");
+xs {name        => 'end',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 

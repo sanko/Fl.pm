@@ -1,3 +1,7 @@
+class 'Fl::Box';
+isa 'Fl::Widget';
+include 'FL/Fl_Box.H';
+
 =pod
 
 =head1 NAME
@@ -19,16 +23,6 @@ will let you draw a frame around them.
 
 Fl::Box inherits from Fl::Widget and exposes the following methods...
 
-=cut
-
-#include <FL/Fl_Box.H>
-
-MODULE = Fl::Box        PACKAGE = Fl::Box            PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
     my $box_a = Fl::Box->new(0, 0, 250, 500);
@@ -46,48 +40,26 @@ The destructor removes the box.
 
 =cut
 
-Fl_Box *
-Fl_Box::new( ... )
-    CASE: (items == 5 || items == 6)
-        CODE:
-            /*(int x, int y, int w, int h, char * title = $0)*/
-            char * label = "";
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Box(x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-    CASE: ( items == 7 )
-        CODE:
-            /*(Fl_Boxtype b, int x, int y, int w, int h, char * title)*/
-            Fl_Boxtype b = (Fl_Boxtype)SvIV(ST(1));
-            int x = (int)SvIV(ST(2));
-            int y = (int)SvIV(ST(3));
-            int w = (int)SvIV(ST(4));
-            int h = (int)SvIV(ST(5));
-            char * label = (char *)SvPV_nolen(ST(6));
-            RETVAL = new Fl_Box(b,x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-
-void
-Fl_Box::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::Box", "Fl::Widget");
+xs {name        => 'new',
+    definitions => [{required =>
+                         [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+                     optional => [['const char *', 'label', '""']],
+                     returns  => 'Fl_Box *'
+                    },
+                    {required => [['Fl_Boxtype', 'type'],
+                                  [qw[int w]],
+                                  [qw[int h]],
+                                  [qw[int x]],
+                                  [qw[int y]],
+                                  ['const char *', 'label']
+                     ],
+                     returns => 'Fl_Box *'
+                    }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 

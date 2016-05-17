@@ -1,3 +1,7 @@
+class 'Fl::Window';
+isa 'Fl::Group';
+include 'FL/Fl_Window.H';
+
 =pod
 
 =head1 NAME
@@ -34,16 +38,6 @@ a default callback that calls C<<Fl::Window->hide()>>.
 
 In addition to inheriting from Fl::Group, this widget also supports the
 following methods.
-
-=cut
-
-#include <FL/Fl_Window.H>
-
-MODULE = Fl::Window         PACKAGE = Fl::Window         PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
 
 =head2 new(...)
 
@@ -105,30 +99,23 @@ you turn the window border off you may want to change this to C<FL_UP_BOX>.
 
 =cut
 
-Fl_Window *
-Fl_Window::new(...)
-    CASE: ( items == 3 || items == 4 )
-        CODE:
-            /*(int w, int h, char * title = $0)*/
-            char * label = PL_origfilename;
-            int w = (int)SvIV(ST(1));
-            int h = (int)SvIV(ST(2));
-            if (items == 4) label = (char *)SvPV_nolen(ST(3));
-            RETVAL = new Fl_Window(w, h, label);
-        OUTPUT:
-            RETVAL
-    CASE: ( items == 5 || items == 6 )
-        CODE:
-            /*(int x, int y, int w, int h, char * title = $0)*/
-            char * label = PL_origfilename;
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Window(x, y, w, h, label);
-        OUTPUT:
-            RETVAL
+xs {name        => 'new',
+    definitions => [{required => [[qw[int w]], [qw[int h]]],
+                     optional =>
+                         [['const char *', 'label', 'PL_origfilename']],
+                     returns => 'Fl_Window *'
+                    },
+                    {required =>
+                         [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+                     optional =>
+                         [['const char *', 'label', 'PL_origfilename']],
+                     returns => 'Fl_Window *'
+                    }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -137,17 +124,6 @@ deleted at once, without having to keep a pointer to all children in the user
 code.
 
 =cut
-
-void
-Fl_Window::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
 
 =pod
 
@@ -164,8 +140,9 @@ C<raise()> in other toolkits.
 
 =cut
 
-void
-Fl_Window::show()
+xs {name        => 'show',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -177,8 +154,9 @@ You can tell if a window is iconified with C<( $w->shown() && !$w->visible() )>.
 
 =cut
 
-int
-Fl_Window::shown()
+xs {name        => 'shown',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -191,13 +169,9 @@ and is harmless.
 
 =cut
 
-void
-Fl_Window::hide()
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::Window", "Fl::Group");
+xs {name        => 'hide',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 

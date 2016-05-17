@@ -23,6 +23,33 @@ HINSTANCE dllInstance( );
 #endif // #ifdef WIN32
 
 #include <FL/Fl_Widget.H>
-const char * object2package (Fl_Widget * w);
+const char * object2package ( Fl_Widget * w );
+
+// Widget wrapper!
+typedef struct {
+    int           algorithm;
+    Fl_Widget   * cp_ctx;
+} CTX;
+
+typedef CTX* Fl__Widget;
+typedef CTX* Fl__Box;
+typedef CTX* Fl__Group;
+typedef CTX* Fl__Input;
+typedef CTX* Fl__Window;
+typedef CTX* Fl__Button;
+typedef CTX* Fl__Chart;
+typedef CTX* Fl__CheckButton;
+typedef CTX* Fl__ReturnButton;
+typedef CTX* Fl__RepeatButton;
+typedef CTX* Fl__RadioButton;
+typedef CTX* Fl__IntInput;
+typedef CTX* Fl__FloatInput;
+typedef CTX* Fl__LightButton;
+typedef CTX* Fl__MultilineInput;
+typedef CTX* Fl__RadioLightButton;
+typedef CTX* Fl__RadioRoundButton;
+typedef CTX* Fl__RoundButton;
+typedef CTX* Fl__SecretInput;
+typedef CTX* Fl__ToggleButton;
 
 #endif // #ifndef fltk_pm_h

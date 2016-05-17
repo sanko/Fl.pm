@@ -24,10 +24,14 @@ can_ok $chart, 'textcolor';
 can_ok $chart, 'textfont';
 can_ok $chart, 'textsize';
 #
-is_deeply [$chart->bounds(-125, 125)], [-125, 125], 'bounds(lower, upper)';
+$chart->bounds(-125, 125);
+use Data::Dump;
+ddx $chart->bounds();
+is_deeply [$chart->bounds()], [-125, 125], 'bounds(lower, upper)';
 is $chart->textcolor(), FL_FOREGROUND_COLOR,
     'textcolor defaults to FL_FOREGROUND_COLOR';
-is $chart->textcolor(FL_RED), FL_RED, 'textcolor changed to FL_RED';
+$chart->textcolor(FL_RED);
+is $chart->textcolor(), FL_RED, 'textcolor changed to FL_RED';
 #
 undef $chart;
 is $chart, undef, 'chart is now undef';

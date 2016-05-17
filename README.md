@@ -219,6 +219,8 @@ Fl contains several other widgets and other classes including:
 - [Fl::Box](https://metacpan.org/pod/Fl::Box)
 - [Fl::Input](https://metacpan.org/pod/Fl::Input) - Simple text input widget
 - [Fl::SecretInput](https://metacpan.org/pod/Fl::SecretInput) - Think 'password field'
+- [Fl::FloatInput](https://metacpan.org/pod/Fl::FloatInput)
+- [Fl::IntInput](https://metacpan.org/pod/Fl::IntInput)
 - [Fl::Chart](https://metacpan.org/pod/Fl::Chart)
 - [Fl::Group](https://metacpan.org/pod/Fl::Group)
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)

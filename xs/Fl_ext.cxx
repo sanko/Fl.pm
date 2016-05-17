@@ -19,6 +19,7 @@
 #include <FL/Fl_Secret_Input.H>
 #include <FL/Fl_Float_Input.H>
 #include <FL/Fl_Int_Input.H>
+#include <FL/Fl_Multiline_Input.H>
 
 const char * object2package (Fl_Widget * w) {
      /*Remember to add _most_ specific classes first*/
@@ -38,8 +39,9 @@ const char * object2package (Fl_Widget * w) {
      else if ( dynamic_cast<Fl_Group                *>(w) ) { package = "Fl::Group";  }
      else if ( dynamic_cast<Fl_Chart                *>(w) ) { package = "Fl::Chart";  }
 
-     else if ( dynamic_cast<Fl_Int_Input         *>(w) ) { package = "Fl::IntInput";  }
-     else if ( dynamic_cast<Fl_Float_Input         *>(w) ) { package = "Fl::FloatInput";  }
+     else if ( dynamic_cast<Fl_Multiline_Input      *>(w) ) { package = "Fl::MultilineInput";  }
+     else if ( dynamic_cast<Fl_Int_Input            *>(w) ) { package = "Fl::IntInput";  }
+     else if ( dynamic_cast<Fl_Float_Input          *>(w) ) { package = "Fl::FloatInput";  }
      else if ( dynamic_cast<Fl_Secret_Input         *>(w) ) { package = "Fl::SecretInput";  }
      else if ( dynamic_cast<Fl_Input                *>(w) ) { package = "Fl::Input";  }
      return package;

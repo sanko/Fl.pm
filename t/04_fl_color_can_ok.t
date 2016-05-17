@@ -8,5 +8,13 @@ use Fl qw[:color];
 can_ok 'main', 'FL_BLACK';
 can_ok 'main', 'fl_show_colormap';
 
+
+
+
+use Data::Dump;
+ddx \%Fl::;
+
 #
 done_testing;
+
+

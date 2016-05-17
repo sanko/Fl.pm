@@ -52,6 +52,7 @@ package inc::MBFlExt;
 
         sub ACTION_code {
             require Alien::FLTK;              # Should be installed by now
+            require Template::Liquid;
             my ($self, $args) = @_;
             my $AF = Alien::FLTK->new();
             my $CC = My::ExtUtils::CBuilder->new();
@@ -59,6 +60,7 @@ package inc::MBFlExt;
             find(sub { push @xs, $File::Find::name if m[.+\.xs$]; },  'xs');
             find(sub { push @pl, $File::Find::name if m[.+\.pl$]i; }, 'xs/rc')
                 if -d '/xs/rc';
+
             if ($self->is_windowsish && -d 'xs/rc') {
                 $self->do_system($^X, $_) for @pl;
                 find(sub { push @rc, $File::Find::name if m[.+\.rc$]; },
@@ -87,6 +89,37 @@ package inc::MBFlExt;
                     chdir rel2abs($self->base_dir);
                 }
                 map { abs2rel($_) if -f } @obj;
+            }
+            my @pod;
+            find(sub { push @pod, $File::Find::name if m[.+\.pod$]; },
+                 'lib/Fl');
+            {
+                printf 'Generating source... ';
+                #
+                our (@xsubs, %includes, %exports);
+                sub xs { push @{$xsubs[-1]->{methods}}, shift }
+                sub class { push @xsubs, {package => shift} }
+                my $isa = *isa;
+                *isa = sub { $xsubs[-1]{isa} = shift; };
+                sub export_constant { $exports{+pop} = pop; }
+                sub include { $includes{+pop}++; }
+                #
+                require $_ for @pod;
+                *isa = $isa;
+                open my $in, '<', 'xs/Fl_cxx.template';
+                sysread $in, my $raw, -s $in;
+                #
+                my $template = Template::Liquid->parse($raw);
+                open(my $fh, '>', 'xs/Fl.cxx') || die $!;
+                #
+                my $output =
+                    $template->render(xsubs    => \@xsubs,
+                                      exports  => \%exports,
+                                      includes => \%includes
+                    );
+                syswrite $fh, $output;
+                close $fh;
+                print 'okay (' . length($output) . " bytes)\n";
             }
             my @cpp;
             find(sub { push @cpp, $File::Find::name if m[.+\.cxx$]; }, 'xs');

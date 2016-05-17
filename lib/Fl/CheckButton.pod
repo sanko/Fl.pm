@@ -1,3 +1,7 @@
+class 'Fl::CheckButton';
+isa 'Fl::LightButton';
+include 'FL/Fl_Check_Button.H';
+
 =pod
 
 =head1 NAME
@@ -28,16 +32,6 @@ rather than drawing itself as pushed in.
 Fl::CheckButton inherits from Fl::LightButton which in turns inherits from
 Fl::Button and Fl::Widget. On top of that, it exposes the following methods...
 
-=cut
-
-#include <FL/Fl_Check_Button.H>
-
-MODULE = Fl::CheckButton        PACKAGE = Fl::CheckButton         PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
     my $button_a = Fl::CheckButton->new(0, 0, 250, 500, 'Important Stuff');
@@ -59,36 +53,17 @@ The destructor removes the button.
 
 =cut
 
-Fl_Check_Button *
-Fl_Check_Button::new( ... )
-    CASE: (items == 5 || items == 6)
-        CODE:
-            /*(int x, int y, int w, int h, char * label = $0)*/
-            char * label = "";
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Check_Button(x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-
-void
-Fl_Check_Button::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::CheckButton", "Fl::LightButton");
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             optional => [['const char *', 'label', '""']],
+             returns  => 'Fl_Check_Button *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 

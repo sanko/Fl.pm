@@ -6,4 +6,5 @@ on 'test' => sub {
 
 on 'configure' => sub {
     requires 'Alien::FLTK', '1.3.3';
+    requires 'Template::Liquid';
 };

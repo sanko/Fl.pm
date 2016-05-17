@@ -1,3 +1,7 @@
+class 'Fl::RadioLightButton';
+isa 'Fl::LightButton';
+include 'FL/Fl_Radio_Light_Button.H';
+
 =pod
 
 =head1 NAME
@@ -22,16 +26,6 @@ button.
 Fl::RadioButton inherits from Fl::LightButton and Fl::Widget. On top of that,
 it exposes the following methods...
 
-=cut
-
-#include <FL/Fl_Radio_Light_Button.H>
-
-MODULE = Fl::RadioLightButton     PACKAGE = Fl::RadioLightButton  PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
     my $button_a = Fl::RadioLightButton->new(0, 0, 250, 500, 'Important Stuff');
@@ -44,36 +38,17 @@ The destructor removes the button.
 
 =cut
 
-Fl_Radio_Light_Button *
-Fl_Radio_Light_Button::new( ... )
-    CASE: (items == 5 || items == 6)
-        CODE:
-            /*(int x, int y, int w, int h, char * label = $0)*/
-            char * label = "";
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Radio_Light_Button(x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-
-void
-Fl_Radio_Light_Button::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::RadioLightButton", "Fl::LightButton");
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             optional => [['const char *', 'label', '""']],
+             returns  => 'Fl_Radio_Light_Button *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 

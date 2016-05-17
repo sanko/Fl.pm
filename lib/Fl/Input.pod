@@ -1,3 +1,7 @@
+class 'Fl::Input';
+isa 'Fl::Widget';
+include 'FL/Fl_Input.H';
+
 =pod
 
 =head1 NAME
@@ -151,16 +155,6 @@ Ctrl-Right</b> </td><td><p class="starttd"><b>Move to bottom of document/field.<
 Fl::Input inherits from Fl::Widget. On top of that, it exposes the following
 methods...
 
-=cut
-
-#include <FL/Fl_Input.H>
-
-MODULE = Fl::Input     PACKAGE = Fl::Input  PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
     my $text_a = Fl::Input->new(0, 0, 250, 500, 'Important Stuff');
@@ -175,31 +169,17 @@ The destructor removes the widget.
 
 =cut
 
-Fl_Input *
-Fl_Input::new( ... )
-    CASE: (items == 5 || items == 6)
-        CODE:
-            /*(int x, int y, int w, int h, char * label = $0)*/
-            char * label = "";
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Input(x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-
-void
-Fl_Input::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             optional => [['const char *', 'label', '""']],
+             returns  => 'Fl_Input *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -222,8 +202,12 @@ See also C<Fl::copy(...)>.
 
 =cut
 
-int
-Fl_Input::copy(int clipboard)
+xs {name        => 'copy',
+    definitions => [{required => [[qw[int clipboard]]],
+                     returns  => 'int'
+                    }
+    ]
+};
 
 =pod
 
@@ -240,8 +224,9 @@ Returns a false value if the clipboard is unchanged.
 
 =cut
 
-int
-Fl_Input::copy_cuts()
+xs {name        => 'copy_cuts',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -256,13 +241,13 @@ The default color is FL_BLACK.
 
 =cut
 
-void
-Fl_Input::cursor_color(IN_OUTLIST Fl_Color color = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->cursor_color(color);
-        if (GIMME_V != G_VOID)
-            color = THIS->cursor_color(); // Don't bother if called in void context
+xs {name        => 'cursor_color',
+    definitions => [{required => [['Fl_Color', 'color']],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Color'}
+    ]
+};
 
 =pod
 
@@ -290,17 +275,16 @@ Returns 0 if no data was cut.
 
 =cut
 
-int
-Fl_Input::cut(int n = NO_INIT, int x = NO_INIT)
-    CODE:
-        if (items == 1)
-            RETVAL = THIS->cut();
-        else if (items == 2)
-            RETVAL = THIS->cut(n);
-        else if (items == 3)
-            RETVAL = THIS->cut(n, x);
-    OUTPUT:
-        RETVAL
+xs {name        => 'cut',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 'bytes']],
+                     returns  => 'int'
+                    },
+                    {required => [['int', 'a'], ['int', 'b']],
+                     returns => 'int'
+                    }
+    ]
+};
 
 =pod
 
@@ -314,8 +298,12 @@ Returns the UTF-8 character at C<$i> as a UTF-32/UCS-4 character code.
 
 =cut
 
-unsigned int
-Fl_Input::index(int i)
+xs {name        => 'index',
+    definitions => [{required => [['int', 'index']],
+                     returns  => 'Fl_Char'
+                    }
+    ]
+};
 
 =pod
 
@@ -328,13 +316,13 @@ Gets or sets the input field's type.
 
 =cut
 
-void
-Fl_Input::input_type(IN_OUTLIST int t = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->input_type(t);
-        if (GIMME_V != G_VOID)
-            t = THIS->input_type(); // Don't bother if called in void context
+xs {name        => 'input_type',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 'type']],
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -349,8 +337,13 @@ position mark to the end of the inserted text.
 
 =cut
 
-int
-Fl_Input::insert( const char * t, int l = STRLEN(t) )
+xs {name        => 'insert',
+    definitions => [{required => [['const char *', 'text']],
+                     optional => [['int',          'length', ' 0']],
+                     returns => 'int'
+                    }
+    ]
+};
 
 =pod
 
@@ -370,13 +363,13 @@ When a value is provided, this behaves the same as setting C<position()>...
 
 =cut
 
-void
-Fl_Input::mark(IN_OUTLIST int M = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->mark(M);
-        if (GIMME_V != G_VOID)
-            M = THIS->mark(); // Don't bother if called in void context
+xs {name        => 'mark',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 'mark']],
+                     returns  => 'int'
+                    }
+    ]
+};
 
 =pod
 
@@ -391,13 +384,13 @@ single byte in UTF-8 encoding.
 
 =cut
 
-void
-Fl_Input::maximum_size(IN_OUTLIST int max = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->maximum_size(max);
-        if (GIMME_V != G_VOID)
-            max = THIS->maximum_size(); // Don't bother if called in void context
+xs {name        => 'maximum_size',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 'max']],
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -426,17 +419,16 @@ The return value is zero if no positions were changed.
 
 =cut
 
-int
-Fl_Input::position(int position = NO_INIT, int mark = NO_INIT)
-    CODE:
-        if (items == 1)
-            RETVAL = THIS->position();
-        else if (items == 2)
-            RETVAL = THIS->position(position);
-        else if (items == 3)
-            RETVAL = THIS->position(position, mark);
-    OUTPUT:
-        RETVAL
+xs {name        => 'position',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 'position']],
+                     returns  => 'int'
+                    },
+                    {required => [['int', 'position'], ['int', 'mark']],
+                     returns => 'int'
+                    }
+    ]
+};
 
 =pod
 
@@ -449,13 +441,13 @@ Gets or sets the read-only state of the input field.
 
 =cut
 
-void
-Fl_Input::readonly(IN_OUTLIST int ro = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->readonly(ro);
-        if (GIMME_V != G_VOID)
-            ro = THIS->readonly(); // Don't bother if called in void context
+xs {name        => 'readonly',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 'immutable']],
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -497,9 +489,14 @@ C<cut()> and C<insert()> are just inline functions that call C<replace()>.
 
 =cut
 
-int
-Fl_Input::replace(int b, int e, const char * text, int len = STRLEN(text))
-
+xs {name        => 'replace',
+    definitions => [
+         {required => [['int', 'b'], ['int', 'e'], ['const char *', 'text'],],
+          optional => [['int', 'ilen', ' 0']],
+          returns  => 'int'
+         }
+    ]
+};
 
 =pod
 
@@ -509,13 +506,13 @@ Gets or sets the shortcut related to this widget.
 
 =cut
 
-void
-Fl_Input::shortcut(IN_OUTLIST int scut = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->shortcut(scut);
-        if (GIMME_V != G_VOID)
-            scut = THIS->shortcut(); // Don't bother if called in void context
+xs {name        => 'shortcut',
+    definitions => [{returns => 'int'},
+                    {required => [['int', 's']],
+                     returns  => 'void'
+                    }
+    ]
+};
 
 =pod
 
@@ -533,15 +530,15 @@ Sets the width and height of this widget.
 
 =cut
 
-int
-Fl_Input::size(int w = NO_INIT, int h = NO_INIT)
-    CODE:
-        if (items == 3)
-            THIS->size(w, h);
-        else
-            RETVAL = THIS->size();
-    OUTPUT:
-        RETVAL
+xs {name        => 'size',
+    definitions => [{required => [['int', 'w'], ['int', 'h']],
+                     returns => 'void'
+                    },
+                    {returns => 'int'}
+    ]
+};
+
+=for TODO static_value(...) would go here...
 
 =pod
 
@@ -573,13 +570,13 @@ If disabled, hitting Tab inserts a tab character into the text field.
 
 =cut
 
-void
-Fl_Input::tab_nav(IN_OUTLIST int enabled = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->tab_nav(enabled);
-        if (GIMME_V != G_VOID)
-            enabled = THIS->tab_nav(); // Don't bother if called in void context
+xs {name        => 'tab_nav',
+    definitions => [{required => [['int', 'value']],
+                     returns  => 'void'
+                    },
+                    {returns => 'int'}
+    ]
+};
 
 =pod
 
@@ -592,13 +589,13 @@ Gets or sets the input's text color.
 
 =cut
 
-void
-Fl_Input::textcolor(IN_OUTLIST Fl_Color color = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->textcolor(color);
-        if (GIMME_V != G_VOID)
-            color = THIS->textcolor(); // Don't bother if called in void context
+xs {name        => 'textcolor',
+    definitions => [{required => [['Fl_Color', 'color']],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Color'}
+    ]
+};
 
 =pod
 
@@ -611,13 +608,13 @@ Gets or sets the input's font.
 
 =cut
 
-void
-Fl_Input::textfont(IN_OUTLIST Fl_Font font = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->textfont(font);
-        if (GIMME_V != G_VOID)
-            font = THIS->textfont(); // Don't bother if called in void context
+xs {name        => 'textfont',
+    definitions => [{required => [['Fl_Font', 'font']],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Font'}
+    ]
+};
 
 =pod
 
@@ -630,13 +627,13 @@ Sets the input's text size.
 
 =cut
 
-void
-Fl_Input::textsize(IN_OUTLIST Fl_Fontsize size = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->textsize(size);
-        if (GIMME_V != G_VOID)
-            size = THIS->textsize(); // Don't bother if called in void context
+xs {name        => 'textsize',
+    definitions => [{required => [['Fl_Fontsize', 'size']],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Fontsize'}
+    ]
+};
 
 =pod
 
@@ -652,9 +649,9 @@ Returns a true value if any changes were made.
 
 =cut
 
-int
-Fl_Input::undo()
-
+xs {name        => 'undo',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -675,17 +672,17 @@ already or want to put null characters in the text.
 
 =cut
 
-SV *
-Fl_Input::value(char * str = NO_INIT, int len = NO_INIT)
-    CODE:
-        if (items == 2)
-            RETVAL = newSViv(THIS->value(str));
-        else if (items == 3)
-            RETVAL = newSViv(THIS->value(str, len));
-        else if (GIMME_V != G_VOID)
-            RETVAL = newSVpv(THIS->value(), 0); // Don't bother if called in void context
-    OUTPUT:
-        RETVAL
+xs {name        => 'value',
+    definitions => [{required =>
+                         [['const char *', 'string'], ['int', 'length']],
+                     returns => 'int'
+                    },
+                    {required => [['const char *', 'string']],
+                     returns  => 'int'
+                    },
+                    {returns => 'const char *'}
+    ]
+};
 
 =pod
 
@@ -701,18 +698,13 @@ Fl::MultilineInput.
 
 =cut
 
-void
-Fl_Input::wrap(IN_OUTLIST int wrap = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->wrap(wrap);
-        if (GIMME_V != G_VOID)
-            wrap = THIS->wrap(); // Don't bother if called in void context
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::Input", "Fl::Widget");
+xs {name        => 'wrap',
+    definitions => [{required => [['int', 'b']],
+                     returns  => 'void'
+                    },
+                    {returns => 'int'}
+    ]
+};
 
 =pod
 

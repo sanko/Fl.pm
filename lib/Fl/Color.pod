@@ -1,3 +1,7 @@
+class 'Fl';
+include 'FL/Enumerations.H';
+include 'FL/fl_show_colormap.H';
+
 =pod
 
 =head1 NAME
@@ -26,13 +30,6 @@ the upper 24 bits, for a byte organization of RGBI.
                    | | +----- blue color component (8 bit)
                    | +------- green component (8 bit)
                    +--------- red component (8 bit)
-
-=cut
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-=pod
 
 Here's a list of built-in colors:
 
@@ -102,32 +99,32 @@ The default selection/highlight color.
 
 =cut
 
-    export_constant( "FL_FOREGROUND_COLOR", "color", newSViv(FL_FOREGROUND_COLOR ));
-    export_constant( "FL_BACKGROUND2_COLOR","color", newSViv(FL_BACKGROUND2_COLOR ));
-    export_constant( "FL_INACTIVE_COLOR",   "color", newSViv(FL_INACTIVE_COLOR ));
-    export_constant( "FL_SELECTION_COLOR",  "color", newSViv(FL_SELECTION_COLOR ));
-    export_constant( "FL_GRAY0",            "color", newSViv(FL_GRAY0 ));
-    export_constant( "FL_DARK3",            "color", newSViv(FL_DARK3 ));
-    export_constant( "FL_DARK2",            "color", newSViv(FL_DARK2 ));
-    export_constant( "FL_DARK1",            "color", newSViv(FL_DARK1 ));
-    export_constant( "FL_BACKGROUND_COLOR", "color", newSViv(FL_BACKGROUND_COLOR ));
-    export_constant( "FL_LIGHT1",           "color", newSViv(FL_LIGHT1 ));
-    export_constant( "FL_LIGHT2",           "color", newSViv(FL_LIGHT2 ));
-    export_constant( "FL_LIGHT3",           "color", newSViv(FL_LIGHT3 ));
-    export_constant( "FL_BLACK",            "color", newSViv(FL_BLACK ));
-    export_constant( "FL_RED",              "color", newSViv(FL_RED ));
-    export_constant( "FL_GREEN",            "color", newSViv(FL_GREEN ));
-    export_constant( "FL_YELLOW",           "color", newSViv(FL_YELLOW ));
-    export_constant( "FL_BLUE",             "color", newSViv(FL_BLUE ));
-    export_constant( "FL_MAGENTA",          "color", newSViv(FL_MAGENTA ));
-    export_constant( "FL_CYAN",             "color", newSViv(FL_CYAN ));
-    export_constant( "FL_DARK_RED",         "color", newSViv(FL_DARK_RED ));
-    export_constant( "FL_DARK_GREEN",       "color", newSViv(FL_DARK_GREEN ));
-    export_constant( "FL_DARK_YELLOW",      "color", newSViv(FL_DARK_YELLOW ));
-    export_constant( "FL_DARK_BLUE",        "color", newSViv(FL_DARK_BLUE ));
-    export_constant( "FL_DARK_MAGENTA",     "color", newSViv(FL_DARK_MAGENTA ));
-    export_constant( "FL_DARK_CYAN",        "color", newSViv(FL_DARK_CYAN ));
-    export_constant( "FL_WHITE",            "color", newSViv(FL_WHITE ));
+export_constant("FL_FOREGROUND_COLOR",  "color");
+export_constant("FL_BACKGROUND2_COLOR", "color");
+export_constant("FL_INACTIVE_COLOR",    "color");
+export_constant("FL_SELECTION_COLOR",   "color");
+export_constant("FL_GRAY0",             "color");
+export_constant("FL_DARK3",             "color");
+export_constant("FL_DARK2",             "color");
+export_constant("FL_DARK1",             "color");
+export_constant("FL_BACKGROUND_COLOR",  "color");
+export_constant("FL_LIGHT1",            "color");
+export_constant("FL_LIGHT2",            "color");
+export_constant("FL_LIGHT3",            "color");
+export_constant("FL_BLACK",             "color");
+export_constant("FL_RED",               "color");
+export_constant("FL_GREEN",             "color");
+export_constant("FL_YELLOW",            "color");
+export_constant("FL_BLUE",              "color");
+export_constant("FL_MAGENTA",           "color");
+export_constant("FL_CYAN",              "color");
+export_constant("FL_DARK_RED",          "color");
+export_constant("FL_DARK_GREEN",        "color");
+export_constant("FL_DARK_YELLOW",       "color");
+export_constant("FL_DARK_BLUE",         "color");
+export_constant("FL_DARK_MAGENTA",      "color");
+export_constant("FL_DARK_CYAN",         "color");
+export_constant("FL_WHITE",             "color");
 
 =pod
 
@@ -143,11 +140,13 @@ Returns the inactive, dimmed version of the given color.
 
 =cut
 
-Fl_Color
-fl_inactive(Fl_Color color)
-
-BOOT:
-    export_function("fl_inactive", "color");
+xs {name        => 'fl_inactive',
+    definitions => [{required => [['Fl_Color', 'color']],
+                     returns  => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -165,11 +164,13 @@ which color provides the best contrast.
 
 =cut
 
-Fl_Color
-fl_contrast(Fl_Color fg, Fl_Color bg)
-
-BOOT:
-    export_function("fl_contrast", "color");
+xs {name        => 'fl_contrast',
+    definitions => [{required => [['Fl_Color', 'fg'], ['Fl_Color', 'bg']],
+                     returns => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -188,11 +189,16 @@ will return the second color.
 
 =cut
 
-Fl_Color
-fl_color_average(Fl_Color c1, Fl_Color c2, float weight)
-
-BOOT:
-    export_function("fl_color_average", "color");
+xs {name        => 'fl_color_average',
+    definitions => [{required => [['Fl_Color', 'color1'],
+                                  ['Fl_Color', 'color2'],
+                                  ['double',   'weight']
+                     ],
+                     returns => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -204,11 +210,13 @@ Returns a lighter version of the specified color.
 
 =cut
 
-Fl_Color
-fl_lighter(Fl_Color c)
-
-BOOT:
-    export_function("fl_lighter", "color");
+xs {name        => 'fl_lighter',
+    definitions => [{required => [['Fl_Color', 'color']],
+                     returns  => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -220,11 +228,13 @@ Returns a darker version of the specified color.
 
 =cut
 
-Fl_Color
-fl_darker(Fl_Color c)
-
-BOOT:
-    export_function("fl_darker", "color");
+xs {name        => 'fl_darker',
+    definitions => [{required => [['Fl_Color', 'color']],
+                     returns  => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -240,11 +250,17 @@ Returns the 24-bit color value closest to g (grayscale).
 
 =cut
 
-Fl_Color
-fl_rgb_color(uchar r, uchar g = NO_INIT, uchar b = NO_INIT)
-
-BOOT:
-    export_function("fl_rgb_color", "color");
+xs {name        => 'fl_rgb_color',
+    definitions => [{required =>
+                         [['uchar', 'r'], ['uchar', 'g'], ['uchar', 'b']],
+                     returns => 'Fl_Color',
+                    },
+                    {required => [['uchar', 'color']],
+                     returns  => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -256,11 +272,13 @@ Returns a gray color value scaled from black to white.
 
 =cut
 
-Fl_Color
-fl_gray_ramp(int i)
-
-BOOT:
-    export_function("fl_gray_ramp", "color");
+xs {name        => 'fl_gray_ramp',
+    definitions => [{required => [['int', 'index']],
+                     returns  => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -283,11 +301,13 @@ fl_color_cube(R * (FL_NUM_RED - 1) / 255,
 
 =cut
 
-Fl_Color
-fl_color_cube(int r, int g, int b)
-
-BOOT:
-    export_function("fl_color_cube", "color");
+xs {name        => 'fl_color_cube',
+    definitions => [{required => [['int', 'r'], ['int', 'g'], ['int', 'b']],
+                     returns => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 
@@ -302,13 +322,13 @@ highlighted when the grid is shown.
 
 =cut
 
-#include <FL/fl_show_colormap.H>
-
-Fl_Color
-fl_show_colormap(Fl_Color oldcol)
-
-BOOT:
-    export_function("fl_show_colormap", "color");
+xs {name        => 'fl_show_colormap',
+    definitions => [{required => [['Fl_Color', 'old_color']],
+                     returns  => 'Fl_Color'
+                    }
+    ],
+    export => [qw[color]]
+};
 
 =pod
 

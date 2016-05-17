@@ -1,0 +1,330 @@
+#
+class 'Fl::Widget';
+include 'FL/Fl_Widget.H';
+#
+xs {name        => 'activate',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'active',
+    definitions => [{returns => 'unsigned int'}]
+};
+xs {name        => 'active_r',
+    definitions => [{returns => 'int'}]
+};
+xs {name        => 'align',
+    definitions => [{returns => 'Fl_Align',},
+                    {required => [['Fl_Align', 'alignment']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'box',
+    definitions => [{returns => 'Fl_Boxtype',},
+                    {required => [['Fl_Boxtype', 'new_box']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'callback',
+    definitions => [{required => [['SV *', 'coderef']],
+                     optional => [['SV *', 'args', '(SV *) NULL']],
+                     returns => 'void',
+                     c_args => '_cb_w, (void *) new Callback( coderef, args )'
+                    }
+    ]
+};
+xs {name        => 'changed',
+    definitions => [{returns => 'unsigned int'}]
+};
+xs {name        => 'clear_active',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'clear_changed',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'clear_damage',
+    definitions => [{optional => [['uchar', 'c', ' 0']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'clear_output',
+    definitions => [{returns => 'void',}]
+};
+xs {name        => 'clear_visible',
+    definitions => [{returns => 'void',}]
+};
+xs {name        => 'clear_visible_focus',
+    definitions => [{returns => 'void',}]
+};
+xs {name        => 'color',
+    definitions => [{required =>
+                         [['Fl_Color', 'bg'], ['Fl_Color', 'selection']],
+                     returns => 'void',
+                    },
+                    {required => [['Fl_Color', 'bg']],
+                     returns  => 'void',
+                    },
+                    {returns => 'Fl_Color'}
+    ]
+};
+xs {name        => 'contains',
+    definitions => [{required => [['Fl_Widget *', 'widget']],
+                     returns  => 'int',
+                     c_args   => 'widget->cp_ctx'
+                    }
+    ]
+};
+xs {name        => 'copy_label',
+    definitions => [{required => [['const char *', 'label']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'copy_tooltip',
+    definitions => [{required => [['const char *', 'text']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'damage',
+    definitions => [{returns => 'void'},
+                    {required => [['uchar', 'c']],
+                     returns  => 'void'
+                    },
+                    {required => [['uchar', 'c'],
+                                  ['int',   'x'],
+                                  ['int',   'y'],
+                                  ['int',   'w'],
+                                  ['int',   'h']
+                     ],
+                     returns => 'void'
+                    }
+    ]
+};
+xs {name        => 'deactivate',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'default_callback',
+    definitions => [
+                   {required => [['Fl_Widget *', 'widget'], ['SV *', 'data']],
+                    returns => 'void',
+                    c_args => 'widget->cp_ctx, (void *) data'
+                   }
+    ]
+};
+
+# TODO: I need to add Fl_Image object stuff...
+# Fl_Image * Fl_Widget::deimage( )
+# void       Fl_Widget::deimage( Fl_Image * img )
+xs {name        => 'do_callback',
+    definitions => [{returns => 'void'},
+                    {required =>
+                         [['Fl_Widget *', 'widget'], ['SV *', 'data']],
+                     returns => 'void',
+                     c_args  => 'widget->cp_ctx, (void *) data'
+                    }
+    ]
+};
+xs {name        => 'draw_label',
+    definitions => [{required => [['int',      'x'],
+                                  ['int',      'y'],
+                                  ['int',      'w'],
+                                  ['int',      'h'],
+                                  ['Fl_Align', 'alignment']
+                     ],
+                     returns => 'void'
+                    }
+    ]
+};
+xs {name        => 'h',
+    definitions => [{returns => 'int'}]
+};
+xs {name        => 'hide',
+    definitions => [{returns => 'void'}]
+};
+
+# TODO: I need to add Fl_Image object stuff...
+# Fl_Image * Fl_Widget::image( )
+# void       Fl_Widget::image( Fl_Image * img )
+xs {name        => 'inside',
+    definitions => [{required => [['Fl_Widget *', 'widget']],
+                     returns  => 'int',
+                     c_args   => 'widget->cp_ctx'
+                    }
+    ]
+};
+xs {name        => 'label',
+    definitions => [{returns => 'const char *'},
+                    {required => [['const char *', 'text']],
+                     returns  => 'void'
+                    },
+                    {required =>
+                         [['Fl_Labeltype', 'type'], ['const char *', 'text']],
+                     returns => 'void'
+                    }
+    ]
+};
+xs {name        => 'labelcolor',
+    definitions => [{returns => 'Fl_Color'},
+                    {required => [['Fl_Color', 'color']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'labelfont',
+    definitions => [{returns => 'Fl_Font'},
+                    {required => [['Fl_Font', 'font']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'labelsize',
+    definitions => [{returns => 'Fl_Fontsize'},
+                    {required => [['Fl_Fontsize', 'size']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'labeltype',
+    definitions => [{returns => 'Fl_Labeltype'},
+                    {required => [['Fl_Labeltype', 'type']],
+                     returns  => 'void'
+                    }
+    ]
+};
+
+# TODO:
+# I need to support IN_OUTLIST sorta calls in my template
+# void Fl_Widget::measure_label( int & ww, int & hh)
+xs {name        => 'output',
+    definitions => [{returns => 'unsigned int'}]
+};
+xs {name        => 'parent',
+    definitions => [{returns => 'Fl_Group *'}]
+};
+xs {name        => 'position',
+    definitions => [{required => [['int', 'x'], ['int', 'y']],
+                     returns => 'void'
+                    }
+    ]
+};
+xs {name        => 'redraw',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'redraw_label',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'resize',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             returns => 'void'
+            }
+    ]
+};
+xs {name        => 'selection_color',
+    definitions => [{returns => 'Fl_Color'},
+                    {required => [['Fl_Color', 'color']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'set_active',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'set_changed',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'set_output',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'set_visible',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'set_visible_focus',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'show',
+    definitions => [{returns => 'void'}]
+};
+xs {name        => 'size',
+    definitions => [{required => [['int', 'w'], ['int', 'h']],
+                     returns => 'void'
+                    }
+    ]
+};
+xs {name        => 'take_focus',
+    definitions => [{returns => 'int'}]
+};
+xs {name        => 'takesevents',
+    definitions => [{returns => 'unsigned int'}]
+};
+xs {name        => 'tooltip',
+    definitions => [{returns => 'const char *'},
+                    {required => [['const char *', 'text']],
+                     returns  => 'void'
+                    }
+    ]
+};
+xs {name        => 'top_window',
+    definitions => [{returns => 'Fl_Window *'}]
+};
+
+# TODO: & int for...
+# Fl_Window * Fl_Widget::top_window_offset(int & xoff, int & yoff)
+#
+xs {name        => 'type',
+    definitions => [{returns => 'uchar'}]
+};
+
+# TODO: The actual user_data is inside of the Callback object... not sure this
+#       would actually be of any use...
+#xs {name        => 'user_data',
+#    definitions => [{returns => 'SV *'}]
+#};
+xs {name        => 'visible',
+    definitions => [{returns => 'unsigned int'}]
+};
+xs {name        => 'visible_focus',
+    definitions => [{required => [['int', 'v']],
+                     returns  => 'void'
+                    },
+                    {returns => 'unsigned int'}
+    ]
+};
+xs {name        => 'visible_r',
+    definitions => [{returns => 'int'}]
+};
+xs {name        => 'w',
+    definitions => [{returns => 'int'}]
+};
+xs {name        => 'when',
+    definitions => [{returns  => 'Fl_When'},
+                    {required => [['uchar', 'i']], returns => 'void'}
+    ]
+};
+xs {name        => 'window',
+    definitions => [{returns => 'Fl_Window *'}]
+};
+xs {name        => 'x',
+    definitions => [{returns => 'int'}]
+};
+xs {name        => 'y',
+    definitions => [{returns => 'int'}]
+};
+
+# TODO: Find a better place for this!
+# TODO: Write a test for it as well...
+# ----------
+class 'Fl';
+xs {name        => 'Fl::delete_widget',
+    definitions => [
+        {required => [['Fl_Widget *', 'widget']],
+         returns  => 'void',
+         cleanup =>
+             'Safefree(widget); SV * sv = (SV *) &PL_sv_undef; sv_setsv(ST(0), sv);',
+         c_args => 'widget->cp_ctx'
+        }
+    ],
+    export => [qw[widget]]
+};

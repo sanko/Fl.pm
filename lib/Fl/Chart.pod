@@ -1,3 +1,7 @@
+class 'Fl::Chart';
+isa 'Fl::Widget';
+include 'FL/Fl_Chart.H';
+
 =pod
 
 =head1 NAME
@@ -32,16 +36,6 @@ imported from Fl with the C<:chart> tag.
 
 Fl::Chart is a subclass of Fl::Widget but also supports these methods:
 
-=cut
-
-#include <FL/Fl_Chart.H>
-
-MODULE = Fl::Chart         PACKAGE = Fl::Chart         PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
 The constructor creates a chart of a given size and position on screen or
@@ -72,25 +66,23 @@ Ideally, we could also create windows with something like:
 
 =cut
 
-Fl_Chart *
-Fl_Chart::new(int x, int y, int w, int h, char * label = 0)
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int x]], [qw[int y]], [qw[int w]], [qw[int h]]],
+             optional => [['const char *', 'label', ' 0']],
+             returns  => 'Fl_Chart *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
 The destructor I<also deletes all data>.
 
 =cut
-
-void
-Fl_Chart::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
 
 =pod
 
@@ -103,8 +95,20 @@ Add the data value with optional label and color to the chart.
 
 =cut
 
-void
-Fl_Chart::add(double val, const char * str = 0, Fl_Color col = 0)
+xs {name        => 'add',
+    definitions => [
+        {required => [[qw[double value]],
+                      ['const char *', 'label'],
+                      ['Fl_Color',     'col']
+         ],
+         returns => 'void'
+        },
+        {required => [[qw[double value]]],   # TODO: col is randomly messed up
+         optional => [['const char *', 'label', '""'], ['Fl_Color', 'col']],
+         returns  => 'void'
+        }
+    ]
+};
 
 =pod
 
@@ -118,13 +122,17 @@ non-zero if the chart will automatically resize.
 
 =cut
 
-void
-Fl_Chart::autosize(IN_OUTLIST uchar autosize = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->autosize(autosize);
-        if (GIMME_V != G_VOID)
-            autosize = THIS->autosize(); // Don't bother if called in void context
+xs {name        => 'autosize',
+    definitions => [{required => [[qw[uchar autosize]]],
+                     returns  => 'void'
+                    },
+                    {returns => 'uchar'}
+    ]
+};
+
+=begin TODO
+
+I need to sort out returning AV * when we return more than a single value
 
 =pod
 
@@ -135,7 +143,7 @@ Fl_Chart::autosize(IN_OUTLIST uchar autosize = NO_INIT)
 
 Gets or sets the lower and upper bounds of the char values
 
-=cut
+#=cut
 
 void
 Fl_Chart::bounds(IN_OUTLIST double a = NO_INIT, IN_OUTLIST double b = NO_INIT)
@@ -144,6 +152,22 @@ Fl_Chart::bounds(IN_OUTLIST double a = NO_INIT, IN_OUTLIST double b = NO_INIT)
             THIS->bounds(a, b);
         if (GIMME_V != G_VOID)
             THIS->bounds(&a, &b); // Don't bother if called in void context
+=cut
+
+xs {name        => 'bounds',
+    definitions => [{required => [[qw[int a]], [qw[int b]]],
+                     returns => 'void'
+                    },
+                    {code => <<'' }]};
+            double alpha; double beta;
+            ((Fl_Chart *)self->cp_ctx)->bounds( &alpha, &beta );
+            XSprePUSH;	EXTEND(SP,2);
+            PUSHs(sv_newmortal());
+            sv_setnv(ST(0), (double)alpha);
+            PUSHs(sv_newmortal());
+            sv_setnv(ST(1), (double)beta);
+            XSRETURN(2);
+
 
 =pod
 
@@ -155,8 +179,9 @@ Removes all values from the chart.
 
 =cut
 
-void
-Fl_Chart::clear()
+xs {name        => 'clear',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 
@@ -169,8 +194,15 @@ Inserts a value at the given position. Position 1 is the first data value.
 
 =cut
 
-void
-Fl_Chart::insert(int _index, double value, const char * str = 0, unsigned int color = 0)
+xs {name        => 'insert',
+    definitions => [
+        {required => [[qw[int index]], [qw[double value]]],
+         optional =>
+             [['const char *', 'str', ' 0'], ['unsigned int', 'color', ' 0']],
+         returns => 'void'
+        }
+    ]
+};
 
 =pod
 
@@ -186,13 +218,13 @@ depending on available memory.
 
 =cut
 
-void
-Fl_Chart::maxsize(IN_OUTLIST int maxsize = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->maxsize(maxsize);
-        if (GIMME_V != G_VOID)
-            maxsize = THIS->maxsize(); // Don't bother if called in void context
+xs {name        => 'maxsize',
+    definitions => [{required => [[qw[int maxsize]]],
+                     returns  => 'void'
+                    },
+                    {returns => 'int'}
+    ]
+};
 
 =pod
 
@@ -205,8 +237,15 @@ Replaces a value at the given position. Position 1 is the first data value.
 
 =cut
 
-void
-Fl_Chart::replace(int _index, double value, const char * str = 0, unsigned int color = 0)
+xs {name        => 'replace',
+    definitions => [
+        {required => [[qw[int index]], [qw[double value]]],
+         optional =>
+             [['const char *', 'str', ' 0'], ['unsigned int', 'color', ' 0']],
+         returns => 'void'
+        }
+    ]
+};
 
 =pod
 
@@ -218,8 +257,9 @@ Returns the number of data points in the chart.
 
 =cut
 
-int
-Fl_Chart::size()
+xs {name        => 'size',
+    definitions => [{returns => 'int'}]
+};
 
 =pod
 
@@ -232,13 +272,13 @@ Gets or sets the chart's text color.
 
 =cut
 
-void
-Fl_Chart::textcolor(IN_OUTLIST Fl_Color color = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->textcolor(color);
-        if (GIMME_V != G_VOID)
-            color = THIS->textcolor(); // Don't bother if called in void context
+xs {name        => 'textcolor',
+    definitions => [{required => [[qw[Fl_Color color]]],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Color'}
+    ]
+};
 
 =pod
 
@@ -251,13 +291,13 @@ Gets or sets the chart's font.
 
 =cut
 
-void
-Fl_Chart::textfont(IN_OUTLIST Fl_Font font = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->textfont(font);
-        if (GIMME_V != G_VOID)
-            font = THIS->textfont(); // Don't bother if called in void context
+xs {name        => 'textfont',
+    definitions => [{required => [[qw[Fl_Font color]]],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Font'}
+    ]
+};
 
 =pod
 
@@ -270,18 +310,13 @@ Sets the chart's text size.
 
 =cut
 
-void
-Fl_Chart::textsize(IN_OUTLIST Fl_Fontsize size = NO_INIT)
-    CODE:
-        if (items == 2)
-            THIS->textsize(size);
-        if (GIMME_V != G_VOID)
-            size = THIS->textsize(); // Don't bother if called in void context
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::Chart", "Fl::Widget");
+xs {name        => 'textsize',
+    definitions => [{required => [[qw[Fl_Fontsize size]]],
+                     returns  => 'void'
+                    },
+                    {returns => 'Fl_Fontsize'}
+    ]
+};
 
 =pod
 

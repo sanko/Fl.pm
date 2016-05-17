@@ -1,3 +1,7 @@
+class 'Fl::FloatInput';
+isa 'Fl::IntInput';
+include 'FL/Fl_Float_Input.H';
+
 =pod
 
 =head1 NAME
@@ -20,16 +24,6 @@ sign, digits).
 Fl::FloatInput inherits from Fl::Input and Fl::Widget. On top of that, it
 exposes the following methods...
 
-=cut
-
-#include <FL/Fl_Float_Input.H>
-
-MODULE = Fl::FloatInput     PACKAGE = Fl::FloatInput  PREFIX = Fl_
-
-PROTOTYPES: DISABLE
-
-=pod
-
 =head2 new(...)
 
     my $text_a = Fl::FloatInput->new(0, 0, 250, 500, 'Important Stuff');
@@ -44,36 +38,17 @@ The destructor removes the widget.
 
 =cut
 
-Fl_Float_Input *
-Fl_Float_Input::new( ... )
-    CASE: (items == 5 || items == 6)
-        CODE:
-            /*(int x, int y, int w, int h, char * label = $0)*/
-            char * label = "";
-            int x = (int)SvIV(ST(1));
-            int y = (int)SvIV(ST(2));
-            int w = (int)SvIV(ST(3));
-            int h = (int)SvIV(ST(4));
-            if (items == 6) label = (char *)SvPV_nolen(ST(5));
-            RETVAL = new Fl_Float_Input(x,y,w,h,label);
-        OUTPUT:
-            RETVAL
-
-void
-Fl_Float_Input::DESTROY()
-    CODE:
-        int refcount = SvREFCNT(SvRV(ST(0)));
-        if (refcount == 1) {
-            delete THIS;
-        }
-        else {
-            SvREFCNT_dec(ST(0));
-        }
-
-MODULE = Fl        PACKAGE = Fl
-
-BOOT:
-    set_isa("Fl::FloatInput", "Fl::Input");
+xs {name        => 'new',
+    definitions => [
+            {required => [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
+             optional => [['const char *', 'label', '""']],
+             returns  => 'Fl_Float_Input *'
+            }
+    ]
+};
+xs {name        => 'DESTROY',
+    definitions => [{returns => 'void'}]
+};
 
 =pod
 

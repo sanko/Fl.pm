@@ -30,7 +30,8 @@
          "requires" : {
             "Alien::FLTK" : "v1.3.3",
             "Module::Build" : "0.4005",
-            "Module::Build::XSUtil" : "0.03"
+            "Module::Build::XSUtil" : "0.03",
+            "Template::Liquid" : "0"
          }
       },
       "develop" : {
