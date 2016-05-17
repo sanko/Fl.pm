@@ -60,11 +60,7 @@ following methods...
 
 =cut
 
-# Can't create object; draw() is virtual. Subclasses only'
-
-xs {name        => 'DESTROY',
-    definitions => [{returns => 'void'}]
-};
+# Can't create object; draw() is virtual. Subclasses only
 
 =pod
 
