@@ -51,5 +51,6 @@ typedef CTX* Fl__RadioRoundButton;
 typedef CTX* Fl__RoundButton;
 typedef CTX* Fl__SecretInput;
 typedef CTX* Fl__ToggleButton;
+typedef CTX* Fl__Valuator;
 
 #endif // #ifndef fltk_pm_h

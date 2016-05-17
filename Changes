@@ -8,6 +8,7 @@ Revision history for Perl extension Fl
         - Fl::FloatInput - limits users to type only floating point numbers
         - Fl::IntInput - limits users to type only decimal digits and hex values
         - Fl::MultilineInput - allows editing of multiline text fields
+        - Fl::Valuator - Base class for several floating-point value widget types
 
 0.99.5 2016-05-08T22:04:46Z
 
