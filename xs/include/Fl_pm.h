@@ -56,5 +56,6 @@ typedef CTX* Fl__Adjuster;
 typedef CTX* Fl__Counter;
 typedef CTX* Fl__SimpleCounter;
 typedef CTX* Fl__Dial;
+typedef CTX* Fl__FillDial;
 
 #endif // #ifndef fltk_pm_h

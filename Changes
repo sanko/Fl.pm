@@ -6,6 +6,7 @@ Revision history for Perl extension Fl
         - Fl::Counter - Controls a single floating point value with button (or keyboard) arrows
         - Fl::SimpleCounter - Fl::Counter with only two buttons
         - Fl::Dial - Circular dial to control a single floating point value
+        - Fl::FillDial - Fl::Dial with a filled arc
 
 0.99.7 2016-05-18T00:20:32Z
 
