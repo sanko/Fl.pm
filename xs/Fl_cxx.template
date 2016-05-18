@@ -73,13 +73,13 @@ class Callback {
 
 void register_constant( const char * name, SV * value ) {
     dTHX;
-    newCONSTSUB( Fl_stash, name, value );
+    newCONSTSUB( Fl_stash, (char *) name, value );
 }
 
 void register_constant( const char * package, const char * name, SV * value ) {
     dTHX;
     HV * _stash  = gv_stashpv( package, TRUE );
-    newCONSTSUB( _stash, name, value );
+    newCONSTSUB( _stash, (char *) name, value );
 }
 
 void export_function (const char * what, const char * _tag ) {
