@@ -59,5 +59,6 @@ typedef CTX* Fl__Dial;
 typedef CTX* Fl__FillDial;
 typedef CTX* Fl__LineDial;
 typedef CTX* Fl__Roller;
+typedef CTX* Fl__ValueOutput;
 
 #endif // #ifndef fltk_pm_h
