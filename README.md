@@ -5,15 +5,17 @@ Fl - Bindings for the Stable 1.3.x Branch of the Fast Light Toolkit
 
 # SYNOPSIS
 
-    use Fl qw[:event :label :box :font];
-    my $window = Fl::Window->new(100, 100, 300, 180);
-    my $box = Fl::Box->new(FL_UP_BOX, 20, 40, 260, 100, 'Hello, World');
-    $box->labelfont(FL_BOLD + FL_ITALIC);
-    $box->labelsize(36);
-    $box->labeltype(FL_SHADOW_LABEL);
-    $window->end();
-    $window->show();
-    exit run();
+```perl
+use Fl qw[:event :label :box :font];
+my $window = Fl::Window->new(100, 100, 300, 180);
+my $box = Fl::Box->new(FL_UP_BOX, 20, 40, 260, 100, 'Hello, World');
+$box->labelfont(FL_BOLD + FL_ITALIC);
+$box->labelsize(36);
+$box->labeltype(FL_SHADOW_LABEL);
+$window->end();
+$window->show();
+exit run();
+```
 
 # DESCRIPTION
 
@@ -44,16 +46,20 @@ Fl provides many types of buttons:
 The constructor for all of these buttons takes the bounding box of the button
 and an optional label string:
 
-    my $fl_btn = Fl::Button->new($x, $y, $width, $height, "label");
-    my $fl_lbtn = Fl::LightButton->new($x, $y, $width, $height);
-    my $fl_rbtn = Fl::RoundButton->new($x, $y, $width, $height, "label");
+```perl
+my $fl_btn = Fl::Button->new($x, $y, $width, $height, "label");
+my $fl_lbtn = Fl::LightButton->new($x, $y, $width, $height);
+my $fl_rbtn = Fl::RoundButton->new($x, $y, $width, $height, "label");
+```
 
 Each button has an associated `type()` which allows it to behave as a push
 button, toggle button, or radio button.
 
-    $fl_btn->type(FL_NORMAL_BUTTON);
-    $fl_lbtn->type(FL_TOGGLE_BUTTON);
-    $fl_rbtn->type(FL_RADIO_BUTTON);
+```
+$fl_btn->type(FL_NORMAL_BUTTON);
+$fl_lbtn->type(FL_TOGGLE_BUTTON);
+$fl_rbtn->type(FL_RADIO_BUTTON);
+```
 
 For toggle and radio buttons, the `value()` method returns the current button
 state (0 = off, 1 = on). The `set()` and `clear()` methods can be used on
@@ -152,31 +158,39 @@ These are imported with the `:label` tag. Please see
 Callbacks are functions that are called when the value of a widget is changed.
 A callback function is sent the widget's pointer and the data you provided.
 
-    sub xyz_callback {
-        my ($widget, $data) = @_;
-        ...
-    }
+```perl
+sub xyz_callback {
+    my ($widget, $data) = @_;
+    ...
+}
+```
 
 The `callback(...)` method sets the callback function for a widget. You can
 optionally pass data needed for the callback:
 
-    my $xyz_data = 'Fire Kingdom';
-    $button->callback(&xyz_callback, $xyz_data);
+```perl
+my $xyz_data = 'Fire Kingdom';
+$button->callback(&xyz_callback, $xyz_data);
+```
 
 You can also pass an anonymous sub to the `callback(...)` method:
 
-    $button->callback(sub { warn 'Click!' });
+```perl
+$button->callback(sub { warn 'Click!' });
+```
 
 Normally, callbacks are performed only when the value of the widget changes.
 You can change this using the `when()|Fl::Widget/when(...)` method:
 
-    $button->when(FL_WHEN_NEVER);
-    $button->when(FL_WHEN_CHANGED);
-    $button->when(FL_WHEN_RELEASE);
-    $button->when(FL_WHEN_RELEASE_ALWAYS);
-    $button->when(FL_WHEN_ENTER_KEY);
-    $button->when(FL_WHEN_ENTER_KEY_ALWAYS);
-    $button->when(FL_WHEN_CHANGED | FL_WHEN_NOT_CHANGED);
+```
+$button->when(FL_WHEN_NEVER);
+$button->when(FL_WHEN_CHANGED);
+$button->when(FL_WHEN_RELEASE);
+$button->when(FL_WHEN_RELEASE_ALWAYS);
+$button->when(FL_WHEN_ENTER_KEY);
+$button->when(FL_WHEN_ENTER_KEY_ALWAYS);
+$button->when(FL_WHEN_CHANGED | FL_WHEN_NOT_CHANGED);
+```
 
 These values may be imported with the `:when` tag. Please see
 [Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#when) for more.
@@ -184,11 +198,13 @@ These values may be imported with the `:when` tag. Please see
 A word of caution: care has been taken not to tip over when you delete a
 widget inside it's own callback but it's still not the best idea so...
 
-    $button->callback(
-        sub {
-            $button = undef; # Might be okay. Might implode.
-        }
-    );
+```perl
+$button->callback(
+    sub {
+        $button = undef; # Might be okay. Might implode.
+    }
+);
+```
 
 Eventually, I'll provide an explicit `delete_widget()` method that will mark
 the widget for deletion when it's safe to do so.
@@ -198,12 +214,14 @@ the widget for deletion when it's safe to do so.
 Shortcuts are key sequences that activate widgets such as buttons or menu
 items. The `shortcut(...)` method sets the shortcut for a widget:
 
-    $button->shortcut(FL_Enter);
-    $button->shortcut(FL_SHIFT + 'b');
-    $button->shortcut(FL_CTRL + 'b');
-    $button->shortcut(FL_ALT + 'b');
-    $button->shortcut(FL_CTRL + FL_ALT + 'b');
-    $button->shortcut(0); // no shortcut
+```
+$button->shortcut(FL_Enter);
+$button->shortcut(FL_SHIFT + 'b');
+$button->shortcut(FL_CTRL + 'b');
+$button->shortcut(FL_ALT + 'b');
+$button->shortcut(FL_CTRL + FL_ALT + 'b');
+$button->shortcut(0); # no shortcut
+```
 
 The shortcut value is the key event value - the ASCII value or one of the
 special keys described in [Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#keyboard)
@@ -228,6 +246,26 @@ Fl contains several other widgets and other classes including:
 - [Fl::Window](https://metacpan.org/pod/Fl::Window)
 
 This is the current list and will expand as the distribution develops.
+
+# Functions
+
+The top level namespace comes with loads of functions. I'll try keeping them
+somewhat organized here.
+
+## delete\_widget(...)
+
+Schedules a widget for deletion at the next call to the event loop.
+
+Use this method to delete a widget inside a callback function.
+
+To avoid early deletion of widgets, this function should be called toward the
+end of a callback and only after any call to the event loop (`Fl::wait()`,
+`Fl::flush()`, `Fl::check()`, `fl_ask()`, etc.).
+
+When deleting groups or windows, you must only delete the group or window
+widget and not the individual child widgets.
+
+The object reference is undefined after calling this.
 
 # LICENSE
 

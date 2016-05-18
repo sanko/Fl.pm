@@ -91,8 +91,7 @@ package inc::MBFlExt;
                 map { abs2rel($_) if -f } @obj;
             }
             my @pod;
-            find(sub { push @pod, $File::Find::name if m[.+\.pod$]; },
-                 'lib/Fl');
+            find(sub { push @pod, $File::Find::name if m[.+\.pod$] }, 'lib');
             if (!$self->up_to_date([@pod], 'xs/Fl.cxx')) {
                 printf 'Generating source... ';
                 #

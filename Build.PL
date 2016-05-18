@@ -32,6 +32,7 @@ my %args = (
     test_files           => ((-d '.git' || $ENV{RELEASE_TESTING}) && -d 'xt') ? 't/ xt/' : 't/',
     recursive_test_files => 1,
 
+    tap_harness_args => {"jobs" => 8},
 
     needs_compiler_c99 => 0,
     needs_compiler_cpp => 1,

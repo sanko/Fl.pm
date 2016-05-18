@@ -1,5 +1,4 @@
 #include "include/Fl_pm.h"
-#include <FL/Fl.H>
 
 {%for include in includes sorted:key %}
 #include <{{include.key}}>{%endfor%}
@@ -117,19 +116,6 @@ void _cb_w ( Fl_Widget * widget, void * CODE ) {
     ((Callback * ) CODE)->trigger(widget);
     return;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
@@ -485,29 +471,7 @@ XS_EUPXS({{cpp.function.name}}) {
 }
 {% endfor %}
 /* /package {{class.package}};  */
-
 {%endfor%}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #ifdef __cplusplus
 extern "C"

@@ -312,19 +312,3 @@ xs {name        => 'x',
 xs {name        => 'y',
     definitions => [{returns => 'int'}]
 };
-
-# TODO: Find a better place for this!
-# TODO: Write a test for it as well...
-# ----------
-class 'Fl';
-xs {name        => 'Fl::delete_widget',
-    definitions => [
-        {required => [['Fl_Widget *', 'widget']],
-         returns  => 'void',
-         cleanup =>
-             '/*Safefree(widget);*/ SV * sv = (SV *) &PL_sv_undef; sv_setsv(ST(0), sv);',
-         c_args => 'widget->cp_ctx'
-        }
-    ],
-    export => [qw[widget]]
-};
