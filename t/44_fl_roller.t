@@ -4,13 +4,13 @@ use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
 use Fl;
 my $dial1 = new_ok
-    'Fl::LineDial' => [20, 40, 300, 100, 'Hello, World!'],
-    'line dial w/ label';
+    'Fl::Roller' => [20, 40, 300, 100, 'Hello, World!'],
+    'roller w/ label';
 my $dial2 = new_ok
-    'Fl::LineDial' => [20, 40, 300, 100],
-    'line dial w/o label';
+    'Fl::Roller' => [20, 40, 300, 100],
+    'roller w/o label';
 #
-isa_ok $dial1, 'Fl::Dial';
+isa_ok $dial1, 'Fl::Valuator';
 #
 Fl::delete_widget($dial2);
 is $dial2, undef, '$dial2 is now undef';
