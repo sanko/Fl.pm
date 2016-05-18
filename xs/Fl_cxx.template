@@ -325,6 +325,7 @@ XS_EUPXS({{cpp.function.name}}) {
         else
             croak("Expected object. Got a non-object?!");
         {%when 'int'      %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'short'    %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'double'   %}{{arg | join: ' '}} = ({{arg.0}})SvNV(ST({{st.position}}));
         {%when 'Fl_Fontsize'      %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'Fl_Font'      %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
@@ -354,6 +355,7 @@ XS_EUPXS({{cpp.function.name}}) {
             {%when 'unsigned int'   %}(unsigned int) SvUV
             {%when 'const char *'   %}({{arg.0}}) SvPV_nolen
             {%when 'int'            %}({{arg.0}}) SvIV
+            {%when 'short'          %}({{arg.0}}) SvIV
             {%when 'double'         %}({{arg.0}}) SvNV
             {%when 'Fl_Color'       %}({{arg.0}}) SvIV
             {%when 'Fl_Char'        %}({{arg.0}}) SvIV
@@ -435,6 +437,8 @@ XS_EUPXS({{cpp.function.name}}) {
                     {%when 'const char *'      %}dXSTARG; sv_setpv(TARG, RETVAL); XSprePUSH; PUSHTARG;
                     {%when 'unsigned int'      %}dXSTARG; XSprePUSH; PUSHu((UV)RETVAL);
                     {%when 'bool'              %}boolSV(RETVAL);
+                    {%when 'int'               %}dXSTARG; XSprePUSH; PUSHi((IV)RETVAL);
+                    {%when 'short'             %}dXSTARG; XSprePUSH; PUSHi((IV)RETVAL);
                     {%when 'Fl_Widget *' %}
                         CTX * ctx;
                         Newx(ctx, 1, CTX);
