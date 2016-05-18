@@ -322,7 +322,7 @@ xs {name        => 'Fl::delete_widget',
         {required => [['Fl_Widget *', 'widget']],
          returns  => 'void',
          cleanup =>
-             'Safefree(widget); SV * sv = (SV *) &PL_sv_undef; sv_setsv(ST(0), sv);',
+             '/*Safefree(widget);*/ SV * sv = (SV *) &PL_sv_undef; sv_setsv(ST(0), sv);',
          c_args => 'widget->cp_ctx'
         }
     ],
