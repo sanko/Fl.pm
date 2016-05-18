@@ -2,6 +2,10 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.7 2016-05-18T00:20:32Z
+
+    - Fix refcount related crash on super sensitive *nix glibc
+
 0.99.6 2016-05-17T16:16:32Z
 
     - New widgets:
