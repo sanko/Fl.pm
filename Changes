@@ -10,6 +10,7 @@ Revision history for Perl extension Fl
         - Fl::LineDial - Fl::Dial with a single line to mark the current value
         - Fl::Roller - '3D' dial to control a floating point value
         - Fl::ValueOutput - Read-only display of floating point value
+        - Fl::ValueInput - Displays a floating point value the user can modify
 
 0.99.7 2016-05-18T00:20:32Z
 
