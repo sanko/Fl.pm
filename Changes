@@ -2,6 +2,9 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - New widgets:
+        - Fl::Counter - Controls a single floating point value with button (or keyboard) arrows
+
 0.99.7 2016-05-18T00:20:32Z
 
     - Fix refcount related crash on super sensitive *nix glibc
