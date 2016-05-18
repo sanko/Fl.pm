@@ -54,5 +54,6 @@ typedef CTX* Fl__ToggleButton;
 typedef CTX* Fl__Valuator;
 typedef CTX* Fl__Adjuster;
 typedef CTX* Fl__Counter;
+typedef CTX* Fl__SimpleCounter;
 
 #endif // #ifndef fltk_pm_h
