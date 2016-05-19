@@ -256,14 +256,15 @@ XS_EUPXS({{cpp.function.name}}) {
     assign size.req  = definition.required | size %}{%
     assign size.opt  = definition.optional | size %}{%
     unless class.package == 'Fl' %}{%
-        assign is_method = 1 %}{%
+        assign is_method = 1 %}{% else %}{%
+        assign is_method = 0 %}{%
     endunless%}
     {%if is_method%}{%assign size.req = size.req | plus:1 %}{%endif%}
  // is_method   = {{is_method}}
  // size.req    = {{size.req}}
  // st.position = {{st.position}}
 
-    {%unless forloop.first%}else {%endunless%}if (items >= {{ size.req }}{% if size.opt %} && items <= {{ size.req | plus: size.opt | plus: is_method }}{% endif %}) {
+    {%unless forloop.first%}else {%endunless%}if (items {%if size.opt%}>{%else%}={%endif%}= {{ size.req }}{% if size.opt %} && items < {{ size.req | plus: size.opt | plus: is_method }}{% endif %}) {
         {%if definition.required %}
         // Required
         {% for arg in definition.required %}
@@ -310,21 +311,23 @@ XS_EUPXS({{cpp.function.name}}) {
         }
         else
             croak("Expected object. Got a non-object?!");
-        {%when 'int'      %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'short'    %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'double'   %}{{arg | join: ' '}} = ({{arg.0}})SvNV(ST({{st.position}}));
-        {%when 'Fl_Fontsize'      %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'Fl_Font'      %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'Fl_Color' %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'Fl_Align' %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'Fl_Char'  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'Fl_When'  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'int'         %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'short'       %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'double'      %}{{arg | join: ' '}} = ({{arg.0}})SvNV(ST({{st.position}}));
+        {%when 'FILE'        %}{{arg | join: ' '}} = PerlIO_findFILE(IoIFP(sv_2io(ST({{st.position}}))));
+        {%when 'PerlIO *'    %}{{arg | join: ' '}} = IoIFP(sv_2io(ST({{st.position}})));
+        {%when 'Fl_Fontsize' %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'Fl_Font'     %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'Fl_Color'    %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'Fl_Align'    %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'Fl_Char'     %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'Fl_When'     %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'Fl_Labeltype'  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'Fl_Boxtype'%}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%endcase%}{% endfor %}{% endif %}
     {%if size.opt %}
         // Optional{% for arg in definition.optional %}
-        {%assign position = forloop.index0 | plus: is_method%}
+        {%assign position = forloop.index0 %}
         // position  = {{position}}            | {{position}} + {{size.req}} = {{ position | plus: size.req}} {{ 99 | plus : 30000000 }}
         // .index       = {{forloop.index}}
         // .index0      = {{forloop.index0}}
@@ -332,22 +335,22 @@ XS_EUPXS({{cpp.function.name}}) {
         // {{size.req | plus: position | minus:1}}
         // {{arg}}
 
-        {{arg.0}} {{arg.1}};
-        if (items >= {{size.req | plus: position}})
-            {{arg.1}} =
-            {%case arg.0%}
-            {%when 'bool'           %}({{arg.0}}) SvTRUE
-            {%when 'uchar'          %}(unsigned char) SvUV
-            {%when 'unsigned int'   %}(unsigned int) SvUV
-            {%when 'const char *'   %}({{arg.0}}) SvPV_nolen
-            {%when 'int'            %}({{arg.0}}) SvIV
-            {%when 'short'          %}({{arg.0}}) SvIV
-            {%when 'double'         %}({{arg.0}}) SvNV
-            {%when 'Fl_Color'       %}({{arg.0}}) SvIV
-            {%when 'Fl_Char'        %}({{arg.0}}) SvIV
-            {%when 'Fl_Labeltype'   %}({{arg.0}}) SvIV
-            {%else                  %}({{arg.0}})
-            {%endcase%}(ST({{size.req | plus: position | minus:1}}));
+        {{arg.0}} {{arg.1}}; // {{size.req}} | {{position}}
+        if (items > {{size.req | plus: position}}) // OY! {{ size.req | plus: position | minus: 1 }}
+            {{arg.1}} = {%case arg.0%}
+            {%when 'bool'           %}({{arg.0}}) SvTRUE(ST({{    size.req | plus: position }}));
+            {%when 'uchar'          %}(unsigned char) SvUV(ST({{  size.req | plus: position }}));
+            {%when 'unsigned int'   %}(unsigned int) SvUV(ST({{   size.req | plus: position }}));
+            {%when 'const char *'   %}({{arg.0}}) SvPV_nolen(ST({{size.req | plus: position }}));
+            {%when 'int'            %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
+            {%when 'short'          %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
+            {%when 'double'         %}({{arg.0}}) SvNV(ST({{      size.req | plus: position }}));
+            {%when 'FILE'           %} PerlIO_findFILE(IoIFP(sv_2io(ST({{size.req | plus: position }}))));
+            {%when 'Fl_Color'       %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
+            {%when 'Fl_Char'        %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
+            {%when 'Fl_Labeltype'   %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
+            {%else                  %}({{arg.0}}) (ST({{          size.req | plus: position }}));
+            {%endcase%}
         {%if arg.2%}else
             {{arg.1}} = {{arg.2}};{%endif%}{%
     endfor %}{%endif%}
