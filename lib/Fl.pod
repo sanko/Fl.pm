@@ -294,6 +294,23 @@ This is the current list and will expand as the distribution develops.
 The top level namespace comes with loads of functions. I'll try keeping them
 somewhat organized here.
 
+=cut
+
+0 && xs {name        => 'Fl::add_fd',
+    definitions => [
+        {required => [['PerlIO *', 'file'], ['int', 'when'], ['SV *', 'cb']],
+         optional => [['SV *', 'data']],
+         returns  => 'void',
+         code     => '',
+         cleanup  => '',
+        # c_args   => 'widget->cp_ctx' # PerlIO_fileno
+        }
+    ],
+    export => [qw[widget]]
+};
+
+=pod
+
 =head2 delete_widget(...)
 
 Schedules a widget for deletion at the next call to the event loop.
