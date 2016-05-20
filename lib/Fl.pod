@@ -213,7 +213,7 @@ You can also pass an anonymous sub to the C<callback(...)> method:
     $button->callback(sub { warn 'Click!' });
 
 Normally, callbacks are performed only when the value of the widget changes.
-You can change this using the C<when()|Fl::Widget/when(...)> method:
+You can change this using the L<when()|Fl::Widget/when(...)> method:
 
     $button->when(FL_WHEN_NEVER);
     $button->when(FL_WHEN_CHANGED);
@@ -255,8 +255,7 @@ special keys described in L<Fl::Enumerations|Fl::Enumerations/":keyboard">
 combined with any modifiers like Shift, Alt, and Control.
 
 These values may be imported with the C<:keyboard> tag. Please see
-L<Fl::Enumerations|Fl::Enumerations/":keyboard"> for an expansive list.
-
+L<Fl::Enumerations|Fl::Enumerations/":keyboard"> for an expansive lis
 =head1 Other Classes
 
 Fl contains several other widgets and other classes including:

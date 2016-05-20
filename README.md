@@ -180,7 +180,7 @@ $button->callback(sub { warn 'Click!' });
 ```
 
 Normally, callbacks are performed only when the value of the widget changes.
-You can change this using the `when()|Fl::Widget/when(...)` method:
+You can change this using the [when()](https://metacpan.org/pod/Fl::Widget#when) method:
 
 ```
 $button->when(FL_WHEN_NEVER);
@@ -228,9 +228,8 @@ special keys described in [Fl::Enumerations](https://metacpan.org/pod/Fl::Enumer
 combined with any modifiers like Shift, Alt, and Control.
 
 These values may be imported with the `:keyboard` tag. Please see
-[Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#keyboard) for an expansive list.
-
-# Other Classes
+[Fl::Enumerations](https://metacpan.org/pod/Fl::Enumerations#keyboard) for an expansive lis
+&#x3d;head1 Other Classes
 
 Fl contains several other widgets and other classes including:
 
