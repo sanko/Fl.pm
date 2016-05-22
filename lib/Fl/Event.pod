@@ -110,8 +110,6 @@ callbacks are illegal.
 This returns true if C<Fl::check()> would do anything (it will continue to
 return true until you call C<Fl::check()> or C<Fl::wait()>).
 
-=back
-
 =cut
 
 xs {name        => 'Fl::ready',
@@ -120,6 +118,27 @@ xs {name        => 'Fl::ready',
 };
 
 =pod
+
+=item C<event()>
+
+    my event = Fl::event();
+
+Returns the last event that was processed.
+
+This can be used to determine if a callback is being done in response to a
+keypress, mouse click, etc.
+
+
+=cut
+
+xs {name        => 'Fl::event',
+    definitions => [{returns => 'int'}],
+    export      => [qw[event]]
+};
+
+=pod
+
+=back
 
 =head1 LICENSE
 
