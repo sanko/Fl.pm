@@ -63,6 +63,7 @@ typedef CTX* Fl__ValueOutput;
 typedef CTX* Fl__ValueInput;
 typedef CTX* Fl__Slider;
 typedef CTX* Fl__FillSlider;
+typedef CTX* Fl__HorFillSlider;
 
 
 
