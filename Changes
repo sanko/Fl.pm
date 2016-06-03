@@ -7,6 +7,7 @@ Revision history for Perl extension Fl
         - Fl::FillSlider - Filled Vertical Slider. Useful as a progress or value meter
         - Fl::HorFillSlider - Fl::FillSlider but horizontal
         - Fl::HorNiceSlider - Fl::NiceSlider but horizontal
+        - Fl::HorSlider - Horizontal Fl::Slider
 
 0.99.9 2016-05-19T01:11:29Z
 

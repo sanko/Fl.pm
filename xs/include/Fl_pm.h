@@ -65,6 +65,7 @@ typedef CTX* Fl__Slider;
 typedef CTX* Fl__FillSlider;
 typedef CTX* Fl__HorFillSlider;
 typedef CTX* Fl__HorNiceSlider;
+typedef CTX* Fl__HorSlider;
 
 
 
