@@ -1,4 +1,4 @@
-class 'Fl::HorNicelider';
+class 'Fl::HorNiceSlider';
 isa 'Fl::Slider';
 include 'FL/Fl_Hor_Nice_Slider.H';
 
