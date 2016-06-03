@@ -3,6 +3,7 @@ Revision history for Perl extension Fl
 {{$NEXT}}
 
     - New widgets:
+        - Fl::Scrollbar - Slider with arrow buttons at either end
         - Fl::Slider - Contains a sliding knob inside a box
         - Fl::FillSlider - Filled Vertical Slider. Useful as a progress or value meter
         - Fl::HorFillSlider - Fl::FillSlider but horizontal
