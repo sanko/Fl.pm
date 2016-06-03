@@ -10,6 +10,7 @@ Revision history for Perl extension Fl
         - Fl::NiceSlider - Fl::Slider with an easy grab handle
         - Fl::HorNiceSlider - Fl::NiceSlider but horizontal
         - Fl::HorSlider - Horizontal Fl::Slider
+        - Fl::ValueSlider - Slider widget that displays the current value
 
 0.99.9 2016-05-19T01:11:29Z
 
