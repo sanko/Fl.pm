@@ -62,4 +62,8 @@ typedef CTX* Fl__Roller;
 typedef CTX* Fl__ValueOutput;
 typedef CTX* Fl__ValueInput;
 typedef CTX* Fl__Slider;
+typedef CTX* Fl__FillSlider;
+
+
+
 #endif // #ifndef fltk_pm_h

@@ -4,6 +4,7 @@ Revision history for Perl extension Fl
 
     - New widgets:
         - Fl::Slider - Contains a sliding knob inside a box
+        - Fl::FillSlider - Filled Horizontal Slider. Useful as a progress or value meter
 
 0.99.9 2016-05-19T01:11:29Z
 
