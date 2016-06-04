@@ -5,7 +5,9 @@ Revision history for Perl extension Fl
     - New widgets:
         - Fl::Tabs - "File card tabs" interface
         - Fl::Output - Simple text display widget
-    - New demo script: eg/tabs.pl
+    - New demo scripts:
+        - eg/tabs.pl - Demonstrates Fl::Tabs
+        - eg/scrollbar.pl - Demonstrates Fl::Scrollbar and Fl::Output use
 
 0.99.10 2016-06-04T00:08:58Z
 
