@@ -69,7 +69,6 @@ typedef CTX* Fl__HorNiceSlider;
 typedef CTX* Fl__HorSlider;
 typedef CTX* Fl__Scrollbar;
 typedef CTX* Fl__ValueSlider;
-
-
+typedef CTX* Fl__HorValueSlider;
 
 #endif // #ifndef fltk_pm_h
