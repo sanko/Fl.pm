@@ -274,7 +274,10 @@ xs {name        => 'top_window',
 # Fl_Window * Fl_Widget::top_window_offset(int & xoff, int & yoff)
 #
 xs {name        => 'type',
-    definitions => [{returns => 'uchar'}]
+    definitions => [
+    {returns => 'uchar'},
+    {required => [[ qw[uchar t]]], returns => 'void'}
+    ]
 };
 
 # TODO: The actual user_data is inside of the Callback object... not sure this
