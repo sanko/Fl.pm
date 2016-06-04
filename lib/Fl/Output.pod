@@ -15,7 +15,7 @@ Fl::Output - Text Display Widget
 
 =head1 Description
 
-The Fl::Input class represents a widget that displays a single line of text.
+The Fl::Output class represents a widget that displays a single line of text.
 
 When you set the value() , Fl::Output does a strcpy() to its own storage,
 which is useful for program-generated values. The user may select portions of
