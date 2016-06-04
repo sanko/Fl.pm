@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.10 2016-06-04T00:08:58Z
+
     - New widgets:
         - Fl::Scrollbar - Slider with arrow buttons at either end
         - Fl::Slider - Contains a sliding knob inside a box
