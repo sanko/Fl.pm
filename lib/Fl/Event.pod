@@ -128,7 +128,6 @@ Returns the last event that was processed.
 This can be used to determine if a callback is being done in response to a
 keypress, mouse click, etc.
 
-
 =cut
 
 xs {name        => 'Fl::event',

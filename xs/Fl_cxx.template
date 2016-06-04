@@ -303,7 +303,7 @@ XS_EUPXS({{cpp.function.name}}) {
                 croak("{{arg.0}} is not an HASH reference");
             }
         } STMT_END;
-        {%when 'Fl_Widget *' %}{{arg.0 | split: ' ' | first | replace: '_', '__' | plus:' '| plus:arg.1}};
+        {%when 'Fl_Widget *' %}{{arg.0 | split: ' ' | first | replace: '_', '__'}} {{arg.1}};
 
         if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
