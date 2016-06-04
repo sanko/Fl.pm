@@ -73,5 +73,6 @@ typedef CTX* Fl__HorValueSlider;
 typedef CTX* Fl__Tabs;
 typedef CTX* Fl__Output;
 typedef CTX* Fl__MultilineOutput;
+typedef CTX* Fl__Progress;
 
 #endif // #ifndef fltk_pm_h

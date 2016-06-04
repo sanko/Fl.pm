@@ -2,6 +2,11 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - New widgets:
+        - Fl::Progress - Typical progress bar
+    - New demo scripts:
+        - eg/progress.pl - Demos using a Fl::Progress bar to keep user up to date on background progress
+
 0.99.11 2016-06-04T15:18:01Z
 
     - New widgets:
