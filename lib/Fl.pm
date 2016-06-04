@@ -2,7 +2,7 @@ package Fl;
 use 5.008001;
 use strict;
 use warnings;
-our $VERSION = '0.99.10';
+our $VERSION = '0.99.11';
 use XSLoader;
 use vars qw[@EXPORT_OK @EXPORT %EXPORT_TAGS];
 use Exporter qw[import];
