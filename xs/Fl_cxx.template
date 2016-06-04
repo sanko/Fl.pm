@@ -264,7 +264,7 @@ XS_EUPXS({{cpp.function.name}}) {
  // size.req    = {{size.req}}
  // st.position = {{st.position}}
 
-    {%unless forloop.first%}else {%endunless%}if (items {%if size.opt%}>{%else%}={%endif%}= {{ size.req }}{% if size.opt %} && items < {{ size.req | plus: size.opt | plus: is_method }}{% endif %}) {
+    {%unless forloop.first%}else {%endunless%}if (items {%if size.opt%}>{%else%}={%endif%}= {{ size.req }}{% if size.opt %} && items < {{ size.req | plus: size.opt | plus: is_method }}{% endif %}{%if definition.andif %} && {{definition.andif}}{% endif %}) {
         {%if definition.required %}
         // Required
         {% for arg in definition.required %}
@@ -308,6 +308,14 @@ XS_EUPXS({{cpp.function.name}}) {
         if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
             {{arg.1}} = INT2PTR({{ arg.0 | split:' ' | first | replace:'_', '__'}}, tmp);
+        }
+        else
+            croak("Expected object. Got a non-object?!");
+        {%when 'Fl_Menu_Item *' %}{{arg.0 | split: ' ' | first | replace: '_', | replace_first: 'Fl', 'Fl__'}} {{arg.1}};
+
+        if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
+            IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
+            {{arg.1}} = INT2PTR({{ arg.0 | split:' ' | first | replace: '_', | replace_first: 'Fl', 'Fl__'}}, tmp);
         }
         else
             croak("Expected object. Got a non-object?!");
@@ -452,6 +460,16 @@ XS_EUPXS({{cpp.function.name}}) {
                             ST(0) = RETVALSV;
                         }
                     {%when 'Fl_Window *' %}
+                        CTX * ctx;
+                        Newx(ctx, 1, CTX);
+                        ctx->cp_ctx    = (Fl_Widget *) RETVAL;
+                        {
+                            SV * RETVALSV;
+                            RETVALSV = sv_newmortal();
+                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            ST(0) = RETVALSV;
+                        }
+                    {%when 'Fl_Menu_Button *' %}
                         CTX * ctx;
                         Newx(ctx, 1, CTX);
                         ctx->cp_ctx    = (Fl_Widget *) RETVAL;

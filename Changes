@@ -4,6 +4,7 @@ Revision history for Perl extension Fl
 
     - New widgets:
         - Fl::Progress - Typical progress bar
+        - Fl::InputChoice - Input widget and menu button rolled into one
     - New demo scripts:
         - eg/progress.pl - Demos using a Fl::Progress bar to keep user up to date on background progress
 

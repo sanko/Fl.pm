@@ -74,5 +74,8 @@ typedef CTX* Fl__Tabs;
 typedef CTX* Fl__Output;
 typedef CTX* Fl__MultilineOutput;
 typedef CTX* Fl__Progress;
+typedef CTX* Fl__InputChoice;
+typedef CTX* Fl__MenuItem;
+typedef CTX* Fl__MenuButton;
 
 #endif // #ifndef fltk_pm_h
