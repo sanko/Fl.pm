@@ -37,6 +37,19 @@ of the following:
 
 =back
 
+All of these values can be imported with the C<:type> tag.
+
+=cut
+
+export_constant("FL_VERTICAL",          "type");
+export_constant("FL_HORIZONTAL",        "type");
+export_constant("FL_VERT_FILL_SLIDER",  "type");
+export_constant("FL_HOR_FILL_SLIDER",   "type");
+export_constant("FL_VERT_NICE_SLIDER",  "type");
+export_constant("FL_HOR_NICE_SLIDER",   "type");
+
+=pod
+
 =head1 Methods
 
 Fl::Slider inherits from Fl::Valuator and Fl::Widget. On top of that, it
