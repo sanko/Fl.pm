@@ -20,6 +20,9 @@
 #include <FL/Fl_Float_Input.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Multiline_Input.H>
+#include <FL/Fl_Menu_Item.H>
+#include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Menu_Button.H>
 
 const char * object2package (Fl_Widget * w) {
      /*Remember to add _most_ specific classes first*/
@@ -44,5 +47,10 @@ const char * object2package (Fl_Widget * w) {
      else if ( dynamic_cast<Fl_Float_Input          *>(w) ) { package = "Fl::FloatInput";  }
      else if ( dynamic_cast<Fl_Secret_Input         *>(w) ) { package = "Fl::SecretInput";  }
      else if ( dynamic_cast<Fl_Input                *>(w) ) { package = "Fl::Input";  }
+     else if ( dynamic_cast<      Fl_Menu_Item      *>(w) ||
+               dynamic_cast<const Fl_Menu_Item      *>(w) ) { package = "Fl::MenuItem";  }
+     else if ( dynamic_cast<Fl_Input_Choice         *>(w) ) { package = "Fl::InputChoice";  }
+     else if ( dynamic_cast<Fl_Menu_Button          *>(w) ) { package = "Fl::MenuButton";  }
+
      return package;
 }

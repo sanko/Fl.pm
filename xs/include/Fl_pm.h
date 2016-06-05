@@ -77,5 +77,6 @@ typedef CTX* Fl__Progress;
 typedef CTX* Fl__InputChoice;
 typedef CTX* Fl__MenuItem;
 typedef CTX* Fl__MenuButton;
+typedef CTX* Fl__Menu;
 
 #endif // #ifndef fltk_pm_h

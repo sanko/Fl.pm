@@ -304,15 +304,13 @@ XS_EUPXS({{cpp.function.name}}) {
             }
         } STMT_END;
         {%when 'Fl_Widget *' %}{{arg.0 | split: ' ' | first | replace: '_', '__'}} {{arg.1}};
-
         if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
             {{arg.1}} = INT2PTR({{ arg.0 | split:' ' | first | replace:'_', '__'}}, tmp);
         }
         else
             croak("Expected object. Got a non-object?!");
-        {%when 'Fl_Menu_Item *' %}{{arg.0 | split: ' ' | first | replace: '_', | replace_first: 'Fl', 'Fl__'}} {{arg.1}};
-
+        {%when 'Fl_Menu_Item *' %}{{arg.0 | replace: '_', | replace_first: 'Fl', 'Fl__' | replace: '\*',}} {{arg.1}};
         if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
             {{arg.1}} = INT2PTR({{ arg.0 | split:' ' | first | replace: '_', | replace_first: 'Fl', 'Fl__'}}, tmp);
@@ -479,6 +477,16 @@ XS_EUPXS({{cpp.function.name}}) {
                             sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
                             ST(0) = RETVALSV;
                         }
+                    {%when 'const Fl_Menu_Item *' %}
+                        CTX * ctx;
+                        Newx(ctx, 1, CTX);
+                        ctx->cp_ctx    = (Fl_Widget *) RETVAL;
+                        {
+                            SV * RETVALSV;
+                            RETVALSV = sv_newmortal();
+                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            ST(0) = RETVALSV;
+                        }
                     {%when 'CV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;
                     {%when 'AV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;
                     {%when 'HV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;
@@ -541,8 +549,6 @@ XS_EXTERNAL(boot_Fl)
     {%endfor%}
 {%endfor%}
     }
-
-
 
     /* Inheritance! */{%for class in xsubs%}{%if class.isa %}
     set_isa( "{{class.package}}", "{{class.isa}}");{%endif%}{%endfor%}

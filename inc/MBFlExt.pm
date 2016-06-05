@@ -100,8 +100,9 @@ package inc::MBFlExt;
                 sub class { push @xsubs, {package => shift} }
                 my $isa = *isa;
                 *isa = sub { $xsubs[-1]{isa} = shift; };
-                sub export_constant { $exports{+pop} = pop; }
-                sub include { $includes{+pop}++; }
+                sub export_constant { $exports{+pop}          = pop; }
+                sub include         { $includes{+pop}++; }
+                sub widget_type     { $xsubs[-1]{widget_type} = shift; }
                 #
                 require $_ for @pod;
                 *isa = $isa;

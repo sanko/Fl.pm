@@ -11,4 +11,9 @@ my $button2 = new_ok
 #
 isa_ok $button, 'Fl::Button';
 #
+Fl::delete_widget($button2);
+is $button2, undef, '$button2 is now undef';
+undef $button;
+is $button, undef, '$button is now undef';
+#
 done_testing;
