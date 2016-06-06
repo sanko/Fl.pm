@@ -9,6 +9,7 @@ Revision history for Perl extension Fl
         - Fl::MenuButton - Button that pops up a menu when pushed
     - New demo scripts:
         - eg/progress.pl - Demos using a Fl::Progress bar to keep user up to date on background progress
+        - eg/input_choice.pl - Demos using Fl::InputChoice and enabling/disabling widgets
 
 0.99.11 2016-06-04T15:18:01Z
 
