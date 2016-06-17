@@ -86,22 +86,22 @@ class WidgetSubclass : public T {
 
 private:
     int algorithm;
-    const char * _class = NULL;
+    const char * _class;
 public:
     WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
         // Just about everything
         dTHX;
-        _class = cls;
+        this->_class = cls;
      };
     WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
         // Fl_Box
         dTHX;
-        _class = cls;
+        this->_class = cls;
      };
     WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
         // Fl_Window
         dTHX;
-        _class = cls;
+        this->_class = cls;
      };
 
     ~WidgetSubclass( ) {
@@ -124,7 +124,7 @@ private:
         CTX * ctx;
         Newx( ctx, 1, CTX );
         ctx->cp_ctx    = this;
-        ctx->cp_cls    = _class;
+        ctx->cp_cls    = this->_class;
 
         {
             SV * RETVALSV;
