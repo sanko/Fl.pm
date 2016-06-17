@@ -341,6 +341,31 @@ xs {name        => 'Fl::delete_widget',
     export => [qw[widget]]
 };
 
+
+
+
+
+
+
+
+
+xs {name        => 'Fl::extends',
+    definitions => [
+        {required => [['const char *', 'cls']],
+         returns  => 'void',
+         code     => <<'CODE'
+eval_pv("($package, $file, $line, $sub) = caller(0)", TRUE);
+//printf("package = %s\n", SvPV_nolen(get_sv("package", 0)));
+set_isa(SvPV_nolen(get_sv("package", FALSE)), cls);
+// TODO: Add support for draw() and handle()
+CODE
+        }
+    ],
+    export => [qw[default]]
+};
+
+=pod
+
 =head1 LICENSE
 
 Copyright (C) Sanko Robinson.

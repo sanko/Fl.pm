@@ -66,7 +66,6 @@ void _cb_w ( Fl_Widget * widget, void * CODE ) {
 #  define dVAR		dNOOP
 #endif
 
-
 /* This stuff is not part of the API! You have been warned. */
 #ifndef PERL_VERSION_DECIMAL
 #  define PERL_VERSION_DECIMAL(r,v,s) (r*1000000 + v*1000 + s)
@@ -244,17 +243,17 @@ XS_EUPXS({{cpp.function.name}}) {
                 croak("{{arg.0}} is not an HASH reference");
             }
         } STMT_END;
-        {%when 'Fl_Widget *' %}{{arg.0 | split: ' ' | first | replace: '_', '__'}} {{arg.1}};
+        {%when 'Fl_Widget *' %}CTX * /*{{arg.0 | split: ' ' | first | replace: '_', '__'}}*/ {{arg.1}};
         if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
-            {{arg.1}} = INT2PTR({{ arg.0 | split:' ' | first | replace:'_', '__'}}, tmp);
+            {{arg.1}} = INT2PTR(CTX * /*{{ arg.0 | split:' ' | first | replace:'_', '__'}}*/, tmp);
         }
         else
             croak("Expected object. Got a non-object?!");
-        {%when 'Fl_Menu_Item *' %}{{arg.0 | replace: '_', | replace_first: 'Fl', 'Fl__' | replace: '\*',}} {{arg.1}};
+        {%when 'Fl_Menu_Item *' %}CTX * /*{{arg.0 | replace: '_', | replace_first: 'Fl', 'Fl__' | replace: '\*',}}*/ {{arg.1}};
         if ( sv_isobject( ST({{st.position}}) ) || ( SvTYPE( SvRV( ST({{st.position}}) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST({{st.position}})));
-            {{arg.1}} = INT2PTR({{ arg.0 | split:' ' | first | replace: '_', | replace_first: 'Fl', 'Fl__'}}, tmp);
+            {{arg.1}} = INT2PTR(CTX */*{{ arg.0 | split:' ' | first | replace: '_', | replace_first: 'Fl', 'Fl__'}}*/, tmp);
         }
         else
             croak("Expected object. Got a non-object?!");
@@ -316,23 +315,22 @@ XS_EUPXS({{cpp.function.name}}) {
         int algo = 0;
         {%capture required_arglist %}{%for arg in definition.required%}{{arg.1}}{%unless forloop.last%}, {%endunless%}{%endfor%}{%endcapture%}
         {%capture optional_arglist %}{%for arg in definition.optional%}{{arg.1}}{%unless forloop.last%}, {%endunless%}{%endfor%}{%endcapture%}
-        ctx->cp_ctx    = new {{ definition.returns | split:' ' | first }}( {{required_arglist}}{%if required_arglist and optional_arglist%}, {%endif%}{{optional_arglist}} );
+        ctx->cp_ctx    = new WidgetSubclass<{{ definition.returns | split:' ' | first }}>( package, {{required_arglist}}{%if required_arglist and optional_arglist%}, {%endif%}{{optional_arglist}} );
         ctx->algorithm = algo;
-
         {
             SV * RETVALSV;
             RETVALSV = sv_newmortal();
-            sv_setref_pv(RETVALSV, package /*object2package(ctx->cp_ctx)*/, (void*)ctx);
+            sv_setref_pv(RETVALSV, package /*object2package(ctx)*/, (void*)ctx);
             ST(0) = RETVALSV;
         }
         {%assign xs.return = 'XSRETURN(1);' %}
             {% else %}
             {% if is_method %}
-        {{ class.package|replace:':','_' }} self;
+        CTX * /*{{ class.package|replace:':','_' }}*/ self;
 
         if ( sv_isobject( ST(0) ) || ( SvTYPE( SvRV( ST(0) ) ) == SVt_PVMG ) ) {
             IV tmp = SvIV((SV*)SvRV(ST(0)));
-            self = INT2PTR({{ class.package|replace:':','_' }},tmp);
+            self = INT2PTR(CTX * /*{{ class.package|replace:':','_' }}*/,tmp);
         }
         else
             croak("Attempt to call {{class.package}}->{{function}}( ... ) on a non-object!");
@@ -385,7 +383,7 @@ XS_EUPXS({{cpp.function.name}}) {
                         {
                             SV * RETVALSV;
                             RETVALSV = sv_newmortal();
-                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            sv_setref_pv(RETVALSV, object2package(ctx), (void*)ctx);
                             ST(0) = RETVALSV;
                         }
                     {%when 'Fl_Group *' %}
@@ -395,7 +393,7 @@ XS_EUPXS({{cpp.function.name}}) {
                         {
                             SV * RETVALSV;
                             RETVALSV = sv_newmortal();
-                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            sv_setref_pv(RETVALSV, object2package(ctx), (void*)ctx);
                             ST(0) = RETVALSV;
                         }
                     {%when 'Fl_Window *' %}
@@ -405,7 +403,7 @@ XS_EUPXS({{cpp.function.name}}) {
                         {
                             SV * RETVALSV;
                             RETVALSV = sv_newmortal();
-                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            sv_setref_pv(RETVALSV, object2package(ctx), (void*)ctx);
                             ST(0) = RETVALSV;
                         }
                     {%when 'Fl_Menu_Button *' %}
@@ -415,17 +413,18 @@ XS_EUPXS({{cpp.function.name}}) {
                         {
                             SV * RETVALSV;
                             RETVALSV = sv_newmortal();
-                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            sv_setref_pv(RETVALSV, object2package(ctx), (void*)ctx);
                             ST(0) = RETVALSV;
                         }
                     {%when 'const Fl_Menu_Item *' %}
                         CTX * ctx;
                         Newx(ctx, 1, CTX);
                         ctx->cp_ctx    = (Fl_Widget *) RETVAL;
+
                         {
                             SV * RETVALSV;
                             RETVALSV = sv_newmortal();
-                            sv_setref_pv(RETVALSV, object2package(ctx->cp_ctx), (void*)ctx);
+                            sv_setref_pv(RETVALSV, object2package(ctx), (void*)ctx);
                             ST(0) = RETVALSV;
                         }
                     {%when 'CV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;

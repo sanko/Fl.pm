@@ -26,58 +26,131 @@ HINSTANCE dllInstance( );
 const char * object2package ( Fl_Widget * w );
 
 // Widget wrapper!
-typedef struct {
+struct CTX {
     int           algorithm;
     Fl_Widget   * cp_ctx;
-} CTX;
+    const char  * cp_cls;
+};
+const char * object2package ( CTX * w );
 
-typedef CTX* Fl__Widget;
-typedef CTX* Fl__Box;
-typedef CTX* Fl__Group;
-typedef CTX* Fl__Input;
-typedef CTX* Fl__Window;
-typedef CTX* Fl__Button;
-typedef CTX* Fl__Chart;
-typedef CTX* Fl__CheckButton;
-typedef CTX* Fl__ReturnButton;
-typedef CTX* Fl__RepeatButton;
-typedef CTX* Fl__RadioButton;
-typedef CTX* Fl__IntInput;
-typedef CTX* Fl__FloatInput;
-typedef CTX* Fl__LightButton;
-typedef CTX* Fl__MultilineInput;
-typedef CTX* Fl__RadioLightButton;
-typedef CTX* Fl__RadioRoundButton;
-typedef CTX* Fl__RoundButton;
-typedef CTX* Fl__SecretInput;
-typedef CTX* Fl__ToggleButton;
-typedef CTX* Fl__Valuator;
-typedef CTX* Fl__Adjuster;
-typedef CTX* Fl__Counter;
-typedef CTX* Fl__SimpleCounter;
-typedef CTX* Fl__Dial;
-typedef CTX* Fl__FillDial;
-typedef CTX* Fl__LineDial;
-typedef CTX* Fl__Roller;
-typedef CTX* Fl__ValueOutput;
-typedef CTX* Fl__ValueInput;
-typedef CTX* Fl__Slider;
-typedef CTX* Fl__FillSlider;
-typedef CTX* Fl__HorFillSlider;
-typedef CTX* Fl__NiceSlider;
-typedef CTX* Fl__HorNiceSlider;
-typedef CTX* Fl__HorSlider;
-typedef CTX* Fl__Scrollbar;
-typedef CTX* Fl__ValueSlider;
-typedef CTX* Fl__HorValueSlider;
-typedef CTX* Fl__Tabs;
-typedef CTX* Fl__Output;
-typedef CTX* Fl__MultilineOutput;
-typedef CTX* Fl__Progress;
-typedef CTX* Fl__InputChoice;
-typedef CTX* Fl__MenuItem;
-typedef CTX* Fl__MenuButton;
-typedef CTX* Fl__Menu;
-typedef CTX* Fl__HelpView;
+class Callback {
+public: /* TODO: Make these private */
+    SV * callback;
+    SV * args;
+
+public:
+    ~Callback() { };
+    Callback( SV * cb, SV * as ) {
+        dTHX;
+        callback = newSVsv( cb );//sv_mortalcopy(cb);
+        args     = as;//newSVsv(as);//sv_mortalcopy(as);
+    };
+
+    void trigger( Fl_Widget * w ) {
+        dTHX;
+        SV * widget;
+        CTX * ctx;
+        Newx( ctx, 1, CTX );
+        ctx->cp_ctx    = w;
+        {
+            SV * RETVALSV;
+            RETVALSV = sv_newmortal();
+            sv_setref_pv( RETVALSV, object2package( ctx->cp_ctx ), ( void* )ctx );
+            widget = RETVALSV;
+        }
+
+        dSP;
+        ENTER;
+        SAVETMPS;
+        PUSHMARK( SP );
+
+        if ( SvOK( widget ) )
+            XPUSHs( widget );
+
+        PUTBACK;
+
+        call_sv( callback, G_DISCARD | G_EVAL );
+
+        SPAGAIN;
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+
+        return;
+    };
+};
+
+template<typename T>
+class WidgetSubclass : public T {
+
+private:
+    int algorithm;
+    const char * _class = NULL;
+public:
+    WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
+        // Just about everything
+        dTHX;
+        _class = cls;
+     };
+    WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
+        // Fl_Box
+        dTHX;
+        _class = cls;
+     };
+    WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
+        // Fl_Window
+        dTHX;
+        _class = cls;
+     };
+
+    ~WidgetSubclass( ) {
+        dTHX;
+        warn("destroy!");
+        this->T::~T( );
+    }
+
+private:
+    void draw(bool only) {
+        this->T::draw();
+    };
+    void draw() {
+        dTHX;
+        //printf("package = %s\n", SvPV_nolen(get_sv("package", 0)));
+        warn( "draw()\n" );
+        this->T::draw();
+
+        SV * widget;
+        CTX * ctx;
+        Newx( ctx, 1, CTX );
+        ctx->cp_ctx    = this;
+        ctx->cp_cls    = _class;
+
+        {
+            SV * RETVALSV;
+            RETVALSV = sv_newmortal();
+            sv_setref_pv( RETVALSV, object2package( ctx ), ( void* )ctx );
+            widget = RETVALSV;
+        }
+
+        dSP;
+
+        ENTER;
+        SAVETMPS;
+        PUSHMARK( SP );
+
+        XPUSHs( widget );
+
+        PUTBACK;
+
+        call_method( "draw", G_DISCARD | G_EVAL );
+
+        SPAGAIN;
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    };
+};
 
 #endif // #ifndef fltk_pm_h

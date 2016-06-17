@@ -24,6 +24,10 @@
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Menu_Button.H>
 
+const char * object2package (CTX * w) {
+     return ((w->cp_cls != NULL) && (w->cp_cls[0] == '\0') ? object2package(w->cp_ctx) : w->cp_cls);
+}
+
 const char * object2package (Fl_Widget * w) {
      /*Remember to add _most_ specific classes first*/
      const char * package = "Fl::Widget";
