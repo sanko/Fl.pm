@@ -23,5 +23,5 @@ $EXPORT_TAGS{'all'} = \@EXPORT_OK;    # When you want to import everything
     if 1 < scalar keys %EXPORT_TAGS;
 @EXPORT    # Export these tags (if prepended w/ ':') or functions by default
     = sort map { m[^:(.+)] ? @{$EXPORT_TAGS{$1}} : $_ } qw[:style :default]
-    if 0 && keys %EXPORT_TAGS > 1;
+    if keys %EXPORT_TAGS > 1;
 1;
