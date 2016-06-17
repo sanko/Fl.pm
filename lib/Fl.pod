@@ -364,6 +364,50 @@ CODE
     export => [qw[default]]
 };
 
+
+
+include 'FL/fl_draw.H';
+
+xs {name        => 'Fl::fl_color',
+    definitions => [
+        {required => [['Fl_Color', 'color']],
+         returns  => 'void',
+         code     => 'fl_color(color);'
+        }
+    ],
+    export => [qw[default draw]]
+};
+
+xs {name        => 'Fl::fl_line',
+    definitions => [
+        {required => [[qw[int x1]],[qw[int y1]],[qw[int x2]],[qw[int y2]]],
+         returns  => 'void',
+         code     => 'fl_line(x1, y1, x2, y2);'
+}
+    ],
+    export => [qw[default draw]]
+};
+
+xs {name        => 'Fl::fl_rect',
+    definitions => [
+        {required => [[qw[int x]],[qw[int y]],[qw[int w]],[qw[int h]]],
+         returns  => 'void',
+        code     => 'fl_rect(x, y, w, h);'
+        }
+    ],
+    export => [qw[default draw]]
+};
+
+xs {name        => 'Fl::fl_rectf',
+    definitions => [
+        {required => [[qw[int x]],[qw[int y]],[qw[int w]],[qw[int h]]],
+         returns  => 'void',
+        code     => 'fl_rectf(x, y, w, h);'
+        }
+    ],
+    export => [qw[default draw]]
+};
+
 =pod
 
 =head1 LICENSE
