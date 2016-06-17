@@ -78,5 +78,6 @@ typedef CTX* Fl__InputChoice;
 typedef CTX* Fl__MenuItem;
 typedef CTX* Fl__MenuButton;
 typedef CTX* Fl__Menu;
+typedef CTX* Fl__HelpView;
 
 #endif // #ifndef fltk_pm_h

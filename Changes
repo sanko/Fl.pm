@@ -7,6 +7,7 @@ Revision history for Perl extension Fl
         - Fl::InputChoice - Input widget and menu button rolled into one
         - Fl::Menu - Base class for all widgets that have a menu
         - Fl::MenuButton - Button that pops up a menu when pushed
+        - Fl::HtmlView - Simple HTML viewer
     - New demo scripts:
         - eg/progress.pl - Demos using a Fl::Progress bar to keep user up to date on background progress
         - eg/input_choice.pl - Demos using Fl::InputChoice and enabling/disabling widgets
