@@ -2,6 +2,10 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Begin work on custom widgets
+        - draw() can be overridden
+        - extends() creates inheratence trees and handles widget registration
+
     - New widgets:
         - Fl::Progress - Typical progress bar
         - Fl::InputChoice - Input widget and menu button rolled into one
