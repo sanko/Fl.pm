@@ -341,6 +341,10 @@ XS_EUPXS({{cpp.function.name}}) {
         if (self->cp_ctx != NULL)
             Fl::delete_widget( self->cp_ctx );
         Safefree(self);
+                {% when 'draw' %}
+                    {% assign xs.return = 'XSRETURN_EMPTY;'%}
+        if (self->cp_ctx != NULL)
+            ((WidgetSubclass<{{class.widget_type}}> *)self->cp_ctx)->draw( TRUE );
                 {%else%}
                     {%unless definition.returns %}
                          {%assign xs.return = 'XSRETURN_EMPTY' %}

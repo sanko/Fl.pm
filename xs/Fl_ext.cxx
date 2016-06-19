@@ -23,9 +23,14 @@
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Menu_Button.H>
+#include <FL/Fl_Scrollbar.H>
 
 const char * object2package (CTX * w) {
      return ((w->cp_cls != NULL) && (w->cp_cls[0] == '\0') ? object2package(w->cp_ctx) : w->cp_cls);
+}
+
+const char * object2package (WidgetSubclass<Fl_Widget> * w) {
+     return ((w->_class != NULL) && (w->_class[0] == '\0') ? object2package(w) : w->_class);
 }
 
 const char * object2package (Fl_Widget * w) {
@@ -55,6 +60,7 @@ const char * object2package (Fl_Widget * w) {
                dynamic_cast<const Fl_Menu_Item      *>(w) ) { package = "Fl::MenuItem";  }
      else if ( dynamic_cast<Fl_Input_Choice         *>(w) ) { package = "Fl::InputChoice";  }
      else if ( dynamic_cast<Fl_Menu_Button          *>(w) ) { package = "Fl::MenuButton";  }
+     else if ( dynamic_cast<Fl_Scrollbar            *>(w) ) { package = "Fl::Scrollbar";  }
 
      return package;
 }

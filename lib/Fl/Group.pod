@@ -72,7 +72,10 @@ xs {name        => 'new',
 xs {name        => 'DESTROY',
     definitions => [{returns => 'void'}]
 };
-
+xs {name        => 'draw',
+    definitions => [{returns  => 'void' }
+    ]
+};
 =pod
 
 The destructor I<also deletes all children.> This allows a whole tree to be

@@ -33,6 +33,99 @@ struct CTX {
 };
 const char * object2package ( CTX * w );
 
+template<typename T>
+class WidgetSubclass : public T {
+
+private:
+    int algorithm;
+public:
+    const char * _class;
+public:
+    WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
+        // Just about everything
+        dTHX;
+        this->_class = cls;
+    };
+    WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
+        // Fl_Box
+        dTHX;
+        this->_class = cls;
+    };
+    WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
+        // Fl_Window
+        dTHX;
+        this->_class = cls;
+    };
+
+    ~WidgetSubclass( ) {
+        dTHX;
+        //warn( "%s->destroy( )", object2package( this ) );
+        this->T::~T( );
+    }
+    void draw( bool only ) {
+        dTHX;
+        this->T::draw();
+        //warn( "%s->draw( TRUE )", object2package( this ) );
+    };
+
+private:
+
+    void draw() {
+        dTHX;
+        dSP;
+        //printf("package = %s\n", SvPV_nolen(get_sv("package", 0)));
+        //this->T::draw();
+
+
+        SV  * err_tmp;
+        SV  * widget;
+        CTX * ctx;
+        int   count;
+
+        Newx( ctx, 1, CTX );
+        ctx->cp_ctx    = this;
+        ctx->cp_cls    = this->_class;
+
+        //warn( "%s->draw( ) | %s | %s", object2package( ctx ), this->_class, object2package( this ) );
+
+        {
+            SV * RETVALSV;
+            RETVALSV = sv_newmortal();
+            sv_setref_pv( RETVALSV, object2package( ctx ), ( void* )ctx );
+            widget = RETVALSV;
+        }
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK( SP );
+        XPUSHs( widget );
+        PUTBACK;
+
+        count = call_method( "draw", G_EVAL|G_SCALAR|G_KEEPERR );
+
+        SPAGAIN;
+
+        err_tmp = ERRSV;
+ /*
+        warn( "okay?" );
+        if (SvTRUE(err_tmp)) {
+            POPi;
+            croak("%s error: %s", object2package(ctx), SvPV_nolen(err_tmp));
+            this->T::draw();
+        }
+        warn( "okay!" );
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    */
+
+    };
+};
+
+const char * object2package ( WidgetSubclass<Fl_Widget> * w );
+
 class Callback {
 public: /* TODO: Make these private */
     SV * callback;
@@ -47,7 +140,11 @@ public:
     };
 
     void trigger( Fl_Widget * w ) {
+
         dTHX;
+
+        //warn ("%s->trigger()", object2package(w));
+
         SV * widget;
         CTX * ctx;
         Newx( ctx, 1, CTX );
@@ -55,7 +152,7 @@ public:
         {
             SV * RETVALSV;
             RETVALSV = sv_newmortal();
-            sv_setref_pv( RETVALSV, object2package( ctx->cp_ctx ), ( void* )ctx );
+            sv_setref_pv( RETVALSV, object2package( w ), ( void* )ctx );
             widget = RETVALSV;
         }
 
@@ -69,88 +166,17 @@ public:
 
         PUTBACK;
 
-        call_sv( callback, G_DISCARD | G_EVAL );
+        call_sv( callback, G_DISCARD | G_EVAL ); // TODO: Should this be eval?
 
         SPAGAIN;
-
+/*
         PUTBACK;
         FREETMPS;
         LEAVE;
-
+*/
         return;
     };
 };
 
-template<typename T>
-class WidgetSubclass : public T {
-
-private:
-    int algorithm;
-    const char * _class;
-public:
-    WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
-        // Just about everything
-        dTHX;
-        this->_class = cls;
-     };
-    WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
-        // Fl_Box
-        dTHX;
-        this->_class = cls;
-     };
-    WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
-        // Fl_Window
-        dTHX;
-        this->_class = cls;
-     };
-
-    ~WidgetSubclass( ) {
-        dTHX;
-        warn("destroy!");
-        this->T::~T( );
-    }
-
-private:
-    void draw(bool only) {
-        this->T::draw();
-    };
-    void draw() {
-        dTHX;
-        //printf("package = %s\n", SvPV_nolen(get_sv("package", 0)));
-        warn( "draw()\n" );
-        this->T::draw();
-
-        SV * widget;
-        CTX * ctx;
-        Newx( ctx, 1, CTX );
-        ctx->cp_ctx    = this;
-        ctx->cp_cls    = this->_class;
-
-        {
-            SV * RETVALSV;
-            RETVALSV = sv_newmortal();
-            sv_setref_pv( RETVALSV, object2package( ctx ), ( void* )ctx );
-            widget = RETVALSV;
-        }
-
-        dSP;
-
-        ENTER;
-        SAVETMPS;
-        PUSHMARK( SP );
-
-        XPUSHs( widget );
-
-        PUTBACK;
-
-        call_method( "draw", G_DISCARD | G_EVAL );
-
-        SPAGAIN;
-
-        PUTBACK;
-        FREETMPS;
-        LEAVE;
-    };
-};
 
 #endif // #ifndef fltk_pm_h

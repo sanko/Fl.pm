@@ -219,6 +219,10 @@ xs {name        => 'new',
 xs {name        => 'DESTROY',
     definitions => [{returns => 'void'}]
 };
+xs {name        => 'draw',
+    definitions => [{returns  => 'void' }
+    ]
+};
 
 =pod
 
