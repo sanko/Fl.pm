@@ -62,6 +62,7 @@ public:
         //warn( "%s->destroy( )", object2package( this ) );
         this->T::~T( );
     }
+
     void draw( bool only ) {
         dTHX;
         this->T::draw();
@@ -73,6 +74,7 @@ private:
     void draw() {
         dTHX;
         dSP;
+
         //printf("package = %s\n", SvPV_nolen(get_sv("package", 0)));
         //this->T::draw();
 
@@ -102,26 +104,71 @@ private:
         XPUSHs( widget );
         PUTBACK;
 
-        count = call_method( "draw", G_EVAL|G_SCALAR|G_KEEPERR );
+        count = call_method( "draw", G_EVAL | G_SCALAR | G_KEEPERR );
 
         SPAGAIN;
 
         err_tmp = ERRSV;
- /*
-        warn( "okay?" );
-        if (SvTRUE(err_tmp)) {
-            POPi;
-            croak("%s error: %s", object2package(ctx), SvPV_nolen(err_tmp));
-            this->T::draw();
+        /*
+               warn( "okay?" );
+               if (SvTRUE(err_tmp)) {
+                   POPi;
+                   croak("%s error: %s", object2package(ctx), SvPV_nolen(err_tmp));
+                   this->T::draw();
+               }
+               warn( "okay!" );
+
+               PUTBACK;
+               FREETMPS;
+               LEAVE;
+           */
+
+    };
+
+    int handle( int e ) {
+        dTHX;
+        dSP;
+
+        SV  * err_tmp;
+        SV  * widget;
+        CTX * ctx;
+        int   count;
+
+        Newx( ctx, 1, CTX );
+        ctx->cp_ctx    = this;
+        ctx->cp_cls    = this->_class;
+
+        {
+            widget = newSV(0);
+            sv_setref_pv( widget, object2package( ctx ), ( void* )ctx );
         }
-        warn( "okay!" );
+
+        int result;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK( SP );
+
+        XPUSHs( widget );
+        XPUSHs( sv_2mortal( newSViv( e ) ) );
+
+        PUTBACK;
+
+        count = call_method( "handle", G_SCALAR | G_EVAL );
+
+        SPAGAIN;
+
+        if ( count == 1 )
+            result = POPi;
 
         PUTBACK;
         FREETMPS;
         LEAVE;
-    */
 
+        return result ? result : this->T::handle( e );
     };
+
 };
 
 const char * object2package ( WidgetSubclass<Fl_Widget> * w );
@@ -166,14 +213,14 @@ public:
 
         PUTBACK;
 
-        call_sv( callback, G_DISCARD | G_EVAL ); // TODO: Should this be eval?
+        call_sv( callback, G_DISCARD ); // TODO: Should this be eval?
 
         SPAGAIN;
-/*
         PUTBACK;
+
         FREETMPS;
         LEAVE;
-*/
+
         return;
     };
 };

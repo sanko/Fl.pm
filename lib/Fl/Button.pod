@@ -108,6 +108,7 @@ xs {name        => 'draw',
     definitions => [{returns  => 'void' }
     ]
 };
+
 =pod
 
 =head2 clear()
