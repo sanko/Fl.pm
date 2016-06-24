@@ -76,6 +76,11 @@ xs {name        => 'draw',
     definitions => [{returns  => 'void' }
     ]
 };
+xs {name        => 'handle',
+    definitions => [{required => [[qw[int event]]], returns  => 'int'  }
+    ]
+};
+
 =pod
 
 The destructor I<also deletes all children.> This allows a whole tree to be

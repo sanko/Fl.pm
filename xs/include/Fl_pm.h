@@ -68,7 +68,9 @@ public:
         this->T::draw();
         //warn( "%s->draw( TRUE )", object2package( this ) );
     };
-
+    int handle( bool only, int event ) {
+        return 0;
+    };
 private:
 
     void draw() {
@@ -104,24 +106,24 @@ private:
         XPUSHs( widget );
         PUTBACK;
 
-        count = call_method( "draw", G_EVAL | G_SCALAR | G_KEEPERR );
+        count = call_method( "draw", G_EVAL | G_SCALAR /*| G_KEEPERR*/ );
 
         SPAGAIN;
-
-        err_tmp = ERRSV;
         /*
-               warn( "okay?" );
-               if (SvTRUE(err_tmp)) {
-                   POPi;
-                   croak("%s error: %s", object2package(ctx), SvPV_nolen(err_tmp));
-                   this->T::draw();
-               }
-               warn( "okay!" );
+              err_tmp = ERRSV;
 
-               PUTBACK;
-               FREETMPS;
-               LEAVE;
-           */
+                     warn( "okay?" );
+                     if (SvTRUE(err_tmp)) {
+                         POPi;
+                         croak("%s error: %s", object2package(ctx), SvPV_nolen(err_tmp));
+                         this->T::draw();
+                     }
+                     warn( "okay!" );
+
+                     PUTBACK;
+                     FREETMPS;
+                     LEAVE;
+                 */
 
     };
 
@@ -132,18 +134,18 @@ private:
         SV  * err_tmp;
         SV  * widget;
         CTX * ctx;
-        int   count;
+        int   count = 0;
 
         Newx( ctx, 1, CTX );
         ctx->cp_ctx    = this;
         ctx->cp_cls    = this->_class;
 
         {
-            widget = newSV(0);
+            widget = newSV( 0 );
             sv_setref_pv( widget, object2package( ctx ), ( void* )ctx );
         }
 
-        int result;
+        int result = 0;
 
         ENTER;
         SAVETMPS;
@@ -151,15 +153,18 @@ private:
         PUSHMARK( SP );
 
         XPUSHs( widget );
-        XPUSHs( sv_2mortal( newSViv( e ) ) );
+        mXPUSHi( e );
 
         PUTBACK;
 
-        count = call_method( "handle", G_SCALAR | G_EVAL );
+        count = call_method( "handle", G_SCALAR );
 
         SPAGAIN;
 
-        if ( count == 1 )
+        if ( SvTRUE( ERRSV ) || count != 1 )
+            /* if threads not loaded or an error occurs return 0 */
+            result = 0;
+        else
             result = POPi;
 
         PUTBACK;

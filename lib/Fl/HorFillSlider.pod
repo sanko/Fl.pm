@@ -47,6 +47,11 @@ xs {name        => 'draw',
     definitions => [{returns  => 'void' }
     ]
 };
+xs {name        => 'handle',
+    definitions => [{required => [[qw[int event]]], returns  => 'int'  }
+    ]
+};
+
 =pod
 
 =head1 LICENSE

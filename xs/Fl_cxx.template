@@ -335,7 +335,20 @@ XS_EUPXS({{cpp.function.name}}) {
         else
             croak("Attempt to call {{class.package}}->{{function}}( ... ) on a non-object!");
         {%endif%}
-            {% case function %}
+        {{assignments}}
+        {% if definition.returns and definition.returns != 'void' %}{{definition.returns}} RETVAL;{%endif%}
+
+        {%capture args%}{%
+            if definition.c_args %}{{definition.c_args}}{%
+            else%}{%
+                for arg in definition.required%}{{arg.1}}{%unless forloop.last%}, {%endunless%}{%
+                endfor%}{%
+                if definition.required and definition.optional%},{%
+                endif%}{%
+                for arg in definition.optional%} {{arg.1}}{%unless forloop.last%},{%endunless%}{%endfor%}{%endif
+            %}{%endcapture%}
+        dXSTARG;
+        {% case function %}
                 {% when 'DESTROY' %}
                     {% assign xs.return = 'XSRETURN_EMPTY;'%}
         if (self->cp_ctx != NULL)
@@ -345,41 +358,35 @@ XS_EUPXS({{cpp.function.name}}) {
                     {% assign xs.return = 'XSRETURN_EMPTY;'%}
         if (self->cp_ctx != NULL)
             ((WidgetSubclass<{{class.widget_type}}> *)self->cp_ctx)->draw( TRUE );
+                {% when 'handle' %}
+                    {%assign xs.return = 'XSRETURN(1);' %}
+        if (self->cp_ctx != NULL)
+            RETVAL = ((WidgetSubclass<{{class.widget_type}}> *)self->cp_ctx)->handle( TRUE, {{args}} );
                 {%else%}
                     {%unless definition.returns %}
                          {%assign xs.return = 'XSRETURN_EMPTY' %}
                     {%else%}
                         {%assign xs.return = 'XSRETURN(1);' %}
                     {%endunless%}
-        {{assignments}}
-        {% if definition.returns and definition.returns != 'void' %}{{definition.returns}} RETVAL;{%endif%}
             {% if definition.code %}
                 { {{definition.code}} }
             {% else %}
                 {% if definition.returns and definition.returns != 'void' %}RETVAL = {%endif%} // {{ class.package }} | {{ class.widget_type }}
                 {%if is_method%}(({%if class.widget_type%}{{class.widget_type}}{%else%}{{class.package | replace:'::','_'}}{%endif%} *)self->cp_ctx)->{{ function }}{%
                 else        %}{{ function }}{%
-                endif%}( {%
-            if definition.c_args %}{{definition.c_args}}{%
-            else%}{%
-                for arg in definition.required%}{{arg.1}}{%unless forloop.last%}, {%endunless%}{%
-                endfor%}{%
-                if definition.required and definition.optional%},{%
-                endif%}{%
-                for arg in definition.optional%} {{arg.1}}{%unless forloop.last%},{%endunless%}{%endfor%}{%endif
-            %} );
+                endif%}( {{args}} );
             {%endif%}
             {% endcase %}
                 {% if definition.returns %}
                 {%case definition.returns %}
                     {%when 'void'              %}{% assign xs.return = 'XSRETURN_EMPTY;' %}
-                    {%when 'double'            %}dXSTARG; XSprePUSH; PUSHn((double)RETVAL);
-                    {%when 'char *'            %}dXSTARG; PUSHp(RETVAL, STRLEN);
-                    {%when 'const char *'      %}dXSTARG; sv_setpv(TARG, RETVAL); XSprePUSH; PUSHTARG;
-                    {%when 'unsigned int'      %}dXSTARG; XSprePUSH; PUSHu((UV)RETVAL);
+                    {%when 'double'            %}XSprePUSH; PUSHn((double)RETVAL);
+                    {%when 'char *'            %}PUSHp(RETVAL, STRLEN);
+                    {%when 'const char *'      %}sv_setpv(TARG, RETVAL); XSprePUSH; PUSHTARG;
+                    {%when 'unsigned int'      %}XSprePUSH; PUSHu((UV)RETVAL);
                     {%when 'bool'              %}boolSV(RETVAL);
-                    {%when 'int'               %}dXSTARG; XSprePUSH; PUSHi((IV)RETVAL);
-                    {%when 'short'             %}dXSTARG; XSprePUSH; PUSHi((IV)RETVAL);
+                    {%when 'int'               %}XSprePUSH; PUSHi((IV)RETVAL);
+                    {%when 'short'             %}XSprePUSH; PUSHi((IV)RETVAL);
                     {%when 'Fl_Widget *' %}
                         CTX * ctx;
                         Newx(ctx, 1, CTX);
@@ -434,7 +441,7 @@ XS_EUPXS({{cpp.function.name}}) {
                     {%when 'CV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;
                     {%when 'AV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;
                     {%when 'HV *'     %}SV * RETVALSV; RETVALSV = newRV((SV*)RETVAL); RETVALSV = sv_2mortal(RETVALSV); ST(0) = RETVALSV;
-                    {%else %}dXSTARG; XSprePUSH; PUSHi((IV)RETVAL); // {{definition.returns}}
+                    {%else %}XSprePUSH; PUSHi((IV)RETVAL); // {{definition.returns}}
                 {%endcase%}
                 {%endif%}
         {% endcase %}
