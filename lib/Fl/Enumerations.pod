@@ -61,6 +61,97 @@ export_constant("FL_VERSION",       "version");
 
 =head2 C<:box>
 
+Events are identified by an enumeration value. If you subclass a widget, these
+are passed to your C<handle(...)> method. The following events are currently
+defined:
+
+=over
+
+=item FL_NO_EVENT - No event (or an event fltk does not understand) occurred (0).
+
+=item FL_PUSH - A mouse button was pushed.
+
+=item FL_RELEASE - A mouse button was released.
+
+=item FL_ENTER - The mouse pointer entered a widget.
+
+=item FL_LEAVE - The mouse pointer left a widget.
+
+=item FL_DRAG - The mouse pointer was moved with a button pressed.
+
+=item FL_FOCUS - A widget should receive keyboard focus.
+
+=item FL_UNFOCUS - A widget loses keyboard focus.
+
+=item FL_KEYBOARD - A key was pressed.
+
+=item FL_CLOSE - A window was closed.
+
+=item FL_MOVE - The mouse pointer was moved with no buttons pressed.
+
+=item FL_SHORTCUT - The user pressed a shortcut key.
+
+=item FL_DEACTIVATE - The widget has been deactivated.
+
+=item FL_ACTIVATE - The widget has been activated.
+
+=item FL_HIDE - The widget has been hidden.
+
+=item FL_SHOW - The widget has been shown.
+
+=item FL_PASTE - The widget should paste the contents of the clipboard.
+
+=item FL_SELECTIONCLEAR - The widget should clear any selections made for the clipboard.
+
+=item FL_MOUSEWHEEL - The horizontal or vertical mousewheel was turned.
+
+=item FL_DND_ENTER - The mouse pointer entered a widget dragging data.
+
+=item FL_DND_DRAG - The mouse pointer was moved dragging data.
+
+=item FL_DND_LEAVE - The mouse pointer left a widget still dragging data.
+
+=item FL_DND_RELEASE - Dragged data is about to be dropped.
+
+=item FL_SCREEN_CONFIGURATION_CHANGED - The screen configuration (number, positions) was changed.
+
+=item FL_FULLSCREEN - The fullscreen state of the window has changed
+
+=back
+
+=cut
+
+export_constant("FL_LEFT_MOUSE",   "mouse");
+export_constant("FL_NO_EVENT", "event");
+export_constant("FL_PUSH", "event");
+export_constant("FL_RELEASE", "event");
+export_constant("FL_ENTER", "event");
+export_constant("FL_LEAVE", "event");
+export_constant("FL_DRAG", "event");
+export_constant("FL_FOCUS", "event");
+export_constant("FL_UNFOCUS", "event");
+export_constant("FL_KEYBOARD", "event");
+export_constant("FL_CLOSE", "event");
+export_constant("FL_MOVE", "event");
+export_constant("FL_SHORTCUT", "event");
+export_constant("FL_DEACTIVATE", "event");
+export_constant("FL_ACTIVATE", "event");
+export_constant("FL_HIDE", "event");
+export_constant("FL_SHOW", "event");
+export_constant("FL_PASTE", "event");
+export_constant("FL_SELECTIONCLEAR", "event");
+export_constant("FL_MOUSEWHEEL", "event");
+export_constant("FL_DND_ENTER", "event");
+export_constant("FL_DND_DRAG", "event");
+export_constant("FL_DND_LEAVE", "event");
+export_constant("FL_DND_RELEASE", "event");
+export_constant("FL_SCREEN_CONFIGURATION_CHANGED", "event");
+export_constant("FL_FULLSCREEN", "event");
+
+=pod
+
+=head2 C<:box>
+
 Values related to Fl::Box box types including:
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/boxtypes.png" /></center>

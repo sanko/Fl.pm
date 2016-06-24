@@ -77,20 +77,14 @@ private:
         dTHX;
         dSP;
 
-        //printf("package = %s\n", SvPV_nolen(get_sv("package", 0)));
-        //this->T::draw();
-
-
         SV  * err_tmp;
         SV  * widget;
         CTX * ctx;
-        int   count;
 
         Newx( ctx, 1, CTX );
         ctx->cp_ctx    = this;
         ctx->cp_cls    = this->_class;
 
-        //warn( "%s->draw( ) | %s | %s", object2package( ctx ), this->_class, object2package( this ) );
 
         {
             SV * RETVALSV;
@@ -106,7 +100,7 @@ private:
         XPUSHs( widget );
         PUTBACK;
 
-        count = call_method( "draw", G_EVAL | G_SCALAR /*| G_KEEPERR*/ );
+        call_method( "draw", G_SCALAR );
 
         SPAGAIN;
         /*

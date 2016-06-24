@@ -36,5 +36,8 @@ can_ok 'main', 'FL_LEFT_MOUSE';
 # :align
 can_ok 'main', 'FL_ALIGN_CENTER';
 
+# :event
+can_ok 'main', 'FL_LEFT_MOUSE';
+
 #
 done_testing;

@@ -6,6 +6,10 @@ Revision history for Perl extension Fl
         - draw() can be overridden
         - extends() creates inheratence trees and handles widget registration
         - handle() handles specific events. Ugh... See the docs...
+    - Expanded export tags/values (get them all with :enum, of course):
+        - :event - handle(...) event values are now exported now
+        - :default - This tag is exported by default. I'll note these as the
+            list grows
 
     - New demo scripts:
         - eg/ - Custom drawn widget
