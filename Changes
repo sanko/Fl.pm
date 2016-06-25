@@ -11,10 +11,9 @@ Revision history for Perl extension Fl
         - :event - handle(...) event values are now exported now
         - :default - This tag is exported by default. I'll note these as the
             list grows
-
     - New demo scripts:
         - eg/ - Custom drawn widget
-
+        - eg/drag_and_drop.pl - Custom widgets. Example of clipboard access and drag and drop
     - New widgets:
         - Fl::Progress - Typical progress bar
         - Fl::InputChoice - Input widget and menu button rolled into one
