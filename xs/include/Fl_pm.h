@@ -65,11 +65,11 @@ public:
 
     void draw( bool only ) {
         dTHX;
-        this->T::draw();
+        T::draw();
         //warn( "%s->draw( TRUE )", object2package( this ) );
     };
     int handle( bool only, int event ) {
-        return 0;
+        return T::handle(event);
     };
 private:
 
@@ -135,7 +135,7 @@ private:
         ctx->cp_cls    = this->_class;
 
         {
-            widget = newSV( 0 );
+            widget = newSV( 1 );
             sv_setref_pv( widget, object2package( ctx ), ( void* )ctx );
         }
 
@@ -155,17 +155,17 @@ private:
 
         SPAGAIN;
 
-        if ( SvTRUE( ERRSV ) || count != 1 )
+        if ( count == 1 )
             /* if threads not loaded or an error occurs return 0 */
-            result = 0;
-        else
-            result = POPi;
+           result = POPi;
 
         PUTBACK;
         FREETMPS;
         LEAVE;
 
-        return result ? result : this->T::handle( e );
+        //warn ("return from handle(%s) == %s", e, result);
+
+        return result;
     };
 
 };

@@ -182,7 +182,7 @@ croak(const char *const params) {
 
 {%for class in xsubs%}
 /* package {{class.package}}; */
-// #include <FL/{{ class.package|replace:'::','_' }}.H>
+// #include <FL/{%if class.widget_type%}{{class.widget_type}}{%else%}{{class.package | replace:'::','_'}}{%endif%}.H>
 {%for method in class.methods %}
     {%assign function = method.name%}
 {%capture cpp.function.name%}{%
