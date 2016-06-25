@@ -1,6 +1,7 @@
 class 'Fl::MultilineInput';
 isa 'Fl::Input';
 include 'FL/Fl_Multiline_Input.H';
+widget_type 'Fl_Multiline_Input';
 
 =pod
 

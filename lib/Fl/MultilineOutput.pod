@@ -1,6 +1,7 @@
 class 'Fl::MultilineOutput';
 isa 'Fl::Output';
 include 'FL/Fl_Multiline_Output.H';
+widget_type 'Fl_Multiline_Output';
 
 =pod
 

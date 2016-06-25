@@ -1,6 +1,7 @@
 class 'Fl::NiceSlider';
 isa 'Fl::Slider';
 include 'FL/Fl_Nice_Slider.H';
+widget_type 'Fl_Nice_Slider';
 
 =pod
 

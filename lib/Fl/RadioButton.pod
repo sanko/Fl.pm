@@ -1,6 +1,7 @@
 class 'Fl::RadioButton';
 isa 'Fl::Button';
 include 'FL/Fl_Radio_Button.H';
+widget_type 'Fl_Radio_Button';
 
 =pod
 

@@ -1,6 +1,7 @@
 class 'Fl::ToggleButton';
 isa 'Fl::Button';
 include 'FL/Fl_Toggle_Button.H';
+widget_type 'Fl_Toggle_Button';
 
 =pod
 

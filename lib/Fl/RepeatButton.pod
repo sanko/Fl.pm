@@ -1,6 +1,7 @@
 class 'Fl::RepeatButton';
 isa 'Fl::Button';
 include 'FL/Fl_Repeat_Button.H';
+widget_type 'Fl_Repeat_Button';
 
 =pod
 

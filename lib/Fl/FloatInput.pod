@@ -1,6 +1,7 @@
 class 'Fl::FloatInput';
 isa 'Fl::IntInput';
 include 'FL/Fl_Float_Input.H';
+widget_type 'Fl_Float_Input';
 
 =pod
 

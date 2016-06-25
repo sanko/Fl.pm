@@ -1,6 +1,7 @@
 class 'Fl::RoundButton';
 isa 'Fl::Button';
 include 'FL/Fl_Round_Button.H';
+widget_type 'Fl_Round_Button';
 
 =pod
 

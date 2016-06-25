@@ -1,6 +1,7 @@
 class 'Fl::MenuButton';
 isa 'Fl::Menu';
 include 'FL/Fl_Menu_Button.H';
+widget_type 'Fl_Menu_Button';
 
 =pod
 

@@ -1,6 +1,7 @@
 class 'Fl::HorValueSlider';
 isa 'Fl::ValueSlider';
 include 'FL/Fl_Hor_Value_Slider.H';
+widget_type 'Fl_Hor_Value_Slider';
 
 =pod
 

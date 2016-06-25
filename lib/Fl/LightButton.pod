@@ -1,6 +1,7 @@
 class 'Fl::LightButton';
 isa 'Fl::Button';
 include 'FL/Fl_Light_Button.H';
+widget_type 'Fl_Light_Button';
 
 =pod
 

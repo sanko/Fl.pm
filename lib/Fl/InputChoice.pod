@@ -1,6 +1,7 @@
 class 'Fl::InputChoice';
 isa 'Fl::Group';
 include 'FL/Fl_Input_Choice.H';
+widget_type 'Fl_Input_Choice';
 
 =pod
 

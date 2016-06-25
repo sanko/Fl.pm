@@ -1,6 +1,7 @@
 class 'Fl::SimpleCounter';
 isa 'Fl::Counter';
 include 'FL/Fl_Simple_Counter.H';
+widget_type 'Fl_Simple_Counter';
 
 =pod
 

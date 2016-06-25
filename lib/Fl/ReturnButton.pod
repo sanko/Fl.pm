@@ -1,6 +1,7 @@
 class 'Fl::ReturnButton';
 isa 'Fl::Button';
 include 'FL/Fl_Return_Button.H';
+widget_type 'Fl_Return_Button';
 
 =pod
 

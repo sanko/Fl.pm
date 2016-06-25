@@ -1,6 +1,7 @@
 class 'Fl::HorSlider';
 isa 'Fl::Slider';
 include 'FL/Fl_Hor_Slider.H';
+widget_type 'Fl_Hor_Slider';
 
 =pod
 

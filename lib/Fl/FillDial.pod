@@ -1,6 +1,7 @@
 class 'Fl::FillDial';
 isa 'Fl::Dial';
 include 'FL/Fl_Fill_Dial.H';
+widget_type 'Fl_Fill_Dial';
 
 =pod
 

@@ -1,6 +1,7 @@
 class 'Fl::ValueOutput';
 isa 'Fl::Valuator';
 include 'FL/Fl_Value_Output.H';
+widget_type 'Fl_Value_Output';
 
 =pod
 
