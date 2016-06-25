@@ -2,6 +2,7 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Clipboard support
     - Begin work on custom widgets
         - draw() can be overridden
         - extends() creates inheratence trees and handles widget registration
