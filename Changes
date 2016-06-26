@@ -3,7 +3,7 @@ Revision history for Perl extension Fl
 {{$NEXT}}
 
     - Clipboard support
-    - Begin work on custom widgets
+    - Begin work on custom widgets (undocumented alpha in this version)
         - draw() can be overridden
         - extends() creates inheratence trees and handles widget registration
         - handle() handles specific events. Ugh... See the docs...
@@ -12,8 +12,8 @@ Revision history for Perl extension Fl
         - :default - This tag is exported by default. I'll note these as the
             list grows
     - New demo scripts:
-        - eg/ - Custom drawn widget
-        - eg/drag_and_drop.pl - Custom widgets. Example of clipboard access and drag and drop
+        - eg/double_click.pl - Custom button widget that detects double clicks
+        - eg/drag_and_drop.pl - Example of clipboard access and drag and drop
     - New widgets:
         - Fl::Progress - Typical progress bar
         - Fl::InputChoice - Input widget and menu button rolled into one
@@ -23,6 +23,7 @@ Revision history for Perl extension Fl
     - New demo scripts:
         - eg/progress.pl - Demos using a Fl::Progress bar to keep user up to date on background progress
         - eg/input_choice.pl - Demos using Fl::InputChoice and enabling/disabling widgets
+    - Some tests require a working DISPLAY on X11
 
 0.99.11 2016-06-04T15:18:01Z
 
