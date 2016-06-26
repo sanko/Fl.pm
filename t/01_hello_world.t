@@ -11,6 +11,6 @@ $box->labelsize(36);
 $box->labeltype(FL_SHADOW_LABEL);
 $window->end();
 
-#$window->show();
+$window->show();
 #Fl::run();
 done_testing;
