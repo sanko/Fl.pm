@@ -36,192 +36,126 @@ const char * object2package ( CTX * w );
 template<typename T>
 class WidgetSubclass : public T {
 
-private:
-    int algorithm;
-public:
-    const char * _class;
-public:
-    WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
-        // Just about everything
-        dTHX;
-        this->_class = cls;
-    };
-    WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
-        // Fl_Box
-        dTHX;
-        this->_class = cls;
-    };
-    WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
-        // Fl_Window
-        dTHX;
-        this->_class = cls;
-    };
+    private:
+        int algorithm;
+    public:
+        const char * _class;
+    public:
+        WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
+            // Just about everything
+            dTHX;
+            this->_class = cls;
+        };
+        WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
+            // Fl_Box
+            dTHX;
+            this->_class = cls;
+        };
+        WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
+            // Fl_Window
+            dTHX;
+            this->_class = cls;
+        };
 
-    ~WidgetSubclass( ) {
-        dTHX;
-        //warn( "%s->destroy( )", object2package( this ) );
-        this->T::~T( );
-    }
-
-    void draw( bool only ) {
-        dTHX;
-        T::draw();
-        //warn( "%s->draw( TRUE )", object2package( this ) );
-    };
-    int handle( bool only, int event ) {
-        return T::handle(event);
-    };
-private:
-
-    void draw() {
-        dTHX;
-        dSP;
-
-        SV  * err_tmp;
-        SV  * widget;
-        CTX * ctx;
-
-        Newx( ctx, 1, CTX );
-        ctx->cp_ctx    = this;
-        ctx->cp_cls    = this->_class;
-
-
-        {
-            SV * RETVALSV;
-            RETVALSV = sv_newmortal();
-            sv_setref_pv( RETVALSV, object2package( ctx ), ( void* )ctx );
-            widget = RETVALSV;
+        ~WidgetSubclass( ) {
+            dTHX;
+            //warn( "%s->destroy( )", object2package( this ) );
+            this->T::~T( );
         }
 
-        ENTER;
-        SAVETMPS;
+        void draw( bool only ) {
+            dTHX;
+            T::draw();
+            //warn( "%s->draw( TRUE )", object2package( this ) );
+        };
+        int handle( bool only, int event ) {
+            return T::handle( event );
+        };
+    private:
+        void draw( ) {
+            dTHX;
+            call_perl_method( "draw", NULL, G_DISCARD );
+        };
+        int handle( int e ) {
+            dTHX;
+            return call_perl_method( "handle", newSViv( e ) );
+        };
 
-        PUSHMARK( SP );
-        XPUSHs( widget );
-        PUTBACK;
-
-        call_method( "draw", G_SCALAR );
-
-        SPAGAIN;
-        /*
-              err_tmp = ERRSV;
-
-                     warn( "okay?" );
-                     if (SvTRUE(err_tmp)) {
-                         POPi;
-                         croak("%s error: %s", object2package(ctx), SvPV_nolen(err_tmp));
-                         this->T::draw();
-                     }
-                     warn( "okay!" );
-
-                     PUTBACK;
-                     FREETMPS;
-                     LEAVE;
-                 */
-
-    };
-
-    int handle( int e ) {
-        dTHX;
-        dSP;
-
-        SV  * err_tmp;
-        SV  * widget;
-        CTX * ctx;
-        int   count = 0;
-
-        Newx( ctx, 1, CTX );
-        ctx->cp_ctx    = this;
-        ctx->cp_cls    = this->_class;
-
-        {
-            widget = newSV( 1 );
-            sv_setref_pv( widget, object2package( ctx ), ( void* )ctx );
-        }
-
-        int result = 0;
-
-        ENTER;
-        SAVETMPS;
-
-        PUSHMARK( SP );
-
-        XPUSHs( widget );
-        mXPUSHi( e );
-
-        PUTBACK;
-
-        count = call_method( "handle", G_SCALAR );
-
-        SPAGAIN;
-
-        if ( count == 1 )
-            /* if threads not loaded or an error occurs return 0 */
-           result = POPi;
-
-        PUTBACK;
-        FREETMPS;
-        LEAVE;
-
-        //warn ("return from handle(%s) == %s", e, result);
-
-        return result;
-    };
-
+        int call_perl_method( const char * method, SV * args, int context = G_SCALAR ) {
+            dTHX;
+            dSP;
+            SV  * widget;
+            CTX * ctx;
+            int   count = 0;
+            Newx( ctx, 1, CTX );
+            ctx->cp_ctx    = this;
+            ctx->cp_cls    = this->_class;
+            {
+                widget = newSV( 1 );
+                sv_setref_pv( widget, object2package( ctx ), ( void* )ctx );
+            }
+            int result = 0;
+            ENTER;
+            SAVETMPS;
+            PUSHMARK( SP );
+            XPUSHs( widget );
+            if ( args != NULL && SvOK( args ) )
+                mXPUSHs( args );
+            PUTBACK;
+            count = call_method( method, context );
+            SPAGAIN;
+            if ( count == 1 && context != G_DISCARD )
+                /* if threads not loaded or an error occurs return 0 */
+                result = POPi;
+            PUTBACK;
+            FREETMPS;
+            LEAVE;
+            return result;
+        };
 };
 
 const char * object2package ( WidgetSubclass<Fl_Widget> * w );
 
 class Callback {
-public: /* TODO: Make these private */
-    SV * callback;
-    SV * args;
+    public: /* TODO: Make these private */
+        SV * callback;
+        SV * args;
 
-public:
-    ~Callback() { };
-    Callback( SV * cb, SV * as ) {
-        dTHX;
-        callback = newSVsv( cb );//sv_mortalcopy(cb);
-        args     = as;//newSVsv(as);//sv_mortalcopy(as);
-    };
+    public:
+        ~Callback() { };
+        Callback( SV * cb, SV * as ) {
+            dTHX;
+            callback = newSVsv( cb );//sv_mortalcopy(cb);
+            args     = as;//newSVsv(as);//sv_mortalcopy(as);
+        };
 
-    void trigger( Fl_Widget * w ) {
-
-        dTHX;
-
-        //warn ("%s->trigger()", object2package(w));
-
-        SV * widget;
-        CTX * ctx;
-        Newx( ctx, 1, CTX );
-        ctx->cp_ctx    = w;
-        {
-            SV * RETVALSV;
-            RETVALSV = sv_newmortal();
-            sv_setref_pv( RETVALSV, object2package( w ), ( void* )ctx );
-            widget = RETVALSV;
-        }
-
-        dSP;
-        ENTER;
-        SAVETMPS;
-        PUSHMARK( SP );
-
-        if ( SvOK( widget ) )
-            XPUSHs( widget );
-
-        PUTBACK;
-
-        call_sv( callback, G_DISCARD ); // TODO: Should this be eval?
-
-        SPAGAIN;
-        PUTBACK;
-
-        FREETMPS;
-        LEAVE;
-
-        return;
-    };
+        void trigger( Fl_Widget * w ) {
+            dTHX;
+            //warn ("%s->trigger()", object2package(w));
+            SV * widget;
+            CTX * ctx;
+            Newx( ctx, 1, CTX );
+            ctx->cp_ctx    = w;
+            {
+                SV * RETVALSV;
+                RETVALSV = sv_newmortal();
+                sv_setref_pv( RETVALSV, object2package( w ), ( void* )ctx );
+                widget = RETVALSV;
+            }
+            dSP;
+            ENTER;
+            SAVETMPS;
+            PUSHMARK( SP );
+            if ( SvOK( widget ) )
+                XPUSHs( widget );
+            PUTBACK;
+            call_sv( callback, G_DISCARD ); // TODO: Should this be eval?
+            SPAGAIN;
+            PUTBACK;
+            FREETMPS;
+            LEAVE;
+            return;
+        };
 };
 
 
