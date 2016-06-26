@@ -449,7 +449,7 @@ XS_EUPXS({{cpp.function.name}}) {
         {{ xs.return }};
     }{%endfor%}
     else
-        croak("TODO: Improve usage info! {%if function == 'new'%}{{ class.package }}{%else%}${{class.package | split:'::' | last | downcase }}{%endif%}->{{ function }}( ... );");
+        croak("TODO: Improve usage info! {%if is_method%}{%if function == 'new'%}{{ class.package }}{%else%}${{class.package | split:'::' | last | downcase }}{%endif%}->{%endif%}{{ function }}( ... );");
 }
 {% endfor %}
 /* /package {{class.package}};  */
