@@ -152,10 +152,11 @@ $|++;
     sub handle {
         my ($s, $event) = @_;
         printf STDERR "Event b: %d\n", $event;
-        return 1 if $event == FL_DND_ENTER
+        return 1
+            if $event == FL_DND_ENTER
             || $event == FL_DND_DRAG
-        || $event == FL_DND_LEAVE
-        || $event == FL_DND_RELEASE;
+            || $event == FL_DND_LEAVE
+            || $event == FL_DND_RELEASE;
         if ($event == FL_PASTE) {
             printf("dropped:'%s'\n", Fl::event_text());
             return 1;
@@ -169,6 +170,7 @@ my $win_a = Fl::Window->new(0, 0, 200, 100, "Sender");
 my $_a = Sender->new(0, 0, 100, 100);
 $win_a->end();
 $win_a->show();
+
 #Create receiver window and widget
 my $win_b = Fl::Window->new(400, 0, 200, 100, "Receiver");
 my $_b = Receiver->new(100, 0, 100, 100);
