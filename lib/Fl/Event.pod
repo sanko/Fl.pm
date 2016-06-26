@@ -17,9 +17,44 @@ Fl::Event - Event Loop Related Functions
 The C<:event> import tag brings all of these functions into your
 namespace.
 
-=over
 
-=item C<run()>
+=head1 Functions
+
+The following functions are exposed.
+
+=head2 belowmouse(...)
+
+    my $widget = Fl::belowmouse();
+    Fl::belowmouse($window);
+
+Get or set the widget below the mouse.
+
+Setting this value is This is for highlighting buttons. It is not used to send
+C<FL_PUSH> or C<FL_MOVE> directly, for several obscure reasons, but those
+events typically go to this widget. This is also the first widget tried for
+C<FL_SHORTCUT> events.
+
+If you change the belowmouse widget, the previous one and all parents (that
+don't contain the new widget) are sent C<FL_LEAVE> events. Changing this does
+not send C<FL_ENTER> to this or any widget, because sending C<FL_ENTER> is
+supposed to test if the widget wants the mouse (by it returning non-zero from
+C<handle()>).
+
+=cut
+
+xs {name        => 'Fl::belowmouse',
+    definitions => [
+        {returns => 'Fl_Widget *'},
+        {required => [['Fl_Widget *', 'widget']],
+            c_args => 'widget->cp_ctx',
+         returns => 'void'}
+    ],
+    export      => [qw[event]]
+};
+
+=pod
+
+=head2 run( )
 
     ...
     $window->show();
@@ -36,7 +71,9 @@ xs {name        => 'Fl::run',
     export      => [qw[event]]
 };
 
-=item C<check()>
+=pod
+
+=head2 check( )
 
     while (!calculation_done()) {
         calculate();
@@ -59,8 +96,11 @@ xs {name        => 'Fl::check',
     export      => [qw[event]]
 };
 
-=item C<wait()>
+=pod
 
+=head2 wait(...)
+
+    Fl::wait();
     Fl::wait(2);
 
 Waits until 'something happens' and then returns.
@@ -87,12 +127,15 @@ if a signal happens).
 =cut
 
 xs {name        => 'Fl::wait',
-    definitions => [{returns => 'double'}],
+    definitions => [{
+        optional => [['double', 'time']],
+        returns => 'double'}],
     export      => [qw[event]]
 };
 
+=pod
 
-=item C<ready()>
+=head2 ready()
 
     while (!calculation_done()) {
         calculate();
@@ -119,7 +162,7 @@ xs {name        => 'Fl::ready',
 
 =pod
 
-=item C<event()>
+=head2 event( )
 
     my event = Fl::event();
 
@@ -134,6 +177,15 @@ xs {name        => 'Fl::event',
     definitions => [{returns => 'int'}],
     export      => [qw[event]]
 };
+
+
+# TODO:
+#   - add_handler(...)
+#   - add_system_handler(...)
+#
+#
+#
+#
 
 =pod
 
