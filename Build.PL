@@ -21,6 +21,24 @@ my %args = (
         'Module::Build' => '0.4005',
     },
 
+    requires => {
+        'perl' => '5.008001',
+    },
+
+    recommends => {
+    },
+
+    suggests => {
+    },
+
+    build_requires => {
+    },
+
+    test_requires => {
+        'Test::More' => '0.98',
+        'Test::NeedsDisplay' => '0',
+    },
+
     name            => 'Fl',
     module_name     => 'Fl',
     allow_pureperl => 0,

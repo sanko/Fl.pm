@@ -275,4 +275,4 @@ it under the same terms as Perl itself.
 
 # AUTHOR
 
-Sanko Robinson &lt;sanko@cpan.org>
+Sanko Robinson <sanko@cpan.org>

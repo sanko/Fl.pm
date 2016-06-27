@@ -2,6 +2,11 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.13 2016-06-27T15:31:43Z
+
+    - Some smokers ignore prereqs>test>requires in META.json which causes
+        tests to fail. Adding Test::NeedsDisplay to ...>configure>requires.
+
 0.99.12 2016-06-27T06:07:58Z
 
     - Clipboard support

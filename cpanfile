@@ -8,4 +8,5 @@ on 'test' => sub {
 on 'configure' => sub {
     requires 'Alien::FLTK', '1.3.3';
     requires 'Template::Liquid';
+    requires 'Test::NeedsDisplay'; # BINGO's smoker ignores required mods in 'test' metadata
 };
