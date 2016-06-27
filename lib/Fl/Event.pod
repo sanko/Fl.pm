@@ -178,18 +178,20 @@ xs {name        => 'Fl::event',
     export      => [qw[event]]
 };
 
-
 # TODO:
 #   - add_handler(...)
 #   - add_system_handler(...)
 #
 #
 #
-#
+# Undocumented
+
+xs {name        => 'Fl::event_text',
+    definitions => [{returns => 'const char *'}],
+    export      => [qw[event]]
+};
 
 =pod
-
-=back
 
 =head1 LICENSE
 

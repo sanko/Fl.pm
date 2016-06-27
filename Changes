@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.12 2016-06-27T06:07:58Z
+
     - Clipboard support
     - Begin work on custom widgets (undocumented alpha in this version)
         - draw() can be overridden
