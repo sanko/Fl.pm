@@ -2,7 +2,10 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+0.99.14 2016-07-01T13:04:26Z
+
     - Fix crash when args are set with $widget->callback(...)
+    - Custom widgets are now reblessed into the correct package in callbacks
 
 0.99.13 2016-06-27T15:31:43Z
 
