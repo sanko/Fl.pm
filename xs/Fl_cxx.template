@@ -10,8 +10,80 @@
 #include <{{include.key}}>{%endfor%}
 
 HV * Fl_stash,  // For inserting stuff directly into Fl's namespace
-   * Fl_export; // For inserting stuff directly into Fl's exports
+   * Fl_export, // For inserting stuff directly into Fl's exports//
+   * Fl_cache;  // For caching weak refs to widgets and other objects
 
+void _cache(void * ptr, const char * cls) {
+    _cache( (const char *) &ptr, cls );
+}
+
+void _cache(const char * ptr, const char * cls) { // TODO: Leaks.
+    // The values stored here should expire with the object they reference
+    dTHX;
+#if FLTK_DEBUG
+    warn("Caching %s as %s...", ptr, cls);
+#endif
+    if (Fl_cache == NULL)
+        Fl_cache =
+#if FLTK_DEBUG
+                gv_stashpv( "Fl::Cache::ref", GV_ADD | GV_ADDMULTI );
+#else
+                newHV();
+#endif
+
+    int  _len = strlen(cls);
+    SV * _cls = newSVpv(cls, _len);
+    int  len_ = strlen(ptr);
+
+    SV ** tag = hv_store( Fl_cache, ptr, len_, _cls, 0 );
+#if FLTK_DEBUG
+    if (SvOK(* tag) )
+        warn("okay");
+    else
+        warn("failed");
+#endif
+}
+
+const char * _cache(void * ptr) {
+    return _cache( (const char *) &ptr );
+}
+
+const char * _cache(const char * ptr) {
+    dTHX;
+    if (! hv_exists( Fl_cache, ptr, strlen(ptr))) {
+#if FLTK_DEBUG
+        warn ("Cach miss on %s", ptr);
+#endif
+        return NULL;
+    }
+#if FLTK_DEBUG
+    warn("Getting cache of %s...", ptr);
+#endif
+    int  _len = strlen(ptr);
+    SV ** tag = hv_fetch( Fl_cache, ptr, _len, FALSE );
+    if (tag && SvOK(* tag))
+        return (const char *)SvPV_nolen(*tag);
+#if FLTK_DEBUG
+    warn("...failed.", ptr);
+#endif
+    return NULL;
+}
+
+/*
+SV * cache(const char * ptr, SV * obj) {
+    dTHX;
+ //warn("Exporting %s to %s", what, _tag);
+    SV ** tag = hv_fetch( Fl_cache, ptr, strlen(ptr), TRUE );
+    if (tag && SvOK(* tag) && SvROK(* tag ) && (SvTYPE(SvRV(*tag))) == SVt_PVAV)
+        av_push((AV*)SvRV(*tag), newSVpv(what, 0));
+    else {
+        SV * av;
+        av = (SV*) newAV( );
+        av_push((AV*)av, newSVpv(what, 0));
+        tag = hv_store( Fl_export, _tag, strlen(_tag), newRV_noinc(av), 0 );
+    }
+}
+*/
 void register_constant( const char * name, SV * value ) {
     dTHX;
     newCONSTSUB( Fl_stash, (char *) name, value );
@@ -322,6 +394,7 @@ XS_EUPXS({{cpp.function.name}}) {
             RETVALSV = sv_newmortal();
             sv_setref_pv(RETVALSV, package /*object2package(ctx)*/, (void*)ctx);
             ST(0) = RETVALSV;
+            _cache((const char *) &ctx->cp_ctx, package);
         }
         {%assign xs.return = 'XSRETURN(1);' %}
             {% else %}

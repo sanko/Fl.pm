@@ -26,16 +26,27 @@
 #include <FL/Fl_Scrollbar.H>
 
 const char * object2package (CTX * w) {
-     return ((w->cp_cls != NULL) && (w->cp_cls[0] == '\0') ? object2package(w->cp_ctx) : w->cp_cls);
+     return ((w->cp_cls != NULL) && (w->cp_cls[0] != '\0') ? w->cp_cls : object2package(w->cp_ctx) );
 }
 
 const char * object2package (WidgetSubclass<Fl_Widget> * w) {
-     return ((w->_class != NULL) && (w->_class[0] == '\0') ? object2package(w) : w->_class);
+     return ((w->_class != NULL) && (w->_class[0] != '\0') ? w->_class : object2package(w) );
 }
 
 const char * object2package (Fl_Widget * w) {
      /*Remember to add _most_ specific classes first*/
      const char * package = "Fl::Widget";
+/*
+     const char * user_data = (const char *) w->user_data();
+
+if (user_data != NULL && user_data[0] != '\0') {
+     return user_data;
+}
+
+     if (dynamic_cast<WidgetSubclass<Fl_Box> *>(w)) {
+          return w->user_data(); // See cheat in Fl_pm.h
+     }
+*/
           if ( dynamic_cast<Fl_Box                  *>(w) ) { package = "Fl::Box";    }
      else if ( dynamic_cast<Fl_Check_Button         *>(w) ) { package = "Fl::CheckButton"; }
      else if ( dynamic_cast<Fl_Radio_Round_Button   *>(w) ) { package = "Fl::RadioRoundButton"; }

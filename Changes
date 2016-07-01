@@ -2,6 +2,8 @@ Revision history for Perl extension Fl
 
 {{$NEXT}}
 
+    - Fix crash when args are set with $widget->callback(...)
+
 0.99.13 2016-06-27T15:31:43Z
 
     - Some smokers ignore prereqs>test>requires in META.json which causes

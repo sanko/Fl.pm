@@ -123,8 +123,12 @@ xs {name        => 'box',
 =cut
 
 xs {name        => 'callback',
-    definitions => [{required => [['SV *', 'coderef']],
-                     optional => [['SV *', 'args', '(SV *) NULL']],
+    definitions => [
+                    {required => [['SV *', 'coderef']],
+                     returns => 'void',
+                     c_args => '_cb_w, (void *) new Callback( coderef )'
+                    },
+                    {required => [['SV *', 'coderef'], ['SV *', 'args']],
                      returns => 'void',
                      c_args => '_cb_w, (void *) new Callback( coderef, args )'
                     }
