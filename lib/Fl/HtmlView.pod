@@ -7,7 +7,7 @@ widget_type 'Fl_Help_View';
 
 =head1 NAME
 
-Help::HtmlView - HTML Display Widget
+Fl::HtmlView - HTML Display Widget
 
 =head1 Description
 
