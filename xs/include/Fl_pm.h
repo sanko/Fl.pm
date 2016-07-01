@@ -17,10 +17,12 @@
 #define NEED_newSVpvn_flags
 #define NO_INIT '\0'
 
-void _cache( const char * ptr, const char * cls );
-void _cache( void       * ptr, const char * cls );
+void         _cache( const char * ptr, const char * cls );
+void         _cache( void       * ptr, const char * cls );
 const char * _cache( const char * ptr );
 const char * _cache( void       * ptr );
+void  _delete_cache( void       * ptr );
+void  _delete_cache( const char * ptr );
 
 #ifdef WIN32
 #include <windows.h>
@@ -44,25 +46,20 @@ class WidgetSubclass : public T {
 private:
     int algorithm;
 public:
-    const char * _class;
-public:
     WidgetSubclass( const char * cls, int x, int y, int w, int h, const char * lbl ) : T( x, y, w, h, lbl ) {
         // Just about everything
         dTHX;
-        this->_class = cls;
-        this->user_data( ( void* ) cls );
+        _cache( ( void * ) this, cls );
     };
     WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
         // Fl_Box
         dTHX;
-        this->_class = cls;
-        this->user_data( ( void* ) cls );
+        _cache( ( void * ) this, cls );
     };
     WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
         // Fl_Window
         dTHX;
-        this->_class = cls;
-        this->user_data( ( void* ) cls );
+        _cache( ( void * ) this, cls );
     };
 
     WidgetSubclass( Fl_Widget * w ) {
@@ -72,6 +69,7 @@ public:
     ~WidgetSubclass( ) {
         dTHX;
         //warn( "%s->destroy( )", object2package( this ) );
+        _delete_cache( ( void * ) this );
         this->T::~T( );
     }
 
@@ -100,22 +98,14 @@ private:
         int   count = 0;
         SV  * widget;
 
-        const char * _cls;
-        _cls = _cache( ( void * ) this );
+        CTX * ctx;
+        Newx( ctx, 1, CTX );
+        ctx->cp_ctx    = this;
 
-
-            CTX * ctx;
-            Newx( ctx, 1, CTX );
-            ctx->cp_ctx    = this;
-            ctx->cp_cls    = this->_class;
-        if ( _cls == NULL ) {
-                _cache( (void *) this, ctx->cp_cls  );
-            _cls = ctx->cp_cls;
+        {
+            widget = newSV( 1 );
+            sv_setref_pv( widget, object2package( this ), ( void* )ctx );
         }
-            {
-                widget = newSV( 1 );
-                sv_setref_pv( widget, _cls , ( void* )ctx );
-            }
 
         int result = 0;
         ENTER;
@@ -165,23 +155,15 @@ public:
         //warn ("%s->trigger()", object2package(w));
         SV * widget;
 
-        const char * _cls;
-
-        _cls = _cache( ( const char * ) & w );
-
-        if ( _cls == NULL ) {
-            _cls = object2package( w );
-            _cache( (const char *) &w, _cls );
+        CTX * ctx;
+        Newx( ctx, 1, CTX );
+        ctx->cp_ctx    = w;
+        {
+            SV * RETVALSV;
+            RETVALSV = newSV( 1 );// sv_newmortal();
+            sv_setref_pv( RETVALSV, object2package( w ), ( void* )ctx );
+            widget = RETVALSV;
         }
-            CTX * ctx;
-            Newx( ctx, 1, CTX );
-            ctx->cp_ctx    = w;
-            {
-                SV * RETVALSV;
-                RETVALSV = newSV( 1 );// sv_newmortal();
-                sv_setref_pv( RETVALSV, _cls, ( void* )ctx );
-                widget = RETVALSV;
-            }
 
         dSP;
         ENTER;

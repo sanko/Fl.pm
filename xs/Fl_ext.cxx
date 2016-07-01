@@ -25,17 +25,29 @@
 #include <FL/Fl_Menu_Button.H>
 #include <FL/Fl_Scrollbar.H>
 
+void         _cache( const char * ptr, const char * cls );
+void         _cache( void       * ptr, const char * cls );
+const char * _cache( const char * ptr );
+const char * _cache( void       * ptr );
+void  _delete_cache( void       * ptr );
+void  _delete_cache( const char * ptr );
+
 const char * object2package (CTX * w) {
-     return ((w->cp_cls != NULL) && (w->cp_cls[0] != '\0') ? w->cp_cls : object2package(w->cp_ctx) );
+     return object2package(w->cp_ctx);
 }
 
 const char * object2package (WidgetSubclass<Fl_Widget> * w) {
-     return ((w->_class != NULL) && (w->_class[0] != '\0') ? w->_class : object2package(w) );
+     return object2package(w);
 }
 
 const char * object2package (Fl_Widget * w) {
+     const char * package;
+     package = _cache((void *) w);
+     if (package != NULL && package[0] != '\0')
+          return package;
+
      /*Remember to add _most_ specific classes first*/
-     const char * package = "Fl::Widget";
+     package = "Fl::Widget";
 /*
      const char * user_data = (const char *) w->user_data();
 

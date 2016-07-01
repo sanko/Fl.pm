@@ -17,8 +17,7 @@ void _cache(void * ptr, const char * cls) {
     _cache( (const char *) &ptr, cls );
 }
 
-void _cache(const char * ptr, const char * cls) { // TODO: Leaks.
-    // The values stored here should expire with the object they reference
+void _cache(const char * ptr, const char * cls) {
     dTHX;
 #if FLTK_DEBUG
     warn("Caching %s as %s...", ptr, cls);
@@ -52,7 +51,7 @@ const char * _cache(const char * ptr) {
     dTHX;
     if (! hv_exists( Fl_cache, ptr, strlen(ptr))) {
 #if FLTK_DEBUG
-        warn ("Cach miss on %s", ptr);
+        warn ("Cache miss on %s", ptr);
 #endif
         return NULL;
     }
@@ -67,6 +66,26 @@ const char * _cache(const char * ptr) {
     warn("...failed.", ptr);
 #endif
     return NULL;
+}
+
+void _delete_cache(void * ptr) {
+    _delete_cache( (const char *) &ptr );
+}
+
+void _delete_cache(const char * ptr) {
+    dTHX;
+    if (! hv_exists( Fl_cache, ptr, strlen(ptr))) {
+#if FLTK_DEBUG
+        warn ("Cache miss on %s", ptr);
+#endif
+        return;
+    }
+#if FLTK_DEBUG
+    warn("Deleting cache of %s...", ptr);
+#endif
+    int  _len = strlen(ptr);
+    hv_delete( Fl_cache, ptr, _len, FALSE | G_DISCARD);
+    return;
 }
 
 /*
