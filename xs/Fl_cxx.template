@@ -25,7 +25,7 @@ void _cache(const char * ptr, const char * cls) {
     if (Fl_cache == NULL)
         Fl_cache =
 #if FLTK_DEBUG
-                gv_stashpv( "Fl::Cache::ref", GV_ADD | GV_ADDMULTI );
+                gv_stashpv( "Fl::DEBUG::ClassCache", GV_ADD | GV_ADDMULTI );
 #else
                 newHV();
 #endif
