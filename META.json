@@ -1,7 +1,7 @@
 {
    "abstract" : "Bindings for the Stable 1.3.x Branch of the Fast Light Toolkit",
    "author" : [
-      "Sanko Robinson <sanko@cpan.org>"
+      "Sanko Robinson"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v3.1.8, CPAN::Meta::Converter version 2.150010",
@@ -28,7 +28,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Alien::FLTK" : "v1.3.4",
+            "Alien::FLTK" : "v1.3.5",
             "Module::Build" : "0.4005",
             "Module::Build::XSUtil" : "0.03",
             "Template::Liquid" : "0",
@@ -68,7 +68,10 @@
          "web" : "https://github.com/sanko/Fl.pm"
       }
    },
-   "version" : "0.99.14",
+   "version" : "0.99.15",
+   "x_contributors" : [
+      "Sanko Robinson <sanko@cpan.org>"
+   ],
    "x_serialization_backend" : "JSON::PP version 4.04",
    "x_static_install" : 0
 }

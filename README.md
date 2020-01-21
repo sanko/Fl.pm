@@ -250,7 +250,7 @@ The object reference is undefined after calling this.
 
 # LICENSE
 
-Copyright (C) Sanko Robinson.
+Copyright (C) 2020 Sanko Robinson
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
