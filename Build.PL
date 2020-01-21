@@ -9,6 +9,7 @@ use strict;
 use warnings;
 use utf8;
 
+BEGIN { push @INC, '.' }
 use inc::MBFlExt;
 use File::Basename;
 use File::Spec;

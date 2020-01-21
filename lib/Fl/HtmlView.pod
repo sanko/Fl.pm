@@ -2,6 +2,7 @@ class 'Fl::HtmlView';
 isa 'Fl::Group';
 include 'FL/Fl_Help_View.H';
 widget_type 'Fl_Help_View';
+disabled;
 
 =pod
 
