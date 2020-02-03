@@ -36,6 +36,7 @@ my %args = (
     },
 
     test_requires => {
+        'Data::Dump' => '0',
         'File::Find' => '0',
         'File::Temp' => '0',
         'Test2::V0' => '0',

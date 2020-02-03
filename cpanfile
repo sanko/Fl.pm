@@ -5,6 +5,7 @@ on 'test' => sub {
     requires 'Test::NeedsDisplay';
 	requires 'File::Temp';
 	requires 'File::Find';
+	requires 'Data::Dump'; # At least in dev
 };
 
 on 'configure' => sub {
