@@ -1,7 +1,7 @@
 requires 'perl', '5.008001';
 
 on 'test' => sub {
-    requires 'Test2::V0', '0.98';
+    requires 'Test2::V0';
     requires 'Test::NeedsDisplay';
 	requires 'File::Temp';
 	requires 'File::Find';

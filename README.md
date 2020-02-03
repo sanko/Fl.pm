@@ -228,10 +228,178 @@ Fl contains several other widgets and other classes including:
 
 This is the current list and will expand as the distribution develops.
 
+# Enumerations
+
+You may import these constants by name or with the given tag.
+
+## `:option`
+
+These constants define values which can effect how the application functions.
+
+They are used by `Fl::option( ... )`
+
+- `OPTION_ARROW_FOCUS`
+
+    When switched on, moving the text cursor beyond the start or end of a text in a
+    text widget will change focus to the next text widget.
+
+    (This is considered 'old' behavior)
+
+    When switched off (default), the cursor will stop at the end of the text.
+    Pressing Tab or Ctrl-Tab will advance the keyboard focus.
+
+- `OPTION_VISIBLE_FOCUS`
+
+    If visible focus is switched on (default), FLTK will draw a dotted rectangle
+    inside the widget that will receive the next keystroke.
+
+    If switched off, no such indicator will be drawn and keyboard navigation is
+    disabled.
+
+- `OPTION_DND_TEXT`
+
+    If text drag-and-drop is enabled (default), the user can select and drag text
+    from any text widget.
+
+    If disabled, no dragging is possible, however dropping text from other
+    applications still works.
+
+- `OPTION_SHOW_TOOLTIPS`
+
+    If tooltips are enabled (default), hovering the mouse over a widget with a
+    tooltip text will open a little tooltip window until the mouse leaves the
+    widget.
+
+    If disabled, no tooltip is shown.
+
+- `OPTION_FNFC_USES_GTK`
+
+    When switched on (default), `Fl::NativeFileChooser` runs GTK file dialogs if
+    the GTK library is available on the platform (linux/unix only).
+
+    When switched off, GTK file dialogs aren't used even if the GTK library is
+    available.
+
+- `OPTION_LAST`
+
+    For internal use only.
+
 # Functions
 
-The top level namespace comes with loads of functions. I'll try keeping them
-somewhat organized here.
+The Fl namespace containins state information and global methods for the
+current application.
+
+## `abi_check( [...] )`
+
+        abi_check( FL_ABI_VERSION );
+
+Returns whether the runtime library ABI version is correct.
+
+This enables you to check the ABI version of the linked FLTK library at
+runtime.
+
+Returns 1 (true) if the compiled ABI version (in the header files) and the
+linked library ABI version (used at runtime) are the same, 0 (false) otherwise.
+
+        abi_check( 10303 );
+
+Argument `$val` can be used to query a particular library ABI version. Use for
+instance `10303` to query if the runtime library is compatible with FLTK ABI
+version `1.3.3`. This is rarely useful.
+
+        abi_check( );
+
+The default `$val` argument is `FL_ABI_VERSION`, which checks the version
+defined at configure time (i.e. in the header files at program compilation
+time) against the linked library version used at runtime. This is particularly
+useful if you linked with a shared object library, but it also concerns static
+linking.
+
+## `abi_version( )`
+
+        abi_version( );
+
+Returns the compiled-in value of the `FL_ABI_VERSION` constant.
+
+This is useful for checking the version of a shared library.
+
+## `add_awake_handler_( ... )`
+
+        add_awake_handler_( sub { warn 'awake! }  );
+
+Adds an awake handler for use in `Fl::awake()`.
+
+        add_awake_handler_( sub { warn 'awake! }, $data  );
+
+You may also store userdata which will be passed along to the callback.
+
+## `add_check( ... )`
+
+        add_check( sub { warn 'awake! }  );
+
+FLTK will call this callback just before it flushes the display and waits for
+events.
+
+This is different than an idle callback because it is only called once, then
+FLTK calls the system and tells it not to return until an event happens.
+
+This can be used by code that wants to monitor the application's state, such as
+to keep a display up to date. The advantage of using a check callback is that
+it is called only when no events are pending. If events are coming in quickly,
+whole blocks of them will be processed before this is called once. This can
+save significant time and avoid the application falling behind the events.
+
+        add_check( sub { warn 'awake! }, $data  );
+
+You may also store userdata which will be passed along to the callback.
+
+Here's a usage example:
+
+        my $state_changed; # anything that changes the display turns this on
+
+        sub callback {
+                return if !$state_changed;
+                $state_changed = 0;
+                # do_expensive_calculation();
+                $widget->redraw();
+        }
+
+        Fl::add_check(\&callback);
+        Fl::run();
+
+## `add_fd( ... )`
+
+        add_fd( $fh, $when, sub { warn 'awake! }  ); # Kindly gets the fileno for you
+        add_fd( fileno($fh), $when, sub { warn 'awake! }  );
+
+Adds file descriptor fd to listen to.
+
+When the fd becomes ready for reading, `Fl::wait()` will call the callback and
+then return. The callback is passed the fd and the arbitrary void\* argument.
+
+This version takes a when bitfield, with the bits `FL_READ`, `FL_WRITE`, and
+`FL_EXCEPT` defined, to indicate when the callback should be done.
+
+There can only be one callback of each type for a file descriptor.
+`Fl::remove_fd()` gets rid of all the callbacks for a given file descriptor.
+
+Under UNIX/Linux/MacOS any file descriptor can be monitored (files, devices,
+pipes, sockets, etc.). Due to limitations in Microsoft Windows, Windows
+applications can only monitor sockets.
+
+        add_fd( $fh, $when, sub { warn 'awake! }, $data  ); # Kindly gets the fileno for you
+        add_fd( fileno($fh), $when, sub { warn 'awake! }, $data  );
+
+You may also store userdata which will be passed along to the callback.
+
+        add_fd( $fh, sub { warn 'awake! }, $data  ); # Kindly gets the fileno for you
+        add_fd( fileno($fh), sub { warn 'awake! }, $data  );
+        add_fd( $fh, sub { warn 'awake! } ); # Kindly gets the fileno for you
+        add_fd( fileno($fh), sub { warn 'awake! } );
+
+You may listen to a file descriptor without a R/W/Err bitfield as well.
+
+## `awake( ... )`
 
 ## `option( ... )`
 
@@ -241,7 +409,7 @@ Returns a boolean value.
 
         Fl::option( OPTION_ARROW_FOCUS, 1 );
 
-Enables or disables options.
+Enables or disables global FLTK options.
 
 See the `:option` import tag in [Fl::Enumerations](https://metacpan.org/pod/Fl%3A%3AEnumerations).
 

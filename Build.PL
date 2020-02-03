@@ -36,7 +36,9 @@ my %args = (
     },
 
     test_requires => {
-        'Test::More' => '0.98',
+        'File::Find' => '0',
+        'File::Temp' => '0',
+        'Test2::V0' => '0',
         'Test::NeedsDisplay' => '0',
     },
 
