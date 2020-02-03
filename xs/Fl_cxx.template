@@ -143,12 +143,19 @@ void set_isa(const char * klass, const char * parent) {
              newSVpv( parent, 0 ) );
     // TODO: make this spider up the list and make deeper connections?
 }
-
+// Callbacks
 void _cb_w ( Fl_Widget * widget, void * CODE ) {
     ((Callback * ) CODE)->trigger(widget);
     return;
 }
-
+void _cb_fd ( int fd, void * CODE ) {
+    ((Callback * ) CODE)->trigger(fd);
+    return;
+}
+void _cb ( void * CODE ) {
+    ((Callback * ) CODE)->trigger( );
+    return;
+}
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
 #endif
@@ -278,8 +285,8 @@ croak(const char *const params) {
 {%for method in class.methods %}
     {%assign function = method.name%}
 {%capture cpp.function.name%}{%
-    if class.package contains '::'%}XS_{{ class.package|replace:':','_' }}_{{ method.name }}{%
-        else%}XS_{{ method.name | replace:':','_' }}{%
+    if class.package contains '::' %}XS_{{ class.package|replace: '::', '_' }}_{{ method.name }}{%
+        else%}XS_{{ method.name | replace : '::', '_' }}{%
     endif%}{%endcapture%}
 XS_EUPXS({{cpp.function.name}});
 XS_EUPXS({{cpp.function.name}}) {
@@ -294,9 +301,21 @@ XS_EUPXS({{cpp.function.name}}) {
     {%if is_method%}{%assign size.req = size.req | plus:1 %}{%endif%}
  // is_method   = {{is_method}}
  // size.req    = {{size.req}}
+ // size.opt    = {{size.opt}}
  // st.position = {{st.position}}
 
-    {%unless forloop.first%}else {%endunless%}if (items {%if size.opt%}>{%else%}={%endif%}= {{ size.req }}{% if size.opt %} && items < {{ size.req | plus: size.opt | plus: is_method }}{% endif %}{%if definition.andif %} && {{definition.andif}}{% endif %}) {
+    {%unless forloop.first%}else {%endunless%}if (items {%if size.opt%}>{%else%}={%endif%}= {{ size.req }}{% if size.opt %} && items <= {{ size.req | plus: size.opt | plus: is_method }}{% endif %}{%if definition.andif %} && {{definition.andif}}{% endif %}
+
+	{% for arg in definition.required %}
+        {%if is_method%}{%assign st.position = forloop.index%}{%else%}{%assign st.position = forloop.index0%}{%endif%}
+		{%case arg.0%}
+			{%when 'int'			%} && SvIOK(ST({{st.position}}))
+			{%when 'const char *'	%} && SvPOK(ST({{st.position}}))
+			{%when 'SV *'			%} && SvOK( ST({{st.position}}))
+			{%when 'PerlIO *'		%} /* && (SvTYPE(SvRV(ST({{st.position}}))) == SVt_PVIO || SvTYPE(SvRV(ST({{st.position}}))) == SVt_PVGV || SvTYPE(SvRV(ST({{st.position}}))) == SVt_PVLV) */
+        {%endcase%}
+	{%endfor%}
+	) {
         {%if definition.required %}
         // Required
         {% for arg in definition.required %}
@@ -306,8 +325,11 @@ XS_EUPXS({{cpp.function.name}}) {
         // .index0      = {{forloop.index0}}
         // {{arg | join:' '}}
         {%case arg.0%}
+
         {%when 'uchar'                          %}{{arg | join: ' '}} = (unsigned char)SvUV(ST({{st.position}}));
         {%when 'const char *'                   %}{{arg | join: ' '}} = ({{arg.0}})SvPV_nolen(ST({{st.position}}));
+        {%when 'Fl::Fl_Option'                  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+
         {%when 'SV *'                           %}{{arg | join: ' '}} = (SV *)ST({{st.position}});
         {%when 'CV *'                           %}{{arg | join: ' '}}; 	STMT_START {
                 HV *st; GV *gvp;
@@ -350,6 +372,7 @@ XS_EUPXS({{cpp.function.name}}) {
         else
             croak("Expected object. Got a non-object?!");
         {%when 'int'         %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'bool'        %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'short'       %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'float'       %}{{arg | join: ' '}} = ({{arg.0}})SvNV(ST({{st.position}}));
         {%when 'double'      %}{{arg | join: ' '}} = ({{arg.0}})SvNV(ST({{st.position}}));
@@ -361,7 +384,7 @@ XS_EUPXS({{cpp.function.name}}) {
         {%when 'Fl_Align'    %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'Fl_Char'     %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'Fl_When'     %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
-        {%when 'Fl_Labeltype'  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+        {%when 'Fl_Labeltype'%}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'Fl_Boxtype'%}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%endcase%}{% endfor %}{% endif %}
     {%if size.opt %}
@@ -389,6 +412,7 @@ XS_EUPXS({{cpp.function.name}}) {
             {%when 'Fl_Color'       %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
             {%when 'Fl_Char'        %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
             {%when 'Fl_Labeltype'   %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
+            {%when 'Fl::Fl_Option'  %}({{arg.0}}) SvIV(ST({{      size.req | plus: position }}));
             {%else                  %}({{arg.0}}) (ST({{          size.req | plus: position }}));
             {%endcase%}
         {%if arg.2%}else
@@ -480,6 +504,7 @@ XS_EUPXS({{cpp.function.name}}) {
                     {%when 'bool'              %}boolSV(RETVAL);
                     {%when 'int'               %}XSprePUSH; PUSHi((IV)RETVAL);
                     {%when 'short'             %}XSprePUSH; PUSHi((IV)RETVAL);
+                    {%when 'Fl::Fl_Option'     %}boolSV(RETVAL);
                     {%when 'Fl_Widget *' %}
                         CTX * ctx;
                         Newx(ctx, 1, CTX);
@@ -585,9 +610,9 @@ XS_EXTERNAL(boot_Fl)
 
     {
 {%for class in xsubs%}
-    {%for method in class.methods %}newXS_deffile( "{%if method.export%}Fl::{{method.name | split:'::' | last}}{%else%}{{class.package}}::{{method.name}}{%endif%}", {%
-    if class.package contains '::'%}XS_{{ class.package| replace:':','_' }}_{{ method.name }}{%
-    else                          %}XS_{{ method.name  | replace:':','_' }}{%endif%} );{%
+    {%for method in class.methods %}newXS_deffile( "{%if method.export%}Fl::{{method.name | split:'::' | last }}{%else%}{{class.package}}::{{method.name | remove: 'Fl::'}}{%endif%}", {%
+    if class.package contains '::'%}XS_{{ class.package| replace:'::','_' }}_{{ method.name }}{%
+    else                          %}XS_{{ method.name  | replace:'::','_' }}{%endif%} );{%
     if method.export%}{%for tag in method.export%}
     export_function( "{{method.name | split:'::' | last}}", "{{tag}}" );{%endfor%}{%
     endif%}
@@ -598,8 +623,8 @@ XS_EXTERNAL(boot_Fl)
     /* Inheritance! */{%for class in xsubs%}{%if class.isa %}
     set_isa( "{{class.package}}", "{{class.isa}}");{%endif%}{%endfor%}
 
-{%for export in exports sorted:value %}
-    export_constant( "{{export.key}}", "{{export.value}}", {{export.key}});{%endfor%}
+{%for export in exports sorted:value.name %}
+    export_constant( "{{export.key | split:'::' | last}}", "{{export.value.tag}}", {{export.value.value }});{%endfor%}
 
     /* End of Initialisation Section */
 

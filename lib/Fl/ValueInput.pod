@@ -15,9 +15,9 @@ The Fl::ValueInput widget displays a floating point value.
 =for html <center><img src="http://www.fltk.org/doc-1.3/Fl_Value_Input.png" /></center>
 
 The user can click in the text field and edit it - there is in fact a hidden
-Fl::Input widget with C<type(FL_FLOAT_INPUT)> or C<type(FL_INT_INPUT)> in
-there - and when they hit return or tab the value updates to what they typed
-and the callback is done.
+Fl::Input widget with C<type(FL_FLOAT_INPUT)> or C<type(FL_INT_INPUT)> in there
+- and when they hit return or tab the value updates to what they typed and the
+callback is done.
 
 If C<step()> is non-zero and integral, then the range of numbers is limited to
 integers instead of floating point numbers. As well as displaying the value as
@@ -30,8 +30,8 @@ middle by C<10 * step()>, and the right button by C<100 * step()>. It is
 therefore impossible to select text by dragging across it, although clicking
 can still move the insertion cursor.
 
-If C<step()> is non-zero and integral, then the range of numbers are limited
-to integers instead of floating point values.
+If C<step()> is non-zero and integral, then the range of numbers are limited to
+integers instead of floating point values.
 
 =head1 Methods
 
@@ -43,8 +43,7 @@ exposes the following methods...
     my $val_a = Fl::ValueInput->new(0, 0, 250, 500, 'Important Stuff');
     my $val_b = Fl::ValueInput->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The default boxtype is FL_DOWN_BOX.
 
@@ -103,18 +102,18 @@ xs {name        => 'cursor_color',
 
 Sets or gets the current shortcut key.
 
-Setting this overrides the use of '&' in the C<label()>. The value is a
-bitwise OR of a key and a set of shift flags, for example C<FL_ALT | 'a'> ,
-C<FL_ALT | (FL_F + 10)>, or just C<'a'>. A value of 0 disables the shortcut.
+Setting this overrides the use of '&' in the C<label()>. The value is a bitwise
+OR of a key and a set of shift flags, for example C<FL_ALT | 'a'> , C<FL_ALT |
+(FL_F + 10)>, or just C<'a'>. A value of 0 disables the shortcut.
 
-The key can be any value returned by C<Fl::event_key()>, but will usually be
-an ASCII letter. Use a lower-case letter unless you require the shift key to
-be held down.
+The key can be any value returned by C<Fl::event_key()>, but will usually be an
+ASCII letter. Use a lower-case letter unless you require the shift key to be
+held down.
 
 The shift flags can be any set of values accepted by C<Fl::event_state()>. If
-the bit is on that shift key must be pushed. Meta, Alt, Ctrl, and Shift must
-be off if they are not in the shift flags (zero for the other bits indicates
-a "don't care" setting).
+the bit is on that shift key must be pushed. Meta, Alt, Ctrl, and Shift must be
+off if they are not in the shift flags (zero for the other bits indicates a
+"don't care" setting).
 
 =cut
 
@@ -137,8 +136,8 @@ xs {name        => 'shortcut',
 If "soft" is turned on, the user is allowed to drag the value outside the
 range.
 
-If they drag the value to one of the ends, let go, then grab again and
-continue to drag, they can get to any value. Default is C<1> (on).
+If they drag the value to one of the ends, let go, then grab again and continue
+to drag, they can get to any value. Default is C<1> (on).
 
 =cut
 
@@ -213,8 +212,8 @@ xs {name        => 'textsize',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

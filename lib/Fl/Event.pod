@@ -14,8 +14,7 @@ Fl::Event - Event Loop Related Functions
 
 =head1 Description
 
-The C<:event> import tag brings all of these functions into your
-namespace.
+The C<:event> import tag brings all of these functions into your namespace.
 
 
 =head1 Functions
@@ -86,8 +85,7 @@ This is the same as calling C<Fl::wait(0)>.
 Calling this during (for example) a long calculation process will keep the
 screen up to date and the interface responsive without forking or threading.
 
-This returns non-zero if any windws are displayed. Otherwise, zero is
-returned.
+This returns non-zero if any windws are displayed. Otherwise, zero is returned.
 
 =cut
 
@@ -119,10 +117,10 @@ The return value of Fl::wait() is non-zero if there are any visible windows.
 C<Fl::wait($time)> waits a maxium of C<$time> seconds. It may return much
 sooner if something happens.
 
-The return value is positive if an event or fd happens before the time
-elapsed. It is zero if nothing happens (on Windows this will only return zero
-if $time is zero). It is negative if an error occurs (this will happen on X11
-if a signal happens).
+The return value is positive if an event or fd happens before the time elapsed.
+It is zero if nothing happens (on Windows this will only return zero if $time
+is zero). It is negative if an error occurs (this will happen on X11 if a
+signal happens).
 
 =cut
 
@@ -201,8 +199,8 @@ xs {name        => 'Fl::event_text',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

@@ -74,16 +74,10 @@ xs {name        => 'new',
             }
     ]
 };
-xs {name        => 'DESTROY',
-    definitions => [{returns => 'void'}]
-};
-xs {name        => 'draw',
-    definitions => [{returns  => 'void' }
-    ]
-};
+xs {name => 'DESTROY', definitions => [{returns => 'void'}]};
+xs {name => 'draw',    definitions => [{returns => 'void'}]};
 xs {name        => 'handle',
-    definitions => [{required => [[qw[int event]]], returns  => 'int'  }
-    ]
+    definitions => [{required => [[qw[int event]]], returns => 'int'}]
 };
 
 =pod
@@ -131,10 +125,8 @@ non-zero if the chart will automatically resize.
 =cut
 
 xs {name        => 'autosize',
-    definitions => [{required => [[qw[uchar autosize]]],
-                     returns  => 'void'
-                    },
-                    {returns => 'uchar'}
+    definitions => [{required => [[qw[uchar autosize]]], returns => 'void'},
+                    {returns  => 'uchar'}
     ]
 };
 
@@ -151,31 +143,25 @@ I need to sort out returning AV * when we return more than a single value
 
 Gets or sets the lower and upper bounds of the char values
 
-#=cut
 
-void
-Fl_Chart::bounds(IN_OUTLIST double a = NO_INIT, IN_OUTLIST double b = NO_INIT)
-    CODE:
-        if (items == 3)
-            THIS->bounds(a, b);
-        if (GIMME_V != G_VOID)
-            THIS->bounds(&a, &b); // Don't bother if called in void context
 =cut
 
 xs {name        => 'bounds',
     definitions => [{required => [[qw[int a]], [qw[int b]]],
-                     returns => 'void'
+                     returns  => 'void'
                     },
-                    {code => <<'' }]};
-            double alpha; double beta;
-            ((Fl_Chart *)self->cp_ctx)->bounds( &alpha, &beta );
-            XSprePUSH;	EXTEND(SP,2);
-            PUSHs(sv_newmortal());
-            sv_setnv(ST(0), (double)alpha);
-            PUSHs(sv_newmortal());
-            sv_setnv(ST(1), (double)beta);
-            XSRETURN(2);
-
+                    {code => <<'END' }]};
+double alpha;
+double beta;
+((Fl_Chart *)self->cp_ctx)->bounds( &alpha, &beta );
+XSprePUSH;
+EXTEND(SP,2);
+PUSHs(sv_newmortal());
+sv_setnv(ST(0), (double)alpha);
+PUSHs(sv_newmortal());
+sv_setnv(ST(1), (double)beta);
+XSRETURN(2);
+END
 
 =pod
 
@@ -187,9 +173,7 @@ Removes all values from the chart.
 
 =cut
 
-xs {name        => 'clear',
-    definitions => [{returns => 'void'}]
-};
+xs {name => 'clear', definitions => [{returns => 'void'}]};
 
 =pod
 
@@ -227,10 +211,8 @@ depending on available memory.
 =cut
 
 xs {name        => 'maxsize',
-    definitions => [{required => [[qw[int maxsize]]],
-                     returns  => 'void'
-                    },
-                    {returns => 'int'}
+    definitions => [{required => [[qw[int maxsize]]], returns => 'void'},
+                    {returns  => 'int'}
     ]
 };
 
@@ -265,9 +247,7 @@ Returns the number of data points in the chart.
 
 =cut
 
-xs {name        => 'size',
-    definitions => [{returns => 'int'}]
-};
+xs {name => 'size', definitions => [{returns => 'int'}]};
 
 =pod
 
@@ -281,10 +261,8 @@ Gets or sets the chart's text color.
 =cut
 
 xs {name        => 'textcolor',
-    definitions => [{required => [[qw[Fl_Color color]]],
-                     returns  => 'void'
-                    },
-                    {returns => 'Fl_Color'}
+    definitions => [{required => [[qw[Fl_Color color]]], returns => 'void'},
+                    {returns  => 'Fl_Color'}
     ]
 };
 
@@ -300,10 +278,8 @@ Gets or sets the chart's font.
 =cut
 
 xs {name        => 'textfont',
-    definitions => [{required => [[qw[Fl_Font color]]],
-                     returns  => 'void'
-                    },
-                    {returns => 'Fl_Font'}
+    definitions => [{required => [[qw[Fl_Font color]]], returns => 'void'},
+                    {returns  => 'Fl_Font'}
     ]
 };
 
@@ -319,10 +295,8 @@ Sets the chart's text size.
 =cut
 
 xs {name        => 'textsize',
-    definitions => [{required => [[qw[Fl_Fontsize size]]],
-                     returns  => 'void'
-                    },
-                    {returns => 'Fl_Fontsize'}
+    definitions => [{required => [[qw[Fl_Fontsize size]]], returns => 'void'},
+                    {returns  => 'Fl_Fontsize'}
     ]
 };
 
@@ -332,8 +306,8 @@ xs {name        => 'textsize',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

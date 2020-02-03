@@ -30,8 +30,7 @@ exposes the following methods...
     my $text_a = Fl::FloatInput->new(0, 0, 250, 500, 'Important Stuff');
     my $text_b = Fl::FloatInput->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The widget's boxtype is FL_DOWN_BOX by default.
 
@@ -65,8 +64,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

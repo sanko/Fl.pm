@@ -23,8 +23,7 @@ that, it exposes the following methods...
     my $val_a = Fl::HorSlider->new(0, 0, 250, 500, 'Important Stuff');
     my $val_b = Fl::HorSlider->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The default boxtype is FL_DOWN_BOX.
 
@@ -58,8 +57,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

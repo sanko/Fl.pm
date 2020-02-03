@@ -13,12 +13,12 @@ use Fl;
 #  |   |_______|                          |
 #  |______________________________________|
 #
-my $win = Fl::Window->new(500, 200, 'Tabs Example');
+my $win  = Fl::Window->new(500, 200, 'Tabs Example');
 my $tabs = Fl::Tabs->new(10, 10, 500 - 20, 200 - 20);
 
 # Aaa tab
 my $aaa = Fl::Group->new(10, 35, 500 - 20, 200 - 45, 'Aaa');
-my $a1 = Fl::Button->new(50, 60, 90, 25, 'Button A1');
+my $a1  = Fl::Button->new(50, 60, 90, 25, 'Button A1');
 $a1->color(88 + 1);
 my $a2 = Fl::Button->new(50, 90, 90, 25, 'Button A2');
 $a2->color(88 + 2);
@@ -28,7 +28,7 @@ $aaa->end();
 
 # Bbb tab
 my $bbb = Fl::Group->new(10, 35, 500 - 10, 200 - 35, 'Bbb');
-my $b1 = Fl::Button->new(50, 60, 90, 25, 'Button B1');
+my $b1  = Fl::Button->new(50, 60, 90, 25, 'Button B1');
 $b1->color(88 + 1);
 my $b2 = Fl::Button->new(150, 60, 90, 25, 'Button B2');
 $b2->color(88 + 3);
@@ -41,7 +41,6 @@ $b5->color(88 + 4);
 my $b6 = Fl::Button->new(250, 90, 90, 25, 'Button B6');
 $b6->color(88 + 6);
 $bbb->end();
-
 #
 $tabs->end();
 $win->end();

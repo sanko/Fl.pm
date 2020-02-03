@@ -15,8 +15,8 @@ Fl::Input - Text Input Widget
 
 =head1 Description
 
-The Fl::Input class represents a widget that displays a single line of text
-and lets the user edit it.
+The Fl::Input class represents a widget that displays a single line of text and
+lets the user edit it.
 
 Normally it is drawn with an inset box and a white background. The text may
 contain any characters, and will correctly display any UTF text, using ^X
@@ -30,123 +30,90 @@ compose key as defined by the operating system.
 
 =head2 Keyboard and Mouse Bindings
 
-<table  width="90%" border="1" summary="Fl::Input keyboard and mouse bindings.">
-<tr>
-<td nowrap="NOWRAP" width="1%"><b>Mouse button 1</b> </td><td>Moves the cursor to this point. Drag selects characters. Double click selects words. Triple click selects all line. Shift+click extends the selection. When you select text it is automatically copied to the selection buffer. </td></tr>
-<tr>
-<td nowrap="NOWRAP"><b>Mouse button 2</b> </td><td>Insert the selection buffer at the point clicked. You can also select a region and replace it with the selection buffer by selecting the region with mouse button 2. </td></tr>
-<tr>
-<td nowrap="NOWRAP"><b>Mouse button 3</b> </td><td>Currently acts like button 1. </td></tr>
-<tr>
-<td nowrap="NOWRAP"><b>Backspace</b> </td><td>Deletes one character to the left, or deletes the selected region. </td></tr>
-<tr>
-<td nowrap="NOWRAP"><b>Delete</b> </td><td>Deletes one character to the right, or deletes the selected region. Combine with Shift for equivalent of ^X (copy+cut). </td></tr>
-<tr>
-<td nowrap="NOWRAP"><b>Enter</b> </td><td>May cause the callback, see <a class="el" href="classFl__Widget.html#ab194069add839e0aecbc541017c8d383" title="Returns the conditions under which the callback is called. ">when()</a>. </td></tr>
-</table>
-<table  width="90%" border="1" summary="Fl::Input platform specific keyboard bindings.">
-<tr>
-<td nowrap="NOWRAP" width="1%"><b> Windows/Linux </b> </td><td nowrap="NOWRAP" width="1%"><b> Mac </b> </td><td nowrap="NOWRAP"><p class="starttd"><b> Function </b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^A </b> </td><td nowrap="NOWRAP"><b> Command-A </b> </td><td><p class="starttd"><b>Selects all text in the widget.</b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^C </b> </td><td nowrap="NOWRAP"><b> Command-C </b> </td><td><p class="starttd"><b>Copy the current selection to the clipboard.</b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^I </b> </td><td nowrap="NOWRAP"><b> ^I </b> </td><td><p class="starttd"><b>Insert a tab.</b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^J </b> </td><td nowrap="NOWRAP"><b> ^J </b> </td><td><p class="starttd"><b>Insert a Line Feed.</b> <br/>
- (Similar to literal 'Enter' character)</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^L </b> </td><td nowrap="NOWRAP"><b> ^L </b> </td><td><p class="starttd"><b>Insert a Form Feed.</b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^M </b> </td><td nowrap="NOWRAP"><b> ^M </b> </td><td><p class="starttd"><b>Insert a Carriage Return.</b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^V,<br/>
-Shift-Insert </b> </td><td nowrap="NOWRAP"><b> Command-V </b> </td><td><p class="starttd"><b>Paste the clipboard.</b> <br/>
- (Macs keyboards don't have "Insert" keys, but if they did, Shift-Insert would work)</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^X,<br/>
-Shift-Delete </b> </td><td nowrap="NOWRAP"><b> Command-X,<br/>
-Shift-Delete </b> </td><td><p class="starttd"><b>Cut.</b> <br/>
- Copy the selection to the clipboard and delete it. (If there's no selection, Shift-Delete acts like Delete)</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> ^Z </b> </td><td nowrap="NOWRAP"><b> Command-Z </b> </td><td><p class="starttd"><b>Undo.</b> <br/>
- This is a single-level undo mechanism, but all adjacent deletions and insertions are concatenated into a single "undo". Often this will undo a lot more than you expected.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Shift-^Z </b> </td><td nowrap="NOWRAP"><b> Shift-Command-Z </b> </td><td><p class="starttd"><b>Redo.</b> <br/>
- Currently same behavior as ^Z. Reserved for future multilevel undo/redo.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Arrow Keys </b> </td><td nowrap="NOWRAP"><b> Arrow Keys </b> </td><td><p class="starttd"><b>Standard cursor movement.</b> <br/>
- Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Home </b> </td><td nowrap="NOWRAP"><b> Command-Up,<br/>
-Command-Left </b> </td><td><p class="starttd"><b>Move to start of line.</b> <br/>
- Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> End </b> </td><td nowrap="NOWRAP"><b> Command-Down,<br/>
-Command-Right </b> </td><td><p class="starttd"><b>Move to end of line.</b> <br/>
- Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b>Ctrl-Home</b> </td><td nowrap="NOWRAP"><b>Command-Up,<br/>
-Command-PgUp,<br/>
-Ctrl-Left</b> </td><td><p class="starttd"><b>Move to top of document/field.</b> <br/>
- In single line input, moves to start of line. In multiline input, moves to start of top line. Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Ctrl-End </b> </td><td nowrap="NOWRAP"><b> Command-End,<br/>
-Command-PgDn,<br/>
-Ctrl-Right</b> </td><td><p class="starttd"><b>Move to bottom of document/field.</b> <br/>
- In single line input, moves to end of line. In multiline input, moves to end of last line. Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Ctrl-Left </b> </td><td nowrap="NOWRAP"><b> Alt-Left </b> </td><td><p class="starttd"><b>Word left.</b> <br/>
- Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Ctrl-Right </b> </td><td nowrap="NOWRAP"><b> Alt-Right </b> </td><td><p class="starttd"><b>Word right.</b> <br/>
- Can be combined with Shift to extend selection.</p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Ctrl-Backspace </b> </td><td nowrap="NOWRAP"><b> Alt-Backspace </b> </td><td><p class="starttd"><b>Delete word left.</b></p>
-<p class="endtd"></p>
-</td></tr>
-<tr>
-<td nowrap="NOWRAP"><b> Ctrl-Delete </b> </td><td nowrap="NOWRAP"><b> Alt-Delete </b> </td><td><p class="starttd"><b>Delete word right.</b></p>
-<p class="endtd"></p>
-</td></tr>
-</table>
+<table  width="90%" border="1" summary="Fl::Input keyboard and mouse
+bindings."> <tr> <td nowrap="NOWRAP" width="1%"><b>Mouse button 1</b>
+</td><td>Moves the cursor to this point. Drag selects characters. Double click
+selects words. Triple click selects all line. Shift+click extends the
+selection. When you select text it is automatically copied to the selection
+buffer. </td></tr> <tr> <td nowrap="NOWRAP"><b>Mouse button 2</b>
+</td><td>Insert the selection buffer at the point clicked. You can also select
+a region and replace it with the selection buffer by selecting the region with
+mouse button 2. </td></tr> <tr> <td nowrap="NOWRAP"><b>Mouse button 3</b>
+</td><td>Currently acts like button 1. </td></tr> <tr> <td
+nowrap="NOWRAP"><b>Backspace</b> </td><td>Deletes one character to the left, or
+deletes the selected region. </td></tr> <tr> <td nowrap="NOWRAP"><b>Delete</b>
+</td><td>Deletes one character to the right, or deletes the selected region.
+Combine with Shift for equivalent of ^X (copy+cut). </td></tr> <tr> <td
+nowrap="NOWRAP"><b>Enter</b> </td><td>May cause the callback, see <a class="el"
+href="classFl__Widget.html#ab194069add839e0aecbc541017c8d383" title="Returns
+the conditions under which the callback is called. ">when()</a>. </td></tr>
+</table> <table  width="90%" border="1" summary="Fl::Input platform specific
+keyboard bindings."> <tr> <td nowrap="NOWRAP" width="1%"><b> Windows/Linux </b>
+</td><td nowrap="NOWRAP" width="1%"><b> Mac </b> </td><td nowrap="NOWRAP"><p
+class="starttd"><b> Function </b></p> <p class="endtd"></p> </td></tr> <tr> <td
+nowrap="NOWRAP"><b> ^A </b> </td><td nowrap="NOWRAP"><b> Command-A </b>
+</td><td><p class="starttd"><b>Selects all text in the widget.</b></p> <p
+class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> ^C </b> </td><td
+nowrap="NOWRAP"><b> Command-C </b> </td><td><p class="starttd"><b>Copy the
+current selection to the clipboard.</b></p> <p class="endtd"></p> </td></tr>
+<tr> <td nowrap="NOWRAP"><b> ^I </b> </td><td nowrap="NOWRAP"><b> ^I </b>
+</td><td><p class="starttd"><b>Insert a tab.</b></p> <p class="endtd"></p>
+</td></tr> <tr> <td nowrap="NOWRAP"><b> ^J </b> </td><td nowrap="NOWRAP"><b> ^J
+</b> </td><td><p class="starttd"><b>Insert a Line Feed.</b> <br/>  (Similar to
+literal 'Enter' character)</p> <p class="endtd"></p> </td></tr> <tr> <td
+nowrap="NOWRAP"><b> ^L </b> </td><td nowrap="NOWRAP"><b> ^L </b> </td><td><p
+class="starttd"><b>Insert a Form Feed.</b></p> <p class="endtd"></p> </td></tr>
+<tr> <td nowrap="NOWRAP"><b> ^M </b> </td><td nowrap="NOWRAP"><b> ^M </b>
+</td><td><p class="starttd"><b>Insert a Carriage Return.</b></p> <p
+class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> ^V,<br/>
+Shift-Insert </b> </td><td nowrap="NOWRAP"><b> Command-V </b> </td><td><p
+class="starttd"><b>Paste the clipboard.</b> <br/>  (Macs keyboards don't have
+"Insert" keys, but if they did, Shift-Insert would work)</p> <p
+class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> ^X,<br/>
+Shift-Delete </b> </td><td nowrap="NOWRAP"><b> Command-X,<br/> Shift-Delete
+</b> </td><td><p class="starttd"><b>Cut.</b> <br/>  Copy the selection to the
+clipboard and delete it. (If there's no selection, Shift-Delete acts like
+Delete)</p> <p class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> ^Z
+</b> </td><td nowrap="NOWRAP"><b> Command-Z </b> </td><td><p
+class="starttd"><b>Undo.</b> <br/>  This is a single-level undo mechanism, but
+all adjacent deletions and insertions are concatenated into a single "undo".
+Often this will undo a lot more than you expected.</p> <p class="endtd"></p>
+</td></tr> <tr> <td nowrap="NOWRAP"><b> Shift-^Z </b> </td><td
+nowrap="NOWRAP"><b> Shift-Command-Z </b> </td><td><p
+class="starttd"><b>Redo.</b> <br/>  Currently same behavior as ^Z. Reserved for
+future multilevel undo/redo.</p> <p class="endtd"></p> </td></tr> <tr> <td
+nowrap="NOWRAP"><b> Arrow Keys </b> </td><td nowrap="NOWRAP"><b> Arrow Keys
+</b> </td><td><p class="starttd"><b>Standard cursor movement.</b> <br/>  Can be
+combined with Shift to extend selection.</p> <p class="endtd"></p> </td></tr>
+<tr> <td nowrap="NOWRAP"><b> Home </b> </td><td nowrap="NOWRAP"><b>
+Command-Up,<br/> Command-Left </b> </td><td><p class="starttd"><b>Move to start
+of line.</b> <br/>  Can be combined with Shift to extend selection.</p> <p
+class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> End </b> </td><td
+nowrap="NOWRAP"><b> Command-Down,<br/> Command-Right </b> </td><td><p
+class="starttd"><b>Move to end of line.</b> <br/>  Can be combined with Shift
+to extend selection.</p> <p class="endtd"></p> </td></tr> <tr> <td
+nowrap="NOWRAP"><b>Ctrl-Home</b> </td><td nowrap="NOWRAP"><b>Command-Up,<br/>
+Command-PgUp,<br/> Ctrl-Left</b> </td><td><p class="starttd"><b>Move to top of
+document/field.</b> <br/>  In single line input, moves to start of line. In
+multiline input, moves to start of top line. Can be combined with Shift to
+extend selection.</p> <p class="endtd"></p> </td></tr> <tr> <td
+nowrap="NOWRAP"><b> Ctrl-End </b> </td><td nowrap="NOWRAP"><b>
+Command-End,<br/> Command-PgDn,<br/> Ctrl-Right</b> </td><td><p
+class="starttd"><b>Move to bottom of document/field.</b> <br/>  In single line
+input, moves to end of line. In multiline input, moves to end of last line. Can
+be combined with Shift to extend selection.</p> <p class="endtd"></p>
+</td></tr> <tr> <td nowrap="NOWRAP"><b> Ctrl-Left </b> </td><td
+nowrap="NOWRAP"><b> Alt-Left </b> </td><td><p class="starttd"><b>Word left.</b>
+<br/>  Can be combined with Shift to extend selection.</p> <p
+class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> Ctrl-Right </b>
+</td><td nowrap="NOWRAP"><b> Alt-Right </b> </td><td><p class="starttd"><b>Word
+right.</b> <br/>  Can be combined with Shift to extend selection.</p> <p
+class="endtd"></p> </td></tr> <tr> <td nowrap="NOWRAP"><b> Ctrl-Backspace </b>
+</td><td nowrap="NOWRAP"><b> Alt-Backspace </b> </td><td><p
+class="starttd"><b>Delete word left.</b></p> <p class="endtd"></p> </td></tr>
+<tr> <td nowrap="NOWRAP"><b> Ctrl-Delete </b> </td><td nowrap="NOWRAP"><b>
+Alt-Delete </b> </td><td><p class="starttd"><b>Delete word right.</b></p> <p
+class="endtd"></p> </td></tr> </table>
 
 =end html
 
@@ -160,8 +127,7 @@ methods...
     my $text_a = Fl::Input->new(0, 0, 250, 500, 'Important Stuff');
     my $text_b = Fl::Input->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The widget's boxtype is FL_DOWN_BOX by default.
 
@@ -276,8 +242,8 @@ the cursor. Negative numbers will cut characters to the left of the cursor.
 
 Deletes all characters between indexs C<$a> and C<$b> (here, 20 and 25).
 
-To use the clipboard, you may call C<copy()> first or C<copy_cuts()> after
-this call.
+To use the clipboard, you may call C<copy()> first or C<copy_cuts()> after this
+call.
 
 Returns 0 if no data was cut.
 
@@ -468,8 +434,8 @@ Deletes text from C<$b> to C<$e> and inserts the new string C<$text>.
 All changes to the text buffer go through this function. It deletes the region
 between C<$b> and C<$e> (either one may be less or equal to the other), and
 then inserts the string text at that point and moves the C<mark()> and
-C<position()> to the end of the insertion. Does the callback if
-C<when() & FL_WHEN_CHANGED> and there is a change.
+C<position()> to the end of the insertion. Does the callback if C<when() &
+FL_WHEN_CHANGED> and there is a change.
 
 Set C<$b> and C<$e> equal to not delete anything. Set text to C<undef> to not
 insert anything.
@@ -484,14 +450,14 @@ C<$b> and C<$e> are clamped to the C<0..size()> range, so it is safe to pass
 any values. C<$b>, C<$e>, and C<$len> are used as numbers of bytes (not
 characters), where C<$b> and C<$e> count from 0 to C<size()> (end of buffer).
 
-If C<$b> and/or C<$e> don't point to a valid UTF-8 character boundary, they
-are adjusted to the previous (C<$b>) or the next ($C<e>) valid UTF-8 character
+If C<$b> and/or C<$e> don't point to a valid UTF-8 character boundary, they are
+adjusted to the previous (C<$b>) or the next ($C<e>) valid UTF-8 character
 boundary.
 
-If the current number of characters in the buffer minus deleted characters
-plus inserted characters in text would overflow the number of allowed
-characters (C<maximum_size()>), then only the first characters of the string
-are inserted, so that C<maximum_size()> is not exceeded.
+If the current number of characters in the buffer minus deleted characters plus
+inserted characters in text would overflow the number of allowed characters
+(C<maximum_size()>), then only the first characters of the string are inserted,
+so that C<maximum_size()> is not exceeded.
 
 C<cut()> and C<insert()> are just inline functions that call C<replace()>.
 
@@ -720,8 +686,8 @@ xs {name        => 'wrap',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

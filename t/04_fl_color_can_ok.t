@@ -7,8 +7,5 @@ use Fl qw[:color];
 # Check :color import tag
 can_ok 'main', 'FL_BLACK';
 can_ok 'main', 'fl_show_colormap';
-
 #
 done_testing;
-
-

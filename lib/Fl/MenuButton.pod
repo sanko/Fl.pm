@@ -26,9 +26,9 @@ Fl::MenuButton->popup_buttons).
 The menu will also pop up in response to shortcuts indicated by putting a '&'
 character in the label().
 
-Typing the shortcut() of any of the menu items will cause callbacks exactly
-the same as when you pick the item with the mouse. The '&' character in menu
-item names are only looked at when the menu is popped up, however.
+Typing the shortcut() of any of the menu items will cause callbacks exactly the
+same as when you pick the item with the mouse. The '&' character in menu item
+names are only looked at when the menu is popped up, however.
 
 When the user picks an item off the menu, the item's callback is done with the
 menu_button as the Fl::Widget argument. If the item does not have a callback
@@ -44,8 +44,7 @@ exposes the following methods...
     my $ic_a = Fl::MenuButton->new(0, 0, 250, 500, 'Important Stuff');
     my $ic_b = Fl::MenuButton->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The default boxtype is FL_UP_BOX.
 
@@ -80,8 +79,8 @@ xs {name        => 'handle',
 Act exactly as though the user clicked the button or typed the shortcut key.
 
 The menu appears, it waits for the user to pick an item, and if they pick one
-it sets value() and does the callback or sets changed() as described above.
-The menu item is returned or NULL if the user dismisses the menu.
+it sets value() and does the callback or sets changed() as described above. The
+menu item is returned or NULL if the user dismisses the menu.
 
 =cut
 
@@ -97,8 +96,8 @@ xs {name        => 'popup',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

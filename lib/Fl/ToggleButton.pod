@@ -17,8 +17,8 @@ Fl::ToggleButton - Button that Toggles On and Off
 
 =head1 Description
 
-The Fl::ToggleButton class represents a button that needs to be clicked once
-to toggle on and once more to toggle off.
+The Fl::ToggleButton class represents a button that needs to be clicked once to
+toggle on and once more to toggle off.
 
 The toggle button shows the "ON" state by drawing a pushed-in button.
 
@@ -32,8 +32,7 @@ exposes the following methods...
     my $button_a = Fl::ToggleButton->new(0, 0, 250, 500, 'Important Stuff');
     my $button_b = Fl::ToggleButton->new(0, 0, 250, 500);
 
-The constructor creates a new button using the given position, size, and
-label.
+The constructor creates a new button using the given position, size, and label.
 
 The button's C<type()> is set to FL_TOGGLE_BUTTON by default.
 
@@ -67,8 +66,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

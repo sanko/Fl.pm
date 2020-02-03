@@ -31,7 +31,7 @@
             "Alien::FLTK" : "v1.3.5",
             "Module::Build" : "0.4005",
             "Module::Build::XSUtil" : "0.03",
-            "Template::Liquid" : "0",
+            "Template::Liquid" : "v1.0.12",
             "Test::NeedsDisplay" : "0"
          }
       },
@@ -68,7 +68,7 @@
          "web" : "https://github.com/sanko/Fl.pm"
       }
    },
-   "version" : "0.99.15",
+   "version" : "0.99.14",
    "x_contributors" : [
       "Sanko Robinson <sanko@cpan.org>"
    ],

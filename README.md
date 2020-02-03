@@ -105,8 +105,8 @@ string "@+92->".
 
 ## `align()`
 
-The `align()` method positions the label. The following constants are
-imported with the `:align` tag and may be OR'd together as needed:
+The `align()` method positions the label. The following constants are imported
+with the `:align` tag and may be OR'd together as needed:
 
 - FL\_ALIGN\_CENTER - center the label in the widget.
 - FL\_ALIGN\_TOP - align the label at the top of the widget.
@@ -181,8 +181,8 @@ You can change this using the [when()](https://metacpan.org/pod/Fl%3A%3AWidget#w
 These values may be imported with the `:when` tag. Please see
 [Fl::Enumerations](https://metacpan.org/pod/Fl%3A%3AEnumerations#when) for more.
 
-A word of caution: care has been taken not to tip over when you delete a
-widget inside it's own callback but it's still not the best idea so...
+A word of caution: care has been taken not to tip over when you delete a widget
+inside it's own callback but it's still not the best idea so...
 
     $button->callback(
         sub {
@@ -233,6 +233,18 @@ This is the current list and will expand as the distribution develops.
 The top level namespace comes with loads of functions. I'll try keeping them
 somewhat organized here.
 
+## `option( ... )`
+
+        my $enabled = Fl::option( OPTION_ARROW_FOCUS );
+
+Returns a boolean value.
+
+        Fl::option( OPTION_ARROW_FOCUS, 1 );
+
+Enables or disables options.
+
+See the `:option` import tag in [Fl::Enumerations](https://metacpan.org/pod/Fl%3A%3AEnumerations).
+
 ## delete\_widget(...)
 
 Schedules a widget for deletion at the next call to the event loop.
@@ -252,8 +264,8 @@ The object reference is undefined after calling this.
 
 Copyright (C) 2020 Sanko Robinson
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 # AUTHOR
 

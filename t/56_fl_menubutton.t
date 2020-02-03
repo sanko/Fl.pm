@@ -4,7 +4,9 @@ use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
 use Fl;
 #
-my $mnubtn = new_ok 'Fl::MenuButton' => [100, 200, 340, 180], 'menu button w/o label';
+my $mnubtn = new_ok
+    'Fl::MenuButton' => [100, 200, 340, 180],
+    'menu button w/o label';
 my $mnubtn2 = new_ok
     'Fl::MenuButton' => [100, 200, 340, 180, 'title!'],
     'menu button w/ label';

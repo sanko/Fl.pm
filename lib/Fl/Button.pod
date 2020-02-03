@@ -22,9 +22,9 @@ You control exactly when and how by changing the values for type() and when().
 Buttons can also generate callbacks in response to FL_SHORTCUT events. The
 button can either have an explicit shortcut($s) value or a letter shortcut can
 be indicated in the label() with an '&' character before it. For the label
-shortcut it does not matter if Alt is held down, but if you have an input
-field in the same window, the user will have to hold down the Alt key so that
-the input field does not eat the event first as an FL_KEYBOARD event.
+shortcut it does not matter if Alt is held down, but if you have an input field
+in the same window, the user will have to hold down the Alt key so that the
+input field does not eat the event first as an FL_KEYBOARD event.
 
 =head2 Button Types
 
@@ -66,8 +66,8 @@ shortcut is typed.
 
 =item FL_WHEN_CHANGED
 
-The callback is done each time the C<value()> changes (when the user pushes
-and releases the button and as the mouse is dragged around in and out of the
+The callback is done each time the C<value()> changes (when the user pushes and
+releases the button and as the mouse is dragged around in and out of the
 button).
 
 =back
@@ -86,8 +86,8 @@ Fl::Button inherits from Fl::Widget and exposes the following methods...
 The constructor creates the button using the given position, size, and label.
 
 You can control how the button is drawn when ON by setting down_box(). The
-default is FL_NO_BOX which will select an appropriate box type using the
-normal box type. The default box type is FL_UP_BOX.
+default is FL_NO_BOX which will select an appropriate box type using the normal
+box type. The default box type is FL_UP_BOX.
 
 The destructor removes the button.
 
@@ -185,10 +185,9 @@ xs {name        => 'setonly',
 
 Sets or returns the current shortcut key for the button.
 
-Setting this overrides the use of '&' in the label(). The value is a bitwise
-OR of a key and a set of shift flags, for example: C<FL_ALT | 'a'>, or
-C<FL_ALT | (FL_F + 10)>, or just C<'a'>. A value of C<0> disables the
-shortcut.
+Setting this overrides the use of '&' in the label(). The value is a bitwise OR
+of a key and a set of shift flags, for example: C<FL_ALT | 'a'>, or C<FL_ALT |
+(FL_F + 10)>, or just C<'a'>. A value of C<0> disables the shortcut.
 
 The key can be any value returned by Fl::event_key(), but will usually be an
 ASCII letter. Use a lower-case letter unless you require the shift key to be
@@ -240,8 +239,8 @@ export_constant("FL_RADIO_BUTTON",  "button");
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

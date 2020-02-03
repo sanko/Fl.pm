@@ -25,9 +25,8 @@ Fl::Window, however groups can also be used to control radio buttons or to
 enforce resize behavior.
 
 The tab and arrow keys are used to move the focus between widgets of this
-group, and to other groups. The only modifier grabbed is shift (for
-shift-tab), so that ctrl-tab, alt-up, and such are free for the app to use as
-shortcuts.
+group, and to other groups. The only modifier grabbed is shift (for shift-tab),
+so that ctrl-tab, alt-up, and such are free for the app to use as shortcuts.
 
 =head1 Methods
 
@@ -132,8 +131,8 @@ xs {name        => 'add_resizable',
 
 =head2 begin()
 
-Sets the current group so youcan build the widget tree by just constructing
-the widgets.
+Sets the current group so youcan build the widget tree by just constructing the
+widgets.
 
     $group_a->begin();
     Fl::Box->new(100, 75); # Automatically added to $group_a
@@ -196,10 +195,9 @@ xs {name        => 'clear',
 
 The resizable widget defines the resizing box for the group.
 
-When the group is resized, it calculates a new size and position for all of
-its children. Widgets that rae horizontally or vertically inside the
-dimensions of the box are scaled to the new size. Widgets outside othe box are
-moved.
+When the group is resized, it calculates a new size and position for all of its
+children. Widgets that rae horizontally or vertically inside the dimensions of
+the box are scaled to the new size. Widgets outside othe box are moved.
 
 =begin html
 
@@ -252,8 +250,8 @@ xs {name        => 'end',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

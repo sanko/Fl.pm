@@ -6,7 +6,7 @@ use Fl qw[:enum];
 use Test::NeedsDisplay;
 #
 my $window = new_ok 'Fl::Window' => [100, 200, 340, 180], 'window';
-my $box = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
+my $box    = new_ok 'Fl::Box' => [20, 40, 300, 100, 'Hello, World!'], 'box';
 $box->box(FL_UP_BOX);
 $box->labelfont(FL_BOLD +FL_ITALIC);
 $box->labelsize(36);

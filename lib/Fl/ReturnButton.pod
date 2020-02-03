@@ -18,8 +18,8 @@ Fl::ReturnButton - Button with a Check Box
 =head1 Description
 
 The Fl::ReturnButton class represents a button that triggers a callback when
-pressed as well as whenever the user presses the Enter key. The
-carriage-return symbol is drawn to the right of the button label.
+pressed as well as whenever the user presses the Enter key. The carriage-return
+symbol is drawn to the right of the button label.
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/Fl_Return_Button.png" /></center>
 
@@ -33,8 +33,7 @@ Fl::Widget. On top of that, it exposes the following methods...
     my $button_a = Fl::ReturnButton->new(0, 0, 250, 500, 'Important Stuff');
     my $button_b = Fl::ReturnButton->new(0, 0, 250, 500);
 
-The constructor creates a new button using the given position, size, and
-label.
+The constructor creates a new button using the given position, size, and label.
 
 The destructor removes the button.
 
@@ -66,8 +65,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

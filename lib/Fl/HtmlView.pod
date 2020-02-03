@@ -2,7 +2,6 @@ class 'Fl::HtmlView';
 isa 'Fl::Group';
 include 'FL/Fl_Help_View.H';
 widget_type 'Fl_Help_View';
-disabled;
 
 =pod
 
@@ -12,9 +11,9 @@ Fl::HtmlView - HTML Display Widget
 
 =head1 Description
 
-The Fl::HtmlView widget displays HTML text. It's based on Fl_Help_View. Why
-is the widget not Fl_Html_View upstream? I don't know either... Anwyay! Here
-we go!
+The Fl::HtmlView widget displays HTML text. It's based on Fl_Help_View. Why is
+the widget not Fl_Html_View upstream? I don't know either... Anwyay! Here we
+go!
 
 Most HTML 2.0 elements are supported, as well as a primitive implementation of
 tables. GIF, JPEG, and PNG images are displayed inline.
@@ -147,8 +146,8 @@ tables. GIF, JPEG, and PNG images are displayed inline.
 
 =head1 Methods
 
-Fl::HtmlView inherits from Fl::Group and Fl::Widget. On top of that, it
-exposes the following methods...
+Fl::HtmlView inherits from Fl::Group and Fl::Widget. On top of that, it exposes
+the following methods...
 
 
 =head2 new(...)
@@ -156,8 +155,7 @@ exposes the following methods...
     my $hv_a = Fl::HtmlView->new(0, 0, 250, 500, 'Important Stuff');
     my $hv_b = Fl::HtmlView->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The destructor removes the widget.
 
@@ -267,8 +265,8 @@ Gets the left position in pixels.
 
 Scrolls the text to the indicated position, given a pixel column.
 
-If the given pixel value left is out of range, then the text is scrolled to
-the left or right side of the document.
+If the given pixel value left is out of range, then the text is scrolled to the
+left or right side of the document.
 
 =cut
 
@@ -288,9 +286,9 @@ This method assigns a callback function to use when a link is followed or a
 file is loaded (via Fl::HtmlView->load()) that requires a different file or
 path.
 
-The callback function receives a pointer to the Fl::HtmlView widget and the
-URI or full pathname for the file in question. It must return a pathname that
-can be opened as a local file or C<undef>.
+The callback function receives a pointer to the Fl::HtmlView widget and the URI
+or full pathname for the file in question. It must return a pathname that can
+be opened as a local file or C<undef>.
 
 The link function can be used to retrieve remote or virtual documents,
 returning a temporary file that contains the actual data. If the link function
@@ -324,8 +322,8 @@ xs {name        => 'value',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

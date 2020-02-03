@@ -83,8 +83,7 @@ Gets the label alignment.
 Sets the label alignment.
 
 This controls how the label is displayed next to or inside the widget. The
-default value is C<FL_ALIGN_CENTER>, which centers the lable inside the
-widget.
+default value is C<FL_ALIGN_CENTER>, which centers the lable inside the widget.
 
 See L<Fl::Enumerations|Fl::Enumerations/:align> for more values.
 
@@ -100,7 +99,9 @@ xs {name        => 'align',
 
 =pod
 
-=head2 align( ... )
+=head2 box( ... )
+
+Gets the box type of the widget.
 
 
 

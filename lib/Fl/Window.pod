@@ -31,8 +31,8 @@ There are several subclasses of Fl::Window that provide double-buffering,
 overlay, menu, and OpenGL support.
 
 The window's callback is done if the user tries to close a window using the
-window manager and Fl::modal() is zero or equal to the window. Fl::Window has
-a default callback that calls C<<Fl::Window->hide()>>.
+window manager and Fl::modal() is zero or equal to the window. Fl::Window has a
+default callback that calls C<<Fl::Window->hide()>>.
 
 =head1 Methods
 
@@ -79,50 +79,51 @@ Ideally, we could also create windows with something like:
 
 =end TODO
 
-Again, the ($w, $h) form of the constructor creates a top-level window and
-asks the window manager to position the window. The ($x, $y, $w, $h) form of
-the constructor either creates a subwindow or a top-level window at the
-specified location ($x, $y), subject to window manager configuration. If you
-do not specify the position of the window, the window manager will pick a
-place to show the window or allow the user to pick a location. Use
-C<position($x, $y)> or C<hotspot()> before calling C<show()> to request a
-position on the screen. See L<Fl::Window->resize()/resize(...)> for more
-details on positioning windows.
+Again, the ($w, $h) form of the constructor creates a top-level window and asks
+the window manager to position the window. The ($x, $y, $w, $h) form of the
+constructor either creates a subwindow or a top-level window at the specified
+location ($x, $y), subject to window manager configuration. If you do not
+specify the position of the window, the window manager will pick a place to
+show the window or allow the user to pick a location. Use C<position($x, $y)>
+or C<hotspot()> before calling C<show()> to request a position on the screen.
+See L<Fl::Window->resize()/resize(...)> for more details on positioning
+windows.
 
 Top-level windows initially have C<visible()> set to 0 and <parent()> set to
 C<undef>. Subwindows initially have C<visible()> set to 1 and C<parent()> set
 to the parent window pointer.
 
 Fl::Widget->box() defaults to C<FL_FLAT_BOX>. If you plan to completely fill
-the window with children widgets you should change this to C<FL_NO_BOX>. If
-you turn the window border off you may want to change this to C<FL_UP_BOX>.
+the window with children widgets you should change this to C<FL_NO_BOX>. If you
+turn the window border off you may want to change this to C<FL_UP_BOX>.
 
 =cut
 
 xs {name        => 'new',
     definitions => [{required => [[qw[int w]], [qw[int h]]],
-                     optional =>
-                         [['const char *', 'label', 'PL_origfilename']],
+                     returns  => 'Fl_Window *'
+                    },
+                    {required => [[qw[int w]], [qw[int h]],
+                                  ['const char *', 'label']
+                     ],
                      returns => 'Fl_Window *'
                     },
                     {required =>
                          [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
-                     optional =>
-                         [['const char *', 'label', 'PL_origfilename']],
+                     returns => 'Fl_Window *'
+                    },
+                    {required => [[qw[int w]], [qw[int h]],
+                                  [qw[int x]], [qw[int y]],
+                                  ['const char *', 'label']
+                     ],
                      returns => 'Fl_Window *'
                     }
     ]
 };
-xs {name        => 'DESTROY',
-    definitions => [{returns => 'void'}]
-};
-xs {name        => 'draw',
-    definitions => [{returns  => 'void' }
-    ]
-};
+xs {name => 'DESTROY', definitions => [{returns => 'void'}]};
+xs {name => 'draw',    definitions => [{returns => 'void'}]};
 xs {name        => 'handle',
-    definitions => [{required => [[qw[int event]]], returns  => 'int'  }
-    ]
+    definitions => [{required => [[qw[int event]]], returns => 'int'}]
 };
 
 =pod
@@ -148,9 +149,7 @@ C<raise()> in other toolkits.
 
 =cut
 
-xs {name        => 'show',
-    definitions => [{returns => 'void'}]
-};
+xs {name => 'show', definitions => [{returns => 'void'}]};
 
 =pod
 
@@ -158,13 +157,12 @@ xs {name        => 'show',
 
 Returns non-zero if C<show()> has been called but not C<hide()>.
 
-You can tell if a window is iconified with C<( $w->shown() && !$w->visible() )>.
+You can tell if a window is iconified with C<( $w->shown() && !$w->visible()
+)>.
 
 =cut
 
-xs {name        => 'shown',
-    definitions => [{returns => 'int'}]
-};
+xs {name => 'shown', definitions => [{returns => 'int'}]};
 
 =pod
 
@@ -177,9 +175,7 @@ and is harmless.
 
 =cut
 
-xs {name        => 'hide',
-    definitions => [{returns => 'void'}]
-};
+xs {name => 'hide', definitions => [{returns => 'void'}]};
 
 =pod
 
@@ -187,8 +183,8 @@ xs {name        => 'hide',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

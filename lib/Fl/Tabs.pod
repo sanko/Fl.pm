@@ -10,16 +10,16 @@ Fl::Tabs - "File Card Tabs" interface widget
 
 =head1 Description
 
-The Fl::Tabs is the "file card tabs" interface that allows you to put lots
-and lots of buttons and switches in a panel, as popularized by many toolkits.
+The Fl::Tabs is the "file card tabs" interface that allows you to put lots and
+lots of buttons and switches in a panel, as popularized by many toolkits.
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/tabs.png" /></center>
 
 A full example of this widget can be found in C<eg/tabs.pl>
 
-Clicking the tab makes a child visible() by calling show() on it, and all
-other children are made invisible by calling hide() on them. Usually the
-children are Fl::Group widgets containing several widgets themselves.
+Clicking the tab makes a child visible() by calling show() on it, and all other
+children are made invisible by calling hide() on them. Usually the children are
+Fl::Group widgets containing several widgets themselves.
 
 Each child makes a card, and its label() is printed on the card tab, including
 the label font and style. The selection color of that child is used to color
@@ -30,14 +30,14 @@ The size of the tabs is controlled by the bounding box of the children (there
 should be some space between the children and the edge of the Fl::Tabs), and
 the tabs may be placed "inverted" on the bottom - this is determined by which
 gap is larger. It is easiest to lay this out in fluid, using the fluid browser
-to select each child group and resize them until the tabs look the way you
-want them to.
+to select each child group and resize them until the tabs look the way you want
+them to.
 
 The background area behind and to the right of the tabs is "transparent",
-exposing the background detail of the parent. The value of Fl::Tabs->box()
-does not affect this area. So if Fl::Tabs is resized by itself without the
-parent, force the appropriate parent (visible behind the tabs) to redraw() to
-prevent artifacts.
+exposing the background detail of the parent. The value of Fl::Tabs->box() does
+not affect this area. So if Fl::Tabs is resized by itself without the parent,
+force the appropriate parent (visible behind the tabs) to redraw() to prevent
+artifacts.
 
 See "L<Resizing Caveats|/"Resizing Caveats>" below on how to keep tab heights
 constant. See "L<Callback's Use Of when()|/"Callback's Use Of when()">" on how
@@ -56,11 +56,11 @@ A typical use of the Fl::Tabs widget:
 
 =head2 Default Appearance
 
-The appearance of each "tab" is taken from the label() and color() of the
-child group corresponding to that "tab" and panel. Where the "tabs" appear
-depends on the position and size of the child groups that make up the panels
-within the Fl_Tab, i.e. whether there is more space above or below them. The
-height of the "tabs" depends on how much free space is available.
+The appearance of each "tab" is taken from the label() and color() of the child
+group corresponding to that "tab" and panel. Where the "tabs" appear depends on
+the position and size of the child groups that make up the panels within the
+Fl_Tab, i.e. whether there is more space above or below them. The height of the
+"tabs" depends on how much free space is available.
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/tabs_default.png" /></center>
 
@@ -176,16 +176,15 @@ tabs, such as using the arrow keys while at the left or right end of the tabs.
 
 =head1 Methods
 
-Fl::Tabs inherits from Fl::Group and Fl::Widget. On top of that, it exposes
-the following methods...
+Fl::Tabs inherits from Fl::Group and Fl::Widget. On top of that, it exposes the
+following methods...
 
 =head2 new(...)
 
     my $tab_a = Fl::Tabs->new(0, 0, 250, 500, 'Important Stuff');
     my $tab_b = Fl::Tabs->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The default boxtype is FL_THIN_UP_BOX.
 
@@ -296,9 +295,9 @@ group widget the user last FL_PUSH'ed on.
 
 Set back to zero on FL_RELEASE.
 
-As of this writing, the value is mainly used by draw_tab() to determine
-whether or not to draw a 'down' box for the tab when it's clicked, and to turn
-it off if the user drags off it.
+As of this writing, the value is mainly used by draw_tab() to determine whether
+or not to draw a 'down' box for the tab when it's clicked, and to turn it off
+if the user drags off it.
 
 =cut
 
@@ -370,8 +369,8 @@ xs {name        => 'which',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

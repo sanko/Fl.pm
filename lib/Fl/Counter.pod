@@ -6,7 +6,8 @@ include 'FL/Fl_Counter.H';
 
 =head1 NAME
 
-Fl::Counter - Controls a Single Floating Point Value with Button or Keyboard Arrows
+Fl::Counter - Controls a Single Floating Point Value with Button or Keyboard
+Arrows
 
 =head1 Description
 
@@ -36,8 +37,7 @@ exposes the following methods...
     my $count_a = Fl::Counter->new(0, 0, 250, 500, 'Important Stuff');
     my $count_b = Fl::Counter->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The default type is FL_NORMAL_COUNTER.
 
@@ -117,8 +117,8 @@ xs {name        => 'step',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

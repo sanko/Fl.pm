@@ -51,12 +51,23 @@ public:
         dTHX;
         _cache( ( void * ) this, cls );
     };
+    WidgetSubclass( const char * cls, int x, int y, int w, int h) : T( x, y, w, h ) {
+        // Just about everything
+        dTHX;
+        _cache( ( void * ) this, cls );
+    };
     WidgetSubclass( const char * cls, Fl_Boxtype type, int x, int y, int w, int h, const char * lbl ) : T( type, x, y, w, h, lbl ) {
         // Fl_Box
         dTHX;
         _cache( ( void * ) this, cls );
     };
     WidgetSubclass( const char * cls, int w, int h, const char * lbl ) : T( w, h, lbl ) {
+        // Fl_Window
+        dTHX;
+        _cache( ( void * ) this, cls );
+    };
+
+    WidgetSubclass( const char * cls, int w, int h ) : T( w, h ) {
         // Fl_Window
         dTHX;
         _cache( ( void * ) this, cls );
@@ -144,10 +155,68 @@ public:
         callback = newSVsv( cb ); //sv_mortalcopy(cb);
         args     = ( SV* ) & PL_sv_undef;
     };
+
     Callback( SV * cb, SV * as ) {
         dTHX;
         callback = newSVsv( cb ); //sv_mortalcopy(cb);
         args = newSVsv( as ); //sv_mortalcopy(as);
+    };
+
+    void trigger( ) {
+        dTHX;
+        //warn ("%s->trigger()", object2package(w));
+
+warn ("trigger( )");
+        dSP;
+        ENTER;
+        SAVETMPS;
+        PUSHMARK( SP );
+
+        PUTBACK;
+        call_sv( callback, G_DISCARD ); // TODO: Should this be eval?
+        SPAGAIN;
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+        return;
+    };
+void trigger( int fd ) {
+        dTHX;
+        //warn ("trigger(int)");
+        dSP;
+        ENTER;
+        SAVETMPS;
+        PUSHMARK( SP );
+        if ( args != NULL && SvOK( args ) )
+            XPUSHs( args );
+        PUTBACK;
+        call_sv( callback, G_DISCARD ); // TODO: Should this be eval?
+        SPAGAIN;
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+        return;
+    };
+    void trigger( SV * sv) {
+        dTHX;
+        //warn ("%s->trigger()", object2package(w));
+
+warn ("trigger( SV* )");
+        dSP;
+        ENTER;
+        SAVETMPS;
+        PUSHMARK( SP );
+        if ( args != NULL && SvOK( sv ) )
+            XPUSHs( sv );
+        if ( args != NULL && SvOK( args ) )
+            XPUSHs( args );
+        PUTBACK;
+        call_sv( callback, G_DISCARD ); // TODO: Should this be eval?
+        SPAGAIN;
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+        return;
     };
 
     void trigger( Fl_Widget * w ) {
@@ -155,6 +224,7 @@ public:
         //warn ("%s->trigger()", object2package(w));
         SV * widget;
 
+warn ("trigger( Fl_Widget * )");
         CTX * ctx;
         Newx( ctx, 1, CTX );
         ctx->cp_ctx    = w;
@@ -181,6 +251,8 @@ public:
         LEAVE;
         return;
     };
+
+
 
     SV * triggerOLD( Fl_Widget * w ) {
         dTHX;

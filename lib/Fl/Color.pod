@@ -21,8 +21,8 @@ functions which can be inported with the C<:color> tag.
 Colors are either 8-bit indexes into a virtual colormap or 24-bit RGB color
 values. (See Fl::Draw for the default colormap)
 
-Color indices occupy the lower 8 bits of the value, while RGB colors occupy
-the upper 24 bits, for a byte organization of RGBI.
+Color indices occupy the lower 8 bits of the value, while RGB colors occupy the
+upper 24 bits, for a byte organization of RGBI.
 
     Fl_Color => 0xrrggbbii
                    | | | |
@@ -289,15 +289,13 @@ xs {name        => 'fl_gray_ramp',
 
 Returns a color out of the color cube.
 
-C<$r> must be in the range 0 to FL_NUM_RED - 1,
-C<$g> must be in the range 0 to FL_NUM_GREEN - 1,
-C<$b> must be in the range 0 to FL_NUM_BLUE - 1.
+C<$r> must be in the range 0 to FL_NUM_RED - 1, C<$g> must be in the range 0 to
+FL_NUM_GREEN - 1, C<$b> must be in the range 0 to FL_NUM_BLUE - 1.
 
 To get the closest color to a 8-bit set of R,G,B values use:
 
-fl_color_cube(R * (FL_NUM_RED - 1) / 255,
-   G * (FL_NUM_GREEN - 1) / 255,
-   B * (FL_NUM_BLUE - 1) / 255);
+fl_color_cube(R * (FL_NUM_RED - 1) / 255,    G * (FL_NUM_GREEN - 1) / 255,    B
+* (FL_NUM_BLUE - 1) / 255);
 
 =cut
 
@@ -338,8 +336,8 @@ xs {name        => 'fl_show_colormap',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

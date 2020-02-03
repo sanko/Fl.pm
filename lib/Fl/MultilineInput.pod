@@ -17,8 +17,8 @@ Fl::MultilineInput - Text Widget that Allows Editing of Multiline Text
 =head1 Description
 
 The Fl::MultilineInput class represents a widget that displays '\n' characters
-as new lines rather than ^J, and accepts the Return, Tab, and up and down
-arrow keys.
+as new lines rather than ^J, and accepts the Return, Tab, and up and down arrow
+keys.
 
 This is far from the nirvana of text editors, and is probably only good for
 small bits of text, 10 lines at most. Note that this widget does not support
@@ -37,8 +37,7 @@ exposes the following methods...
     my $text_a = Fl::MultilineInput->new(0, 0, 250, 500, 'Important Stuff');
     my $text_b = Fl::MultilineInput->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The widget's boxtype is FL_DOWN_BOX by default.
 
@@ -72,8 +71,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

@@ -43,8 +43,13 @@ The destructor removes the box.
 xs {name        => 'new',
     definitions => [{required =>
                          [[qw[int w]], [qw[int h]], [qw[int x]], [qw[int y]]],
-                     optional => [['const char *', 'label', '""']],
-                     returns  => 'Fl_Box *'
+                     returns => 'Fl_Box *'
+                    },
+                    {required => [[qw[int w]], [qw[int h]],
+                                  [qw[int x]], [qw[int y]],
+                                  ['const char *', 'label']
+                     ],
+                     returns => 'Fl_Box *'
                     },
                     {required => [['Fl_Boxtype', 'type'],
                                   [qw[int w]],
@@ -57,16 +62,10 @@ xs {name        => 'new',
                     }
     ]
 };
-xs {name        => 'DESTROY',
-    definitions => [{returns => 'void'}]
-};
-xs {name        => 'draw',
-    definitions => [{returns  => 'void' }
-    ]
-};
+xs {name => 'DESTROY', definitions => [{returns => 'void'}]};
+xs {name => 'draw',    definitions => [{returns => 'void'}]};
 xs {name        => 'handle',
-    definitions => [{required => [[qw[int event]]], returns  => 'int'  }
-    ]
+    definitions => [{required => [[qw[int event]]], returns => 'int'}]
 };
 
 =pod
@@ -75,8 +74,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

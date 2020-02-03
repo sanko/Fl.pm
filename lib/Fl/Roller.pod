@@ -25,8 +25,7 @@ exposes the following methods...
     my $dial_a = Fl::Roller->new(0, 0, 250, 500, 'Important Stuff');
     my $dial_b = Fl::Roller->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The destructor removes the widget.
 
@@ -58,8 +57,8 @@ xs {name        => 'handle',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

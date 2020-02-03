@@ -14,13 +14,12 @@ my $window3 = new_ok
 my $window4 = new_ok
     'Fl::Window' => [340, 180, 'title?'],
     'window w/o position';
-    #
+#
 isa_ok $window, 'Fl::Group';
 #
 can_ok $window, 'show';
 can_ok $window, 'hide';
 can_ok $window, 'shown';
 can_ok $window, 'end';
-
 #
 done_testing;

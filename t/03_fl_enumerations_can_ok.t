@@ -39,5 +39,7 @@ can_ok 'main', 'FL_ALIGN_CENTER';
 # :event
 can_ok 'main', 'FL_LEFT_MOUSE';
 
+# :option
+can_ok 'main', 'OPTION_ARROW_FOCUS';
 #
 done_testing;

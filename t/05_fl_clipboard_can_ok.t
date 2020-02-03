@@ -3,7 +3,6 @@ use warnings;
 use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
 use Fl qw[:clipboard];
-
 #
 can_ok 'Fl', 'clipboard_contains';
 can_ok 'Fl', 'copy';
@@ -16,6 +15,5 @@ can_ok 'main', 'clipboard_contains';
 can_ok 'main', 'copy';
 can_ok 'main', 'dnd';
 can_ok 'main', 'selection';
-
 #
 done_testing;

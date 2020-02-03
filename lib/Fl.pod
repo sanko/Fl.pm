@@ -121,8 +121,8 @@ string "@+92->".
 
 =head2 C<align()>
 
-The C<align()> method positions the label. The following constants are
-imported with the C<:align> tag and may be OR'd together as needed:
+The C<align()> method positions the label. The following constants are imported
+with the C<:align> tag and may be OR'd together as needed:
 
 =over
 
@@ -226,8 +226,8 @@ You can change this using the L<when()|Fl::Widget/when(...)> method:
 These values may be imported with the C<:when> tag. Please see
 L<Fl::Enumerations|Fl::Enumerations/":when"> for more.
 
-A word of caution: care has been taken not to tip over when you delete a
-widget inside it's own callback but it's still not the best idea so...
+A word of caution: care has been taken not to tip over when you delete a widget
+inside it's own callback but it's still not the best idea so...
 
     $button->callback(
         sub {
@@ -288,21 +288,502 @@ This is the current list and will expand as the distribution develops.
 
 =for todo http://www.fltk.org/doc-1.3/common.html
 
-=head1 Functions
 
-The top level namespace comes with loads of functions. I'll try keeping them
-somewhat organized here.
+=head1 Enumerations
+
+You may import these constants by name or with the given tag.
+
+=head2 C<:option>
+
+These constants define values which can effect how the application functions.
+
+They are used by C<Fl::option( ... )>
+
+=over
+
+=item C<OPTION_ARROW_FOCUS>
+
+When switched on, moving the text cursor beyond the start or end of a text in a
+text widget will change focus to the next text widget.
+
+(This is considered 'old' behavior)
+
+When switched off (default), the cursor will stop at the end of the text.
+Pressing Tab or Ctrl-Tab will advance the keyboard focus.
+
+=item C<OPTION_VISIBLE_FOCUS>
+
+If visible focus is switched on (default), FLTK will draw a dotted rectangle
+inside the widget that will receive the next keystroke.
+
+If switched off, no such indicator will be drawn and keyboard navigation is
+disabled.
+
+=item C<OPTION_DND_TEXT>
+
+If text drag-and-drop is enabled (default), the user can select and drag text
+from any text widget.
+
+If disabled, no dragging is possible, however dropping text from other
+applications still works.
+
+=item C<OPTION_SHOW_TOOLTIPS>
+
+If tooltips are enabled (default), hovering the mouse over a widget with a
+tooltip text will open a little tooltip window until the mouse leaves the
+widget.
+
+If disabled, no tooltip is shown.
+
+=item C<OPTION_FNFC_USES_GTK>
+
+When switched on (default), C<Fl::NativeFileChooser> runs GTK file dialogs if
+the GTK library is available on the platform (linux/unix only).
+
+When switched off, GTK file dialogs aren't used even if the GTK library is
+available.
+
+=item C<OPTION_LAST>
+
+For internal use only.
+
+=back
 
 =cut
 
-0 && xs {name        => 'Fl::add_fd',
+export_constant("Fl::OPTION_ARROW_FOCUS",   "option");
+export_constant("Fl::OPTION_VISIBLE_FOCUS", "option");
+export_constant("Fl::OPTION_DND_TEXT",      "option");
+export_constant("Fl::OPTION_SHOW_TOOLTIPS", "option");
+export_constant("Fl::OPTION_FNFC_USES_GTK", "option");
+export_constant("Fl::OPTION_LAST",          "option");
+test tag_option => sub {
+    can_ok('Fl', 'OPTION_ARROW_FOCUS');
+    can_ok('Fl', 'OPTION_VISIBLE_FOCUS');
+    can_ok('Fl', 'OPTION_DND_TEXT');
+    can_ok('Fl', 'OPTION_SHOW_TOOLTIPS');
+    can_ok('Fl', 'OPTION_FNFC_USES_GTK');
+    can_ok('Fl', 'OPTION_LAST');
+};
+
+=head1 Functions
+
+The Fl namespace containins state information and global methods for the
+current application.
+
+=head2 C<abi_check( [...] )>
+
+	abi_check( FL_ABI_VERSION );
+
+Returns whether the runtime library ABI version is correct.
+
+This enables you to check the ABI version of the linked FLTK library at
+runtime.
+
+Returns 1 (true) if the compiled ABI version (in the header files) and the
+linked library ABI version (used at runtime) are the same, 0 (false) otherwise.
+
+	abi_check( 10303 );
+
+Argument C<$val> can be used to query a particular library ABI version. Use for
+instance C<10303> to query if the runtime library is compatible with FLTK ABI
+version C<1.3.3>. This is rarely useful.
+
+	abi_check( );
+
+The default C<$val> argument is C<FL_ABI_VERSION>, which checks the version
+defined at configure time (i.e. in the header files at program compilation
+time) against the linked library version used at runtime. This is particularly
+useful if you linked with a shared object library, but it also concerns static
+linking.
+
+=cut
+
+xs {name        => 'Fl::abi_check',
+    definitions => [{required => [['int', 'val']], returns => 'int'},
+                    {returns  => 'int'}
+    ],
+    export => ['all']
+};
+test abi_check => sub {
+    ok(!abi_check(FL_ABI_VERSION - 1),
+        'abi_check( FL_ABI_VERSION - 1 ) == !1');
+    ok(abi_check(),               'abi_check( ) == 1');
+    ok(abi_check(FL_ABI_VERSION), 'abi_check( FL_ABI_VERSION ) == 1');
+};
+
+=head2 C<abi_version( )>
+
+	abi_version( );
+
+Returns the compiled-in value of the C<FL_ABI_VERSION> constant.
+
+This is useful for checking the version of a shared library.
+
+=cut
+
+xs {name        => 'Fl::abi_version',
+    definitions => [{returns => 'int'}],
+    export      => ['all']
+};
+test abi_version => sub {
+    is(abi_version(), Fl::FL_ABI_VERSION, 'abi_version( ) == FL_ABI_VERSION');
+};
+
+=head2 C<add_awake_handler_( ... )>
+
+	add_awake_handler_( sub { warn 'awake! }  );
+
+Adds an awake handler for use in C<Fl::awake()>.
+
+	add_awake_handler_( sub { warn 'awake! }, $data  );
+
+You may also store userdata which will be passed along to the callback.
+
+=cut
+
+xs {name        => 'Fl::add_awake_handler_',
+    definitions => [
+                  {required => [['SV *', 'coderef'], ['SV *', 'userdata']],
+                   returns  => 'int',
+                   c_args => '_cb, (void *) new Callback( coderef, userdata )'
+                  },
+                  {required => [['SV *', 'coderef']],
+                   returns  => 'int',
+                   c_args   => '_cb, (void *) new Callback( coderef )'
+                  }
+    ],
+    export => ['all']
+};
+test add_awake_handler_ => sub {
+    diag(add_awake_handler_(sub { diag('TEST') }, {test => 'data'}));
+
+#ok (add_awake_handler_( sub {...} ), 'add_awake_handler_(sub { ... })');
+#ok (add_awake_handler_( sub {...}, {some => 'data'} ), 'add_awake_handler_(sub { ... }, { some => "data" })');
+    diag(awake());
+    ok(1);
+};
+
+=head2 C<add_check( ... )>
+
+	add_check( sub { warn 'awake! }  );
+
+FLTK will call this callback just before it flushes the display and waits for
+events.
+
+This is different than an idle callback because it is only called once, then
+FLTK calls the system and tells it not to return until an event happens.
+
+This can be used by code that wants to monitor the application's state, such as
+to keep a display up to date. The advantage of using a check callback is that
+it is called only when no events are pending. If events are coming in quickly,
+whole blocks of them will be processed before this is called once. This can
+save significant time and avoid the application falling behind the events.
+
+	add_check( sub { warn 'awake! }, $data  );
+
+You may also store userdata which will be passed along to the callback.
+
+Here's a usage example:
+
+	my $state_changed; # anything that changes the display turns this on
+
+	sub callback {
+		return if !$state_changed;
+		$state_changed = 0;
+		# do_expensive_calculation();
+		$widget->redraw();
+	}
+
+	Fl::add_check(\&callback);
+	Fl::run();
+
+
+=cut
+
+xs {name        => 'Fl::add_check',
+    definitions => [
+                  {required => [['SV *', 'coderef'], ['SV *', 'userdata']],
+                   returns  => 'void',
+                   c_args => '_cb, (void *) new Callback( coderef, userdata )'
+                  },
+                  {required => [['SV *', 'coderef']],
+                   returns  => 'void',
+                   c_args   => '_cb, (void *) new Callback( coderef )'
+                  }
+    ],
+    export => ['all']
+};
+test add_check => sub {
+
+#diag add_awake_handler_( sub {diag 'TEST'}, {test => 'data'} );
+#ok (add_awake_handler_( sub {...} ), 'add_awake_handler_(sub { ... })');
+#ok (add_awake_handler_( sub {...}, {some => 'data'} ), 'add_awake_handler_(sub { ... }, { some => "data" })');
+#diag awake();
+    ok(1);
+};
+
+=head2 C<add_fd( ... )>
+
+	add_fd( $fh, $when, sub { warn 'awake! }  ); # Kindly gets the fileno for you
+	add_fd( fileno($fh), $when, sub { warn 'awake! }  );
+
+Adds file descriptor fd to listen to.
+
+When the fd becomes ready for reading, C<Fl::wait()> will call the callback and
+then return. The callback is passed the fd and the arbitrary void* argument.
+
+This version takes a when bitfield, with the bits C<FL_READ>, C<FL_WRITE>, and
+C<FL_EXCEPT> defined, to indicate when the callback should be done.
+
+There can only be one callback of each type for a file descriptor.
+C<Fl::remove_fd()> gets rid of all the callbacks for a given file descriptor.
+
+Under UNIX/Linux/MacOS any file descriptor can be monitored (files, devices,
+pipes, sockets, etc.). Due to limitations in Microsoft Windows, Windows
+applications can only monitor sockets.
+
+	add_fd( $fh, $when, sub { warn 'awake! }, $data  ); # Kindly gets the fileno for you
+	add_fd( fileno($fh), $when, sub { warn 'awake! }, $data  );
+
+You may also store userdata which will be passed along to the callback.
+
+	add_fd( $fh, sub { warn 'awake! }, $data  ); # Kindly gets the fileno for you
+	add_fd( fileno($fh), sub { warn 'awake! }, $data  );
+	add_fd( $fh, sub { warn 'awake! } ); # Kindly gets the fileno for you
+	add_fd( fileno($fh), sub { warn 'awake! } );
+
+You may listen to a file descriptor without a R/W/Err bitfield as well.
+
+=cut
+
+xs {name        => 'Fl::add_fd',
+    definitions => [
+        {required => [['int', 'fd'], ['int', 'when'], ['SV *', 'coderef']],
+         returns  => 'void',
+         c_args   => 'fd, when, _cb_fd, (void *) new Callback( coderef )'
+        },
+        {required =>
+             [['PerlIO *', 'fh'], ['int', 'when'], ['SV *', 'coderef']],
+         returns => 'void',
+         c_args =>
+             'PerlIO_fileno(fh), when, _cb_fd, (void *) new Callback( coderef )'
+        },
+        {required => [['int',  'fd'],
+                      ['int',  'when'],
+                      ['SV *', 'coderef'],
+                      ['SV *', 'userdata']
+         ],
+         returns => 'void',
+         c_args =>
+             'fd, when, _cb_fd, (void *) new Callback( coderef, userdata )'
+        },
+        {required => [['PerlIO *', 'fh'],
+                      ['int',      'when'],
+                      ['SV *',     'coderef'],
+                      ['SV *',     'userdata']
+         ],
+         returns => 'void',
+         c_args =>
+             'PerlIO_fileno(fh), when, _cb_fd, (void *) new Callback( coderef, userdata )'
+        },
+        {required =>
+             [['int', 'fd'], ['SV *', 'coderef'], ['SV *', 'userdata']],
+         returns => 'void',
+         c_args  => 'fd, _cb_fd, (void *) new Callback( coderef, userdata )'
+        },
+        {required =>
+             [['PerlIO *', 'fh'], ['SV *', 'coderef'], ['SV *', 'userdata']],
+         returns => 'void',
+         c_args =>
+             'PerlIO_fileno(fh), _cb_fd, (void *) new Callback( coderef, userdata )'
+        },
+        {required => [['int', 'fd'], ['SV *', 'coderef']],
+         returns  => 'void',
+         c_args   => 'fd, _cb_fd, (void *) new Callback( coderef )'
+        },
+        {required => [['PerlIO *', 'fh'], ['SV *', 'coderef']],
+         returns  => 'void',
+         c_args =>
+             'PerlIO_fileno(fh), _cb_fd, (void *) new Callback( coderef )'
+        },
+    ],
+    export => ['all']
+};
+test add_fd => sub {
+    my $called = 0;
+    #
+    my $fh_1 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        $fh_1, 3,
+        sub {
+            CORE::state $done;
+            return if $done++;
+            pass('add_fd($fh, 3, sub {...})');
+            $called++;
+        }
+    );
+    #
+    my $fh_2 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        fileno($fh_2),
+        3,
+        sub {
+            CORE::state $done;
+            return if $done++;
+            pass('add_fd(fileno($fh), 3, sub {...})');
+            $called++;
+        }
+    );
+    #
+    my $fh_3 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        $fh_3, 3,
+        sub {
+            CORE::state $done;
+            return if $done++;
+            is(shift, \%ENV, 'add_fd($fh, 3, sub {...}, \%ENV)');
+            $called++;
+        },
+        \%ENV
+    );
+    #
+    my $fh_4 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        fileno($fh_4),
+        3,
+        sub {
+            CORE::state $done;
+            return if $done++;
+            is(shift, \%ENV, 'add_fd(fileno($fh), 3, sub {...}, \%ENV)');
+            $called++;
+        },
+        \%ENV
+    );
+    #
+    my $fh_5 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        $fh_5,
+        sub {
+            CORE::state $done;
+            return if $done++;
+            pass('add_fd($fh, sub {...})');
+            $called++;
+        }
+    );
+    #
+    my $fh_6 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        fileno($fh_6),
+        sub {
+            CORE::state $done;
+            return if $done++;
+            pass('add_fd(fileno($fh), sub {...})');
+            $called++;
+        }
+    );
+    my $fh_7 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        $fh_7,
+        sub {
+            CORE::state $done;
+            return if $done++;
+            is(shift, \%ENV, 'add_fd($fh, sub {...}, \%ENV)');
+            $called++;
+        },
+        \%ENV
+    );
+    #
+    my $fh_8 = File::Temp->new(UNLINK => 1, SUFFIX => '.dat');
+    add_fd(
+        fileno($fh_8),
+        sub {
+            CORE::state $done;
+            return if $done++;
+            is(shift, \%ENV, 'add_fd(fileno($fh), sub {...}, \%ENV)');
+            $called++;
+        },
+        \%ENV
+    );
+    #
+    my $time = time;
+    while ($called < 8) {
+        Fl::wait();
+        if (time > $time + 5) {
+            my $remaining = 8 - $called;
+            diag(sprintf 'Timeout waiting for %d callback%s!',
+                 $remaining, ($remaining == 1 ? '' : 's'));
+            last;
+        }
+    }
+};
+
+=head2 C<awake( ... )>
+
+
+=cut
+
+xs {name        => 'Fl::awake',
+    definitions => [
+                  {returns => 'void',},
+                  {required => [['SV *', 'coderef'], ['SV *', 'userdata']],
+                   returns  => 'int',
+                   c_args => '_cb, (void *) new Callback( coderef, userdata )'
+                  },
+                  {required => [['SV *', 'coderef']],
+                   returns  => 'int',
+                   c_args   => '_cb, (void *) new Callback( coderef )'
+                  }
+    ],
+    export => ['all']
+};
+test awake => sub {
+
+#ok (add_awake_handler_( sub {...} ), 'add_awake_handler_(sub { ... })');
+#ok (add_awake_handler_( sub {...}, {some => 'data'} ), 'add_awake_handler_(sub { ... }, { some => "data" })');
+    diag(awake());
+    ok(1);
+};
+
+=head2 C<option( ... )>
+
+	my $enabled = Fl::option( OPTION_ARROW_FOCUS );
+
+Returns a boolean value.
+
+	Fl::option( OPTION_ARROW_FOCUS, 1 );
+
+Enables or disables global FLTK options.
+
+See the C<:option> import tag in L<Fl::Enumerations|Fl::Enumerations>.
+
+=cut
+
+xs {name        => 'Fl::option',
+    definitions => [{required =>
+                         [['Fl::Fl_Option', 'option'], ['bool', 'value']],
+                     returns => 'void'
+                    },
+                    {required => [['Fl::Fl_Option', 'option']],
+                     returns  => 'bool'
+                    }
+    ],
+    export => ['all']
+};
+test option => sub {
+    is Fl::option(Fl::OPTION_ARROW_FOCUS), 0;    # On by default
+    Fl::option(Fl::OPTION_ARROW_FOCUS, 1);       # Enable old behavior
+};
+0 && xs {
+    name        => 'Fl::add_fd',
     definitions => [
         {required => [['PerlIO *', 'file'], ['int', 'when'], ['SV *', 'cb']],
-         optional => [['SV *', 'data']],
-         returns  => 'void',
-         code     => '',
-         cleanup  => '',
-        # c_args   => 'widget->cp_ctx' # PerlIO_fileno
+         optional => [['SV *',     'data']],
+         returns => 'void',
+         code    => '',
+         cleanup => '',
+
+         # c_args   => 'widget->cp_ctx' # PerlIO_fileno
         }
     ],
     export => [qw[widget]]
@@ -340,15 +821,6 @@ xs {name        => 'Fl::delete_widget',
     ],
     export => [qw[widget]]
 };
-
-
-
-
-
-
-
-
-
 xs {name        => 'Fl::extends',
     definitions => [
         {required => [['const char *', 'cls']],
@@ -363,52 +835,42 @@ CODE
     ],
     export => [qw[default]]
 };
-
-
-
 include 'FL/fl_draw.H';
-
 xs {name        => 'Fl::fl_color',
-    definitions => [
-        {required => [['Fl_Color', 'color']],
-         returns  => 'void',
-         code     => 'fl_color(color);'
-        }
+    definitions => [{required => [['Fl_Color', 'color']],
+                     returns  => 'void',
+                     code     => 'fl_color(color);'
+                    }
     ],
     export => [qw[default draw]]
 };
-
 xs {name        => 'Fl::fl_line',
     definitions => [
-        {required => [[qw[int x1]],[qw[int y1]],[qw[int x2]],[qw[int y2]]],
+        {required => [[qw[int x1]], [qw[int y1]], [qw[int x2]], [qw[int y2]]],
          returns  => 'void',
          code     => 'fl_line(x1, y1, x2, y2);'
-}
+        }
     ],
     export => [qw[default draw]]
 };
-
 xs {name        => 'Fl::fl_rect',
     definitions => [
-        {required => [[qw[int x]],[qw[int y]],[qw[int w]],[qw[int h]]],
-         returns  => 'void',
-        code     => 'fl_rect(x, y, w, h);'
-        }
+            {required => [[qw[int x]], [qw[int y]], [qw[int w]], [qw[int h]]],
+             returns  => 'void',
+             code     => 'fl_rect(x, y, w, h);'
+            }
     ],
     export => [qw[default draw]]
 };
-
 xs {name        => 'Fl::fl_rectf',
     definitions => [
-        {required => [[qw[int x]],[qw[int y]],[qw[int w]],[qw[int h]]],
-         returns  => 'void',
-        code     => 'fl_rectf(x, y, w, h);'
-        }
+            {required => [[qw[int x]], [qw[int y]], [qw[int w]], [qw[int h]]],
+             returns  => 'void',
+             code     => 'fl_rectf(x, y, w, h);'
+            }
     ],
     export => [qw[default draw]]
 };
-
-
 
 =pod
 
@@ -416,8 +878,8 @@ xs {name        => 'Fl::fl_rectf',
 
 Copyright (C) 2020 Sanko Robinson
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

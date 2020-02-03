@@ -3,6 +3,7 @@ use warnings;
 use Test::More 0.98;
 use lib '../blib/', '../blib/lib', '../lib';
 use Fl;
+
 # Virtual class so no new(...)
 #
 isa_ok 'Fl::Menu', 'Fl::Widget';

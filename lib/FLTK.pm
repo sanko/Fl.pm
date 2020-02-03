@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Fl qw[:all];
 our $VERSION = '0.99.15';
-BEGIN {*FLTK:: = *Fl::}
+BEGIN { *FLTK:: = *Fl:: }
 1;
 __END__
 
@@ -30,8 +30,8 @@ FLTK - Historical Package Name Alias
 The FLTK package is a namespace alias for the Fl package. It's only use is to
 allow (most) code written for the old FLTK distribution to use the new Fl
 package with a little less work. Please note that the toolkit itself is not
-100% compatible so expect complex code written for FLTK to just plain kill
-over on Fl even with this alias.
+100% compatible so expect complex code written for FLTK to just plain kill over
+on Fl even with this alias.
 
 Again the two toolkits are not 100% compatible!
 
@@ -39,8 +39,8 @@ Again the two toolkits are not 100% compatible!
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

@@ -15,13 +15,12 @@ The Fl::InputChoice is a combination of the input widget and a menu button.
 
 =for html <center><img src="http://www.fltk.org/doc-1.3/input_choice.jpg" /></center>
 
-The user can either type into the input area, or use the menu button chooser
-on the right to choose an item which loads the input area with the selected
-text.
+The user can either type into the input area, or use the menu button chooser on
+the right to choose an item which loads the input area with the selected text.
 
 The application can directly access both the internal Fl::Input and
-Fl::MenuButton widgets respectively using the input() and menubutton()
-accessor methods.
+Fl::MenuButton widgets respectively using the input() and menubutton() accessor
+methods.
 
 A full example of this widget can be found in C<eg/input_choice.pl>
 
@@ -35,8 +34,7 @@ exposes the following methods...
     my $ic_a = Fl::InputChoice->new(0, 0, 250, 500, 'Important Stuff');
     my $ic_b = Fl::InputChoice->new(0, 0, 250, 500);
 
-The constructor creates a new widget using the given position, size, and
-label.
+The constructor creates a new widget using the given position, size, and label.
 
 The destructor removes the widget.
 
@@ -263,8 +261,8 @@ xs {name        => 'value',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

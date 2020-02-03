@@ -36,14 +36,14 @@ xs {name        => 'DESTROY',
        $index = $mnu_b->add($label, $shortcut, $callback, $userdata);
        $index = $mnu_b->add($label, $shortcut, $callback, $userdata, $flags);
 
-Adds a new menu item. The return value is the index into the menu() array
-where the entry was added.
+Adds a new menu item. The return value is the index into the menu() array where
+the entry was added.
 
 If the menu array was directly set with menu(x), then copy() is done to make a
 private array.
 
-Since this method can change the internal menu array, any menu item pointers
-or indecies the application may have cached can become stale, and should be
+Since this method can change the internal menu array, any menu item pointers or
+indecies the application may have cached can become stale, and should be
 recalculated/refreshed.
 
 A menu item's callback must not add() items to its parent menu during the
@@ -63,17 +63,16 @@ accelerator and will be underlined. The "\" character is used to escape the
 next character in the string. Labels starting with the "_" character cause a
 divider to be placed after that menu item.
 
-A label of the form "File/Quit" will create the submenu "File" with a menu
-item called "Quit". The "/" character is ignored if it appears as the first
+A label of the form "File/Quit" will create the submenu "File" with a menu item
+called "Quit". The "/" character is ignored if it appears as the first
 character of the label string, e.g. "/File/Quit".
 
 The label string is copied to new memory and can be freed. The other arguments
 (including the shortcut) are copied into the menu item unchanged.
 
-If an item exists already with that name then it is replaced with this new
-one. Otherwise this new one is added to the end of the correct menu or
-submenu. The return value is the offset into the array that the new entry was
-placed at.
+If an item exists already with that name then it is replaced with this new one.
+Otherwise this new one is added to the end of the correct menu or submenu. The
+return value is the offset into the array that the new entry was placed at.
 
 =item C<$shortcut>
 
@@ -94,8 +93,8 @@ String shortcuts can be specified in one of two ways:
     [#+^]<ascii_char>     e.g. "a", "^a", "+a", "#a"
 
 ...where <ascii_value> is a decimal value representing an ascii character (eg.
-97 is the ascii code for 'a'), and the optional prefixes enhance the value
-that follows. Multiple prefixes must appear in the order below.
+97 is the ascii code for 'a'), and the optional prefixes enhance the value that
+follows. Multiple prefixes must appear in the order below.
 
     # - Alt
     + - Shift
@@ -346,8 +345,8 @@ Make the shortcuts for this menu work no matter what window has the focus when
 you type it.
 
 This is done by using Fl::add_handler(). This Fl::Menu widget does not have to
-be visible (ie the window it is in can be hidden, or it does not have to be
-put in a window at all).
+be visible (ie the window it is in can be hidden, or it does not have to be put
+in a window at all).
 
 Currently there can be only one global() menu. Setting a new one will replace
 the old one. There is no way to remove the global() setting (so don't destroy
@@ -549,9 +548,8 @@ xs {name        => 'remove',
 
 Changes the text of item C<$index>.
 
-This is the only way to get slash into an add()'ed menu item. If the menu
-array was directly set with menu($x) then copy() is done to make a private
-array.
+This is the only way to get slash into an add()'ed menu item. If the menu array
+was directly set with menu($x) then copy() is done to make a private array.
 
 =cut
 
@@ -715,16 +713,16 @@ It is zero initially.
 
 The value is the index into menu() of the last item chosen by the user.
 
-It is zero initially. You can set it as an integer, or set it with a pointer
-to a menu item. The set routines return non-zero if the new value is different
+It is zero initially. You can set it as an integer, or set it with a pointer to
+a menu item. The set routines return non-zero if the new value is different
 than the old one.
 
     my $value = $mnu_a->value( $item );
 
 The value is the index into menu() of the last item chosen by the user.
 
-It is zero initially. You can set it as an integer, or set it with a pointer
-to a menu item. The set routines return non-zero if the new value is different
+It is zero initially. You can set it as an integer, or set it with a pointer to
+a menu item. The set routines return non-zero if the new value is different
 than the old one.
 
 =cut
@@ -743,8 +741,8 @@ xs {name        => 'value',
 
 Copyright (C) Sanko Robinson.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =head1 AUTHOR
 

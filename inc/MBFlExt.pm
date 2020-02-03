@@ -19,7 +19,7 @@ package inc::MBFlExt;
         sub do_system {
             my ($self, @cmd) = @_;
             @cmd = grep { defined && length } @cmd;
-            @cmd = map { s[\s+$][]; s[^\s+][]; $_ } @cmd;
+            @cmd = map  { s[\s+$][]; s[^\s+][]; $_ } @cmd;
             print "@cmd\n" if !$self->{'quiet'};
             my $cmd = join ' ', @cmd;
             `$cmd`;
@@ -92,58 +92,81 @@ package inc::MBFlExt;
             }
             my @pod;
             find(sub { push @pod, $File::Find::name if m[.+\.pod$] }, 'lib');
-            if (!$self->up_to_date([@pod], 'xs/Fl.cxx')) {
+
+			use File::Spec;
+				my $cxx = File::Spec->rel2abs('xs/Fl.cxx');
+
+            if (!$self->up_to_date([@pod, 'xs/Fl_cxx.template'], $cxx)) {
                 printf 'Generating source... ';
                 #
-                our (@xsubs, %includes, %exports);
+                our (@xsubs, %includes, %exports, %xsppsubs);
+                use experimental 'signatures';
+
+                #sub xspp($name, %args) {
+                #	$xsppsubs{$xsubs[-1]}{$name} = {};
+                #	use Data::Dump;
+                #	warn $name;
+                #	ddx \%args;
+                #	#die;
+                #}
+				sub test { 1 }
                 sub xs { push @{$xsubs[-1]->{methods}}, shift }
                 sub class { push @xsubs, {package => shift} }
                 my $isa = *isa;
                 *isa = sub { $xsubs[-1]{isa} = shift; };
-                sub export_constant { $exports{+pop}          = pop; }
-                sub include         { $includes{+pop}++; }
-                sub widget_type     { $xsubs[-1]{widget_type} = shift; }
-				sub disabled 		{ delete $xsubs[-1]; }
+                sub export_constant($value, $tag, $name = $value) { $exports{$value} = { value => $value, tag => $tag }; }
+                sub include { $includes{+pop}++; }
+                sub widget_type { $xsubs[-1]{widget_type} = shift; }
+
+                #sub disabled 		{ delete $xsubs[-1]; }
                 #
-
-
-				@pod = sort grep {
-					$_ !~ m[HtmlView]i
-				} @pod;
-
-
-				#use Data::Dump;
-				#ddx \@pod;
-				#die;
-
-                require $_ for @pod;
+                #
+                #use Data::Dump;
+                #ddx \@pod;
+                #die;
+                for my $pod (sort @pod) {
+                    if ($pod =~ m[HtmlView]i) {
+                        printf "\n  Skipped %s", $pod;
+                        next;
+                    }
+                    printf "\n  Require %s... ", $pod;
+                    require $pod;
+                    printf "done";
+                }
                 *isa = $isa;
                 open my $in, '<', 'xs/Fl_cxx.template';
                 sysread $in, my $raw, -s $in;
                 #
                 my $template = Template::Liquid->parse($raw);
-                open(my $fh, '>', 'xs/Fl.cxx') || die $!;
+
+                open(my $fh, '>', $cxx) || die $!;
                 #
-
-
+                print "\nGenerating C++...";
                 my $output =
                     $template->render(xsubs    => \@xsubs,
                                       exports  => \%exports,
                                       includes => \%includes
                     );
+                use Data::Dump;
+                ddx \{xsubs    => \@xsubs,
+                      exports  => \%exports,
+                      includes => \%includes
+                };
 
+                #			die		;
+                $output =~ s[\n\n+][\n]g;
 
+				warn ;
+                printf "\nCreating $cxx (%d bytes)\n", length($output);
                 syswrite $fh, $output;
                 close $fh;
-
-                $self->add_to_cleanup('xs/Fl.cxx');
-                print 'okay (' . length($output) . " bytes)\n";
+                $self->add_to_cleanup($cxx);
             }
             my @cpp;
             find(sub { push @cpp, $File::Find::name if m[.+\.cxx$]; }, 'xs');
         XS: for my $XS ((sort { lc $a cmp lc $b } @xs)) {
-                push @cpp, _xs_to_cpp($self, $XS)
-                    or exit !printf 'Cannot Parse %s', $XS;
+                push @cpp, _xs_to_cpp($self, $XS) or
+                    exit !printf 'Cannot Parse %s', $XS;
             }
         CPP: for my $cpp (@cpp) {
                 if ($self->up_to_date($cpp, $CC->object_file($cpp))) {
@@ -152,13 +175,12 @@ package inc::MBFlExt;
                 }
                 local $CC->{'quiet'} = $self->quiet();
                 printf q[Building '%s' (%d bytes)... ], $cpp, -s $cpp;
-                my $obj =
-                    $CC->compile(
+                my $obj = $CC->compile(
                              source => $cpp,
                              include_dirs =>
                                  [curdir, dirname($cpp), $AF->include_dirs()],
                              'C++' => 1
-                    );
+                );
                 printf "%s\n",
                     ($obj && -f $obj) ? 'okay' : 'failed';    # XXX - exit?
                 push @obj, $obj;
@@ -170,17 +192,16 @@ package inc::MBFlExt;
             if (!$self->up_to_date([@obj], $lib)) {
                 printf q[Building '%s'... ], $lib;
                 my ($dll, @cleanup)
-                    = $CC->link(objects            => \@obj,
-                                lib_file           => $lib,
-                                module_name        => 'Fl',
-                                extra_linker_flags => '-L'
-                                    . $AF->library_path . ' '
-                                    . $AF->ldflags
-                                    . ' -lstdc++'
+                    = $CC->link(
+                      objects            => \@obj,
+                      lib_file           => $lib,
+                      module_name        => 'Fl',
+                      extra_linker_flags => '-L' .
+                          $AF->library_path . ' ' . $AF->ldflags . ' -lstdc++'
                     );
                 printf "%s\n",
-                    ($lib && -f $lib) ?
-                    'okay (' . (-s $lib) . ' bytes)'
+                    ($lib && -f $lib)
+                    ? 'okay (' . (-s $lib) . ' bytes)'
                     : 'failed';    # XXX - exit?
                 @cleanup = map { s["][]g; rel2abs($_); } @cleanup;
                 $self->add_to_cleanup(@cleanup);
@@ -193,7 +214,7 @@ package inc::MBFlExt;
             my ($self, $xs) = @_;
             $xs = rel2abs($xs);
             my ($cpp, $typemap) = ($xs, $xs);
-            $cpp =~ s[\.xs$][\.cxx];
+            $cpp     =~ s[\.xs$][\.cxx];
             $typemap =~ s[\.xs$][\.tm];
             $typemap = 'type.map' if !-e $typemap;
             my @xsi;
@@ -207,7 +228,8 @@ package inc::MBFlExt;
                                      $cpp
                 );
             printf q"Parsing '%s' into '%s' w/ '%s'... ", $xs, $cpp, $typemap;
-            local @ExtUtils::ParseXS::BootCode = ();
+            local @ExtUtils::ParseXS::BootCode = @ExtUtils::ParseXS::BootCode
+                = ();
 
             if (ExtUtils::ParseXS->process_file(
                                    filename => $xs,
@@ -218,8 +240,8 @@ package inc::MBFlExt;
                                    prototypes  => 1,
                                    linenumbers => 1
                 )
-                )
-            {   print "okay\n";
+            ) {
+                print "okay\n";
                 return $cpp;
             }
             print "FAIL!\n";
