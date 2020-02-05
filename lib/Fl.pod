@@ -972,7 +972,7 @@ Enables or disables tooltips using C<Fl::Tooltip::enable()>.
 =back
 
 If your program requires other switches in addition to the standard FLTK
-options, you will need to pass your own argument handler to C<Fl::args(...r)>
+options, you will need to pass your own argument handler to C<Fl::args(...)>
 explicitly.
 
 =cut
@@ -1107,6 +1107,55 @@ test args => sub {
         1, 'args(2, [qw[-bg green -dnd]], $pos)');
     is($pos,                        1, '1 values read from stack');
     is(args(2, [qw[-bg green]], 0), 1, 'arg(2, [qw[-bg green]], 0)');
+};
+
+=head2 C<background( ... )>
+
+	background( 124, 124, 98 ); # R, G, B
+
+Changes C<fl_color(FL_BACKGROUND_COLOR)> to the given color, and changes the
+gray ramp from 32 to 56 to black to white.
+
+These are the colors used as backgrounds by almost all widgets and used to draw
+the edges of all the boxtypes.
+
+=cut
+
+xs {name => 'Fl::background',
+    definitions =>
+        [{required => [['uchar', 'r'], ['uchar', 'g'], ['uchar', 'b']]}],
+    export => ['all']
+};
+test background => sub {
+
+# Can't test that this works without actually popping up a window and asking someone
+    background(0, 0, 0);
+    pass('background(...) did not crash us');
+};
+
+=head2 C<background2( ... )>
+
+	background2( 124, 124, 98 ); # R, G, B
+
+Changes the alternative background color.
+
+This color is used as a background by C<Fl_Input> and other text widgets.
+
+This call may change C<fl_color(FL_FOREGROUND_COLOR)> if it does not provide
+sufficient contrast to C<FL_BACKGROUND2_COLOR>.
+
+=cut
+
+xs {name => 'Fl::background2',
+    definitions =>
+        [{required => [['uchar', 'r'], ['uchar', 'g'], ['uchar', 'b']]}],
+    export => ['all']
+};
+test background2 => sub {
+
+# Can't test that this works without actually popping up a window and asking someone
+    background2(0, 0, 0);
+    pass('background2(...) did not crash us');
 };
 
 =head2 C<awake( ... )>
