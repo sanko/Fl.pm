@@ -83,6 +83,7 @@ export_constant("FL_MINOR_VERSION", "version");
 export_constant("FL_PATCH_VERSION", "version");
 export_constant("FL_VERSION",       "version");
 export_constant("FL_ABI_VERSION",   "version");
+export_constant("FL_API_VERSION",   "version");
 
 =pod
 
