@@ -379,7 +379,7 @@ AV * {{arg.1}}_av;
             SV* const xsub_tmp_sv = ST({{st.position}});
             SvGETMAGIC(xsub_tmp_sv);
             if (SvROK(xsub_tmp_sv) && SvTYPE(SvRV(xsub_tmp_sv)) == SVt_PVAV)
-                {{arg.0}} = (AV*)SvRV(xsub_tmp_sv);
+                {{arg.1}} = (AV*)SvRV(xsub_tmp_sv);
             else
                 croak("{{arg.0}} is not an ARRAY reference");
             }
