@@ -534,13 +534,8 @@ AV * {{arg.1}}_av;
                 else        %}{{ function }}{%
                 endif%}( {{args}} );
             {%endif%}
-
-
-
-
             {% endcase %}
-					// Start with IN_OUT emulation
-			/* {% dump definition.in_out %} */
+			// Start with IN_OUT emulation
 	{% for arg in definition.required %}
         {%if is_method%}{%assign st.position = forloop.index%}{%else%}{%assign st.position = forloop.index0%}{%endif%}
 		{%if definition.in_out contains arg.1%}

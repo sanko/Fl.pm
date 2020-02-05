@@ -961,7 +961,7 @@ test arg => sub {
 	my $pos = 3;
  	is (arg(2, [qw[-bg2 green]], $pos), 1, 'Fl::arg(2, [qw[-bg2 green]], $pos)');
 	is($pos, 4, '1 value read from stack');
-	is (arg(3, [qw[-bg green -dnd]], $pos), 1, 'Fl::arg(2, [qw[-bg green -dnd]], $pos)');
+	is (arg(3, [qw[-bg green -bg2 red]], $pos), 1, 'Fl::arg(2, [qw[-bg green -bg2 red]], $pos)');
 	is($pos, 5, '5 values read from stack');
  	is(arg(2, [qw[-bg green]], 0), 0, 'arg(2, [qw[-bg green]], 0)');
 };
