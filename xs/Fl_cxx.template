@@ -521,6 +521,10 @@ AV * {{arg.1}}_av;
                     {%else%}
                         {%assign xs.return = 'XSRETURN(1);' %}
                     {%endunless%}
+			{% if definition.inject_code %}
+                { {{definition.inject_code}} }
+			{%endif%}
+
             {% if definition.code %}
                 { {{definition.code}} }
             {% else %}
