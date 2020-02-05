@@ -1012,7 +1012,7 @@ less than argc.
 A usage string is displayed if C<Fl::args()> detects an invalid argument on the command-line. You
 can change the message by setting the C<Fl::help> pointer.
 
-A very simple command line parser can be found in C<examples/howto-parse-args.pl>.
+A very simple command line parser can be found in F<eg/howto-parse-args.pl>.
 
 The simpler C<Fl::args($argc, \@argv)> form is useful if your program does not have command line
 switches of its own.
