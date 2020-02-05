@@ -63,7 +63,6 @@ package inc::MBFlExt;
             find(sub { push @xs, $File::Find::name if m[.+\.xs$]; },  'xs');
             find(sub { push @pl, $File::Find::name if m[.+\.pl$]i; }, 'xs/rc')
                 if -d '/xs/rc';
-
             if ($self->is_windowsish && -d 'xs/rc') {
                 $self->do_system($^X, $_) for @pl;
                 find(sub { push @rc, $File::Find::name if m[.+\.rc$]; },

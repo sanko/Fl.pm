@@ -196,6 +196,32 @@ public:
 		LEAVE;
 		return;
 	};
+	int trigger_ev(int event) { // I toss this in becuase I can't overload return types
+		int RETVAL = 0;
+		int count;
+		dTHX;
+		//warn ("int trigger( int )");
+		dSP;
+		ENTER;
+		SAVETMPS;
+		PUSHMARK(SP);
+		if (args != NULL && SvOK(args))
+			XPUSHs(args);
+		PUTBACK;
+		count = call_sv(callback, G_SCALAR);   // TODO: get the actual return value and the new value of i
+		SPAGAIN;
+
+		if (count != 1) {
+			// No values from argv were handled
+			//croak("Big trouble!");
+			return RETVAL;
+		}
+		RETVAL = POPi;
+		PUTBACK;
+		FREETMPS;
+		LEAVE;
+		return RETVAL;
+	};
 	void trigger(SV *sv) {
 		dTHX;
 		//warn ("%s->trigger()", object2package(w));

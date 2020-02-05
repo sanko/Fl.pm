@@ -154,6 +154,14 @@ void _cb_fd ( int fd, void * CODE ) {
     ((Callback * ) CODE)->trigger(fd);
     return;
 }
+// Event handler callback
+Callback * _cb_ev_CODE;
+int _cb_ev ( int ev) {
+	int retval = 0;
+	if (_cb_ev_CODE != NULL)
+		retval = ((Callback * ) _cb_ev_CODE)->trigger_ev(ev); // Cannot overload return type in C
+    return retval;
+}
 // Generic callback with no params
 void _cb ( void * CODE ) {
     ((Callback * ) CODE)->trigger( );

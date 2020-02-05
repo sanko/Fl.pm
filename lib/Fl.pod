@@ -456,11 +456,11 @@ xs {name        => 'Fl::add_awake_handler_',
     export => ['all']
 };
 test add_awake_handler_ => sub {
-    diag(add_awake_handler_(sub { diag('TEST') }, {test => 'data'}));
+    add_awake_handler_(sub { diag('TEST') }, {test => 'data'});
 
 #ok (add_awake_handler_( sub {...} ), 'add_awake_handler_(sub { ... })');
 #ok (add_awake_handler_( sub {...}, {some => 'data'} ), 'add_awake_handler_(sub { ... }, { some => "data" })');
-    diag(awake());
+    awake();
     ok(1);
 };
 
@@ -716,6 +716,56 @@ test add_fd => sub {
             last;
         }
     }
+};
+
+=head2 C<add_handler( ... )>
+
+Install a function to parse unrecognized events.
+
+If FLTK cannot figure out what to do with an event, it calls each of these
+functions (most recent first) until one of them returns non-zero. If none of
+them returns non-zero then the event is ignored. Events that cause this to be
+called are:
+
+=over
+
+=item * C<FL_SHORTCUT> events that are not recognized by any widget. This lets you provide global shortcut keys.
+
+=item * C<FL_SCREEN_CONFIGURATION_CHANGED> events. Under X11, this event requires the libXrandr.so shared library to be loadable at run-time and the X server to implement the RandR extension.
+
+=item * C<FL_ZOOM_EVENT> events.
+
+=item * System events that FLTK does not recognize. See fl_xevent.
+
+=item * Some other events when the widget FLTK selected returns zero from its C<handle()> method. Exactly which ones may change in future versions, however.
+
+=back
+
+See also:
+
+=over
+
+=item * C<Fl::remove_handler( ... )>
+
+=item * C<Fl::event_dispatch( ... )>
+
+=item * C<Fl::handle( ... )>
+
+=back
+
+=cut
+
+xs {name        => 'Fl::add_handler',
+    definitions => [{required    => [['SV *', 'coderef']],
+                     inject_code => '_cb_ev_CODE = new Callback( coderef );',
+                     c_args      => '_cb_ev'
+                    }
+    ],
+    export => ['all']
+};
+test add_handler => sub {
+    add_handler(sub {...});
+    pass('add_handler( sub {...} ) did not kill us');
 };
 
 =head2 C<add_idle( ... )>
@@ -1181,7 +1231,7 @@ test awake => sub {
 
 #ok (add_awake_handler_( sub {...} ), 'add_awake_handler_(sub { ... })');
 #ok (add_awake_handler_( sub {...}, {some => 'data'} ), 'add_awake_handler_(sub { ... }, { some => "data" })');
-    diag(awake());
+    awake();
     ok(1);
 };
 
