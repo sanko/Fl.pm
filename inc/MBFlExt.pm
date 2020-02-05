@@ -53,6 +53,9 @@ package inc::MBFlExt;
         sub ACTION_code {
             require Alien::FLTK;              # Should be installed by now
             require Template::Liquid;
+
+            #require Template::LiquidX::Tag::Dump;
+            #Template::LiquidX::Tag::Dump->import;
             my ($self, $args) = @_;
             my $AF = Alien::FLTK->new();
             my $CC = My::ExtUtils::CBuilder->new();
@@ -92,10 +95,8 @@ package inc::MBFlExt;
             }
             my @pod;
             find(sub { push @pod, $File::Find::name if m[.+\.pod$] }, 'lib');
-
-			use File::Spec;
-				my $cxx = File::Spec->rel2abs('xs/Fl.cxx');
-
+            use File::Spec;
+            my $cxx = File::Spec->rel2abs('xs/Fl.cxx');
             if (!$self->up_to_date([@pod, 'xs/Fl_cxx.template'], $cxx)) {
                 printf 'Generating source... ';
                 #
@@ -109,13 +110,16 @@ package inc::MBFlExt;
                 #	ddx \%args;
                 #	#die;
                 #}
-				sub test { 1 }
-                sub xs { push @{$xsubs[-1]->{methods}}, shift }
+                sub test  {1}
+                sub xs    { push @{$xsubs[-1]->{methods}}, shift }
                 sub class { push @xsubs, {package => shift} }
                 my $isa = *isa;
                 *isa = sub { $xsubs[-1]{isa} = shift; };
-                sub export_constant($value, $tag, $name = $value) { $exports{$value} = { value => $value, tag => $tag }; }
-                sub include { $includes{+pop}++; }
+
+                sub export_constant ($value, $tag, $name = $value) {
+                    $exports{$value} = {value => $value, tag => $tag};
+                }
+                sub include     { $includes{+pop}++; }
                 sub widget_type { $xsubs[-1]{widget_type} = shift; }
 
                 #sub disabled 		{ delete $xsubs[-1]; }
@@ -138,7 +142,6 @@ package inc::MBFlExt;
                 sysread $in, my $raw, -s $in;
                 #
                 my $template = Template::Liquid->parse($raw);
-
                 open(my $fh, '>', $cxx) || die $!;
                 #
                 print "\nGenerating C++...";
@@ -147,16 +150,16 @@ package inc::MBFlExt;
                                       exports  => \%exports,
                                       includes => \%includes
                     );
-                use Data::Dump;
-                ddx \{xsubs    => \@xsubs,
-                      exports  => \%exports,
-                      includes => \%includes
-                };
 
+                #use Data::Dump;
+                #ddx \{xsubs    => \@xsubs,
+                #      exports  => \%exports,
+                #      includes => \%includes
+                #};
                 #			die		;
                 $output =~ s[\n\n+][\n]g;
 
-				warn ;
+                #warn ;
                 printf "\nCreating $cxx (%d bytes)\n", length($output);
                 syswrite $fh, $output;
                 close $fh;
