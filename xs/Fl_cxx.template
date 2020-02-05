@@ -341,8 +341,31 @@ XS_EUPXS({{cpp.function.name}}) {
 
         {%when 'uchar'                          %}{{arg | join: ' '}} = (unsigned char)SvUV(ST({{st.position}}));
         {%when 'const char *'                   %}{{arg | join: ' '}} = ({{arg.0}})SvPV_nolen(ST({{st.position}}));
-        {%when 'Fl::Fl_Option'                  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
+		{%when 'char **'                        %}
+AV * {{arg.1}}_av;
+				SV* const xsub_tmp_sv = ST({{st.position}});
+				int {{arg.1}}_i, {{arg.1}}_len;
+				SV ** {{arg.1}}_elem;
 
+				 STMT_START {
+					SV* const xsub_tmp_sv = ST({{st.position}});
+					SvGETMAGIC(xsub_tmp_sv);
+					if (SvROK(xsub_tmp_sv) && SvTYPE(SvRV(xsub_tmp_sv)) == SVt_PVAV)
+						{{arg.1}}_av = (AV*)SvRV(xsub_tmp_sv);
+					else
+						croak("{{arg.0}} is not an ARRAY reference");
+				} STMT_END;
+
+			{{arg.1}}_len = av_len({{arg.1}}_av) + 1;
+			char * {{arg.1}}[{{arg.1}}_len];
+
+				for({{arg.1}}_i = 0; {{arg.1}}_i < {{arg.1}}_len; {{arg.1}}_i++) {
+					{{arg.1}}_elem = av_fetch({{arg.1}}_av, {{arg.1}}_i, 0);
+					{{arg.1}}[{{arg.1}}_i] = SvPV_nolen(*{{arg.1}}_elem);
+				}
+				{{arg.1}}[{{arg.1}}_len + 1] = NULL;
+
+        {%when 'Fl::Fl_Option'                  %}{{arg | join: ' '}} = ({{arg.0}})SvIV(ST({{st.position}}));
         {%when 'SV *'                           %}{{arg | join: ' '}} = (SV *)ST({{st.position}});
         {%when 'CV *'                           %}{{arg | join: ' '}}; 	STMT_START {
                 HV *st; GV *gvp;
