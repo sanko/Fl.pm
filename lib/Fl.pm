@@ -6,7 +6,6 @@ our $VERSION = '0.99.14';
 use XSLoader;
 use vars qw[@EXPORT_OK @EXPORT %EXPORT_TAGS];
 use base 'Exporter::Tiny';
-use Types::Standard qw[Enum Bool InstanceOf];
 use experimental 'signatures';
 #
 our $NOXS ||= $0 eq __FILE__;    # for testing
