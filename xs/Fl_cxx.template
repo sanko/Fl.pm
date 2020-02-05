@@ -530,6 +530,21 @@ AV * {{arg.1}}_av;
                 endif%}( {{args}} );
             {%endif%}
             {% endcase %}
+					// Start with IN_OUT emulation
+			/* {% dump definition.in_out %} */
+	{% for arg in definition.required %}
+        {%if is_method%}{%assign st.position = forloop.index%}{%else%}{%assign st.position = forloop.index0%}{%endif%}
+		{%if definition.in_out contains arg.1%}
+		if (!SvREADONLY(ST({{st.position}}))) {
+		{%case arg.0%}
+			{%when 'double'			%} sv_setiv(ST({{st.position}}),     (IV){{arg.1}}); SvSETMAGIC(ST({{st.position}}));
+			{%when 'int'			%} sv_setiv(ST({{st.position}}),     (IV){{arg.1}}); SvSETMAGIC(ST({{st.position}}));
+			{%when 'const char *'	%} sv_setpv((SV*)ST({{st.position}}),    {{arg.1}}); SvSETMAGIC(ST({{st.position}}));
+ 		{%endcase%}
+		}
+		{%endif%}
+	{%endfor%}
+				// Start with return values
                 {% if definition.returns %}
                 {%case definition.returns %}
                     {%when 'void'              %}{% assign xs.return = 'XSRETURN_EMPTY;' %}
