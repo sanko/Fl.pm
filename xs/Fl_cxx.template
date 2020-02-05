@@ -144,18 +144,31 @@ void set_isa(const char * klass, const char * parent) {
     // TODO: make this spider up the list and make deeper connections?
 }
 // Callbacks
+// Generic widget callback
 void _cb_w ( Fl_Widget * widget, void * CODE ) {
     ((Callback * ) CODE)->trigger(widget);
     return;
 }
+// Filehandle callback
 void _cb_fd ( int fd, void * CODE ) {
     ((Callback * ) CODE)->trigger(fd);
     return;
 }
+// Generic callback with no params
 void _cb ( void * CODE ) {
     ((Callback * ) CODE)->trigger( );
     return;
 }
+
+// Fl_Args_Handler
+Callback * _cb_args_CODE;
+int _cb_args (int argc, char **argv, int &i ) {
+    int retval = 0;
+	if (_cb_args_CODE != NULL)
+		retval = ((Callback * ) _cb_args_CODE)->trigger( argc, argv, i );
+    return retval;
+}
+
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
 #endif
