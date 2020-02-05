@@ -322,6 +322,7 @@ XS_EUPXS({{cpp.function.name}}) {
 	{% for arg in definition.required %}
         {%if is_method%}{%assign st.position = forloop.index%}{%else%}{%assign st.position = forloop.index0%}{%endif%}
 		{%case arg.0%}
+			{%when 'double'			%} && SvIOK(ST({{st.position}}))
 			{%when 'int'			%} && SvIOK(ST({{st.position}}))
 			{%when 'const char *'	%} && SvPOK(ST({{st.position}}))
 			{%when 'SV *'			%} && SvOK( ST({{st.position}}))
@@ -533,6 +534,10 @@ AV * {{arg.1}}_av;
                 else        %}{{ function }}{%
                 endif%}( {{args}} );
             {%endif%}
+
+
+
+
             {% endcase %}
 					// Start with IN_OUT emulation
 			/* {% dump definition.in_out %} */
