@@ -718,6 +718,348 @@ test add_fd => sub {
     }
 };
 
+=head2 C<add_idle( ... )>
+
+	add_idle(sub {warn 'idle'} );
+
+Adds a callback function that is called every time by C<Fl::wait()> and also makes it act as though
+the timeout is zero (this makes C<Fl::wait()> return immediately, so if it is in a loop it is called
+repeatedly, and thus the idle fucntion is called repeatedly).
+
+The idle function can be used to get background processing done.
+
+You can have multiple idle callbacks. To remove an idle callback use C<Fl::remove_idle()>.
+
+C<Fl::wait()> and C<Fl::check()> call idle callbacks, but C<Fl::ready()> does not.
+
+The idle callback can call any FLTK functions, including C<Fl::wait()>, C<Fl::check()>, and
+C<Fl::ready()>.
+
+FLTK will not recursively call the idle callback.
+
+	add_idle(sub {warn 'idle'}, $data );
+
+You may also pass userdata which will be passed along to the callback.
+
+=cut
+
+
+xs {name        => 'Fl::add_idle',
+    definitions => [
+                  {required => [['SV *', 'coderef'], ['SV *', 'userdata']],
+                   returns  => 'void',
+                   c_args => '_cb, (void *) new Callback( coderef, userdata )'
+                  },
+                  {required => [['SV *', 'coderef']],
+                   returns  => 'void',
+                   c_args   => '_cb, (void *) new Callback( coderef )'
+                  }
+    ],
+    export => ['all']
+};
+test add_idle => sub {
+	my $called =0;
+	add_idle(sub {CORE::state $done;
+            return if $done++;pass ('add_idle(sub{ ... })'); $called++} );
+	add_idle(sub {CORE::state $done;
+            return if $done++;pass ('add_idle(sub{ ... }, \%ENV)'); $called++}, \%ENV );
+my $time = time;
+    while ($called < 2) {
+        Fl::wait();
+        if (time > $time + 5) {
+            my $remaining = 2 - $called;
+            diag(sprintf 'Timeout waiting for %d callback%s!',
+                 $remaining, ($remaining == 1 ? '' : 's'));
+            last;
+        }
+    }
+};
+
+
+
+=head2 C<add_timeout( ... )>
+
+	add_timeout( .3, sub {warn 'ding!'} );
+
+	add_timeout( 1.50, sub {warn 'ding!'}, $data );
+
+Adds a one-shot timeout callback.
+
+The function will be called by C<Fl::wait()> at t seconds after this function is called. The
+optional argument is passed to the callback.
+
+You can have multiple timeout callbacks. To remove a timeout callback use C<Fl::remove_timeout()>.
+
+If you need more accurate, repeated timeouts, use C<Fl::repeat_timeout()> to reschedule the
+subsequent timeouts.
+
+The following code will print "TICK" each second on stdout with a fair degree of accuracy:
+
+	use Fl;
+    $|++;
+    sub callback;    # predefine it for this example!
+
+    sub callback {
+        CORE::say 'TICK';
+        Fl::repeat_timeout(1.0, \&callback); # retrigger timeout
+    }
+    my $win = Fl::Window->new( 100, 100 );
+    $win->show;
+    Fl::add_timeout( 1.0, \&callback );    # set up first timer
+    exit Fl::run();
+
+You may also pass userdata which will be passed along to the callback.
+
+=cut
+
+xs {name        => 'Fl::add_timeout',
+    definitions => [
+                  {required => [['double', 't'], ['SV *', 'coderef'], ['SV *', 'userdata']],
+                   returns  => 'void',
+                   c_args => 't, _cb, (void *) new Callback( coderef, userdata )'
+                  },
+                  {required => [['double', 't'],['SV *', 'coderef']],
+                   returns  => 'void',
+                   c_args   => 't, _cb, (void *) new Callback( coderef )'
+                  }
+    ],
+    export => ['all']
+};
+test add_timeout => sub {
+	my $called =0;
+
+	add_timeout(3, sub {CORE::state $done;
+		fail('add_timeout(3, sub{ ... }) triggered twice!') if $done++;
+		fail('add_timeout(3, sub{ ... }) should not trigger first') if !$called;
+		pass('add_timeout(3, sub{ ... })'); $called++}, \%ENV );
+	add_timeout(1, sub {
+		my ($env) = @_;
+		CORE::state $done;
+            fail('add_timeout(1, sub{ ... }, \%ENV) triggered twice!') if $done++;
+			fail('add_timeout(1, sub{ ... }) should trigger first') if $called;
+			pass('add_timeout(1, sub{ ... }, \%ENV)');
+			is( $env, \%ENV, 'userdata matches');
+$called++}, \%ENV );
+my $time = time;
+    while ($called < 2) {
+        Fl::wait();
+        if (time > $time + 5) {
+            my $remaining = 2 - $called;
+            diag(sprintf 'Timeout waiting for %d callback%s!',
+                 $remaining, ($remaining == 1 ? '' : 's'));
+            last;
+        }
+    }
+};
+
+
+=head2 C<api_version( )>
+
+	api_version( );
+
+Returns the compiled-in value of the C<FL_API_VERSION> constant.
+
+This is useful for checking the version of a shared library.
+
+=cut
+
+
+
+xs {name        => 'Fl::api_version',
+    definitions => [
+                  {
+                   returns  => 'int'
+
+                  }
+    ],
+    export => ['all']
+};
+test api_version => sub {
+	is(api_version(), FL_API_VERSION, 'api_version( ) == FL_API_VERSION');
+};
+
+=head2 C<arg( ... )>
+
+	arg( $argc, @ARGV, $i );
+
+Parse a single switch from C<@ARGV>, starting at word C<$i>.
+
+Returns the number of words eaten (1 or 2, or 0 if it is not recognized) and adds the same value to
+C<$i>.
+
+This is the default argument handler used internally by C<Fl::args(...)>, but you can use this
+function if you prefer to step through the standard FLTK switches yourself.
+
+All standard FLTK switches except C<-bg2> may be abbreviated to just one letter and case is ignored:
+
+=over
+
+=item C<-bg color> or C<-background color>
+
+Sets the background color using C<Fl::background()>.
+
+=item C<-bg2 color> or C<-background2 color>
+
+Sets the secondary background color using C<Fl::background2()>.
+
+=item C<-display host:n.n>
+
+Sets the X display to use; this option is silently ignored under Windows and MacOS.
+
+=item C<-dnd> and C<-nodnd>
+
+Enables or disables drag and drop text operations using C<Fl::dnd_text_ops()>.
+
+=item C<-fg color> or C<-foreground color>
+
+Sets the foreground color using C<Fl::foreground()>.
+
+=item C<-geometry WxH+X+Y>
+
+Sets the initial window position and size according to the standard X geometry string.
+
+=item C<-iconic>
+
+Iconifies the window using C<Fl::Window::iconize()>.
+
+=item C<-kbd> and C<-nokbd>
+
+Enables or disables visible keyboard focus for non-text widgets using C<Fl::visible_focus()>.
+
+=item C<-name string>
+
+Sets the window class using C<Fl::Window::xclass()>.
+
+=item C<-scheme string>
+
+Sets the widget scheme using C<Fl::scheme()>.
+
+=item C<-title string>
+
+Sets the window title using C<Fl::Window::label()>.
+
+=item C<-tooltips> and C<-notooltips>
+
+Enables or disables tooltips using C<Fl::Tooltip::enable()>.
+
+If your program requires other switches in addition to the standard FLTK options, you will need to
+pass your own argument handler to C<Fl::args(...r)> explicitly.
+
+=cut
+
+xs {name        => 'Fl::arg',
+    definitions => [
+                  {
+					required => [['int', 'argc'], ['char **', 'argv'], ['int', 'i']],
+                    returns  => 'int',
+					in_out => [ 'i' ]
+                  }
+    ],
+    export => ['all']
+};
+test arg => sub {
+	my $pos = 3;
+ 	is (arg(2, [qw[-bg2 green]], $pos), 1, 'Fl::arg(2, [qw[-bg2 green]], $pos)');
+	is($pos, 4, '1 value read from stack');
+	is (arg(3, [qw[-bg green -dnd]], $pos), 1, 'Fl::arg(2, [qw[-bg green -dnd]], $pos)');
+	is($pos, 5, '5 values read from stack');
+ 	is(arg(2, [qw[-bg green]], 0), 0, 'arg(2, [qw[-bg green]], 0)');
+};
+
+=head2 C<args( ... )>
+
+	my $ret = args(1, [qw[-my params -go -here -bg red]], 0, sub { ... } ); # $argc, $argv, $i, $cb
+
+Parse command line switches using the your own argument handler.
+
+Returns C<0> on error, or the number of words processed.
+
+FLTK provides this as an entirely optional command line switch parser. You don't have to call it if
+you don't want to. Everything it can do can be done with other calls to FLTK.
+
+To use the switch parser, call C<Fl::args(...)> near the start of your program. This does not open
+the display, instead switches that need the display open are stashed into static variables. Then you
+must display your first window by calling C<$window->show(+@ARGV, @ARGV)>, which will do anything
+stored in the static variables.
+
+Providing an argument handler callback lets you define your own switches. It is called with the same
+C<$argc> and C<$argv>, and with C<$i> set to the index of the switch to be processed. The handler
+should return zero if the switch is unrecognized, and not change C<$i>. It should return non-zero to
+indicate the number of words processed if the switch is recognized, i.e. C<1> for just the switch,
+and more than C<1> for the switch plus associated parameters. C<i> should be incremented by the same
+amount by modifying C<@_>.
+
+The handler is called before any other tests, so you can also override any standard FLTK switch
+(this is why FLTK can use very short switches instead of the long ones all other toolkits force you
+to use). See C<Fl::arg()> for descriptions of the standard switches.
+
+On return, C<$i> is set to the index of the first non-switch. This is either:
+
+=over
+
+=item * The first word that does not start with 'C<->'.
+
+=item * The word 'C<->' (used by many programs to name stdin as a file)
+
+=item * The first unrecognized switch (return value is C<0>).
+
+=item * C<@argc>
+
+The return value is C<$i> unless an unrecognized switch is found, in which case it is zero. If your
+program takes no arguments other than switches you should produce an error if the return value is
+less than argc.
+
+A usage string is displayed if C<Fl::args()> detects an invalid argument on the command-line. You
+can change the message by setting the C<Fl::help> pointer.
+
+A very simple command line parser can be found in C<examples/howto-parse-args.pl>.
+
+The simpler C<Fl::args($argc, \@argv)> form is useful if your program does not have command line
+switches of its own.
+
+	args(1, [qw[-my params -go -here -bg red]],
+
+Parse all command line switches matching standard FLTK options only.
+
+It parses all the switches, and if any are not recognized it calls C<Fl::abort(Fl::help)>, i.e.
+unlike the long form, an unrecognized switch generates an error message and causes the program to
+exit.
+
+=cut
+
+xs {name        => 'Fl::args',
+    definitions => [
+				  {required => [['int', 'argc'], ['char **',  'argv']] },
+                  {
+					required => [['int', 'argc'], ['char **', 'argv'], ['int', 'i']],
+                    returns  => 'int',
+					in_out => [ 'i' ]
+                  },
+				   {
+					required => [['int', 'argc'], ['char **', 'argv'], ['int', 'i'], ['SV *', 'cb']],
+                    returns  => 'int',
+					in_out => [ 'i' ],
+					inject_code => '_cb_args_CODE = new Callback( cb );',
+                    c_args => 'argc, argv, i, _cb_args'
+                  }
+    ],
+    export => ['all']
+};
+
+
+
+test args => sub {
+	my $pos = 0;
+ 	is (args(2, [qw[-bg2 green]], $pos, sub {pass('args(2, [qw[-bg2 green]], $pos, sub {...}) called'); $_[2] += 2; 2}), 3, 'arg(2, [qw[-bg2 green]], $pos, sub {...})');
+	is($pos, 3, '3 values read from stack');
+	is (args(3, [qw[-bg green -dnd]], $pos), 1, 'args(2, [qw[-bg green -dnd]], $pos)');
+	is($pos, 1, '1 values read from stack');
+ 	is(args(2, [qw[-bg green]], 0), 1, 'arg(2, [qw[-bg green]], 0)');
+};
+
+
+
+
 =head2 C<awake( ... )>
 
 
