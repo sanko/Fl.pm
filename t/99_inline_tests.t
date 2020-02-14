@@ -40,10 +40,6 @@ use lib '../lib', '../../lib', 'lib' ;
 
 require './$class';
 T
-        use Data::Dump;
-
-        #ddx _get_tests($class);
-        #  for _get_tests($class);
         t::Utility::clear_stash($class);
     }
 }
